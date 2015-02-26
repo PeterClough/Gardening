@@ -1,0 +1,34 @@
+<h3>{{'DIARY_CREATE' | translate}}</h3>
+
+
+
+
+<div ng-show="loggedIn">
+
+  <div class="card view-animate" ng-show="showCard">
+    <form class="item item-text-wrap" ng-submit="save()">
+      <div class="list list-inset">
+        <label>
+          {{'DIARY_CREATE_IS_PRIVATE_LABEL' | translate}}
+          <input type="checkbox" ng-model="diary.isPrivate">
+        </label>
+        <p class="help-block">{{'DIARY_CREATE_IS_PRIVATE_HELP_BLOCK' | translate}}</p>
+      </div>
+      <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+      <button class="button button-full button-positive">
+        {{'DIARY_CREATE_BUTTON' | translate}}
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+<div class="card" ng-hide=loggedIn>
+  {{'DIARY_CREATE_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_CREATE_LOGIN' | translate}}</a> {{'DIARY_CREATE_OR' |
+  translate}} <a ui-sref="users.register"> {{'DIARY_CREATE_REGISTER' | translate}}</a>
+
+</div>
+

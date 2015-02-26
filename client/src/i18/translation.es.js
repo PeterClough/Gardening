@@ -1,0 +1,55 @@
+var translationsES= {
+// The Suffix which is used in the browser's page title.
+  APPTITLE_SUFFIX: ' | Gardening',
+// The Branding Title in the application navigation bar.
+  NAVBAR_BRAND: 'Gardening',
+  MENU_HOME: 'Inicio',
+  MENU_DIARY: 'Diario',
+  MENU_ABOUT:'Sobre Nosotros',
+  MENU_LOGIN: 'Login',
+  MENU_LOGOUT: 'Logout',
+  MENU_REGISTER: 'Register',
+  MENU_LANGUAGE: 'Language',
+
+  HOME_HEADER: '',
+  HOME_TEXT_P1: 'Welcome to our gardening website. We intend that this site become a social site with a wealth of information about gardening and living healthily. For now we\u0027ve implemented a gardener\u0027s diary where you can store and hopefully share your experience with other gardeners online. There will be a host more facilities and information for gardeners as we expand the site.',
+  HOME_TEXT_P2: 'All feedback is gratefully received, any suggestions are welcome and will be considered. Please feel free to email support@gardensyjardines.com with any suggestions you might have.',
+
+  ABOUT_HEADER: '',
+  ABOUT_TEXT: 'About text',
+
+  FORM_REQUIRED_ITEMS: 'Items marked with a * are required',
+
+
+  DIARY_HEADER: '',
+
+  DIARY_CREATE: 'Create Diary',
+  DIARY_CREATE_IS_PRIVATE_LABEL: 'Private Diary',
+  DIARY_CREATE_IS_PRIVATE_HELP_BLOCK: 'You can share your diary with the community or keep it private.',
+  DIARY_CREATE_BUTTON: 'Save Diary',
+  DIARY_CREATE_TO_CREATE:'Would you like to',
+  DIARY_CREATE_TO_CREATE_LINK:'create ',
+  DIARY_CREATE_TO_CREATE2:'your diary now?',
+
+  DIARY_DEFAULT_HEADER: '',
+  DIARY_DEFAULT: 'Diary Defaults',
+  DIARY_DEFAULT_COUNTRY_LABEL: 'Country',
+  DIARY_DEFAULT_IS_PRIVATE_LABEL: 'Make Entry Private',
+  DIARY_DEFAULT_CREATE_BUTTON : 'Save Defaults',
+
+  DIARY_VIEW_HEADER: '',
+  DIARY_VIEW_NOT_LOGGED_IN:'You are not logged in, please',
+  DIARY_VIEW_LOGIN:'Login',
+  DIARY_VIEW_OR:'or',
+  DIARY_VIEW_REGISTER:'Register to access your diary.',
+
+
+  DIARY_VIEW: 'View Diary',
+  DIARY_VIEW_SAVE_SUCCESS: 'Diary Saved',
+  DIARY_VIEW_SAVE_NOTHING: 'Nothing to save',
+  DIARY_VIEW_SAVE_INVALID: 'Incomplete data items marked in red in dairy',
+
+  DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family'
+
+
+};

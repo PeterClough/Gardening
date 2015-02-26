@@ -1,0 +1,42 @@
+{
+  "name": "diary",
+  "plural": "diaries",
+  "base": "PersistedModel",
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "isPrivate": {
+      "type": "boolean",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "language": {
+      "type": "belongsTo",
+      "model": "language",
+      "foreignKey": "languageId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

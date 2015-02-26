@@ -1,0 +1,72 @@
+{
+  "_meta": {
+    "sources": [
+      "../common/models",
+      "./models"
+    ]
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "diary": {
+    "dataSource": "db",
+    "public": true
+  },
+  "diaryDefault": {
+    "dataSource": "db",
+    "public": true
+  },
+  "diaryEntry": {
+    "dataSource": "db",
+    "public": true
+  },
+  "diaryProgress": {
+    "dataSource": "db",
+    "public": true
+  },
+  "user": {
+    "dataSource": "db",
+    "public": true
+  },
+  "systemLanguage": {
+    "dataSource": "db",
+    "public": true
+  },
+  "language": {
+    "dataSource": "db",
+    "public": true
+  },
+  "country": {
+    "dataSource": "db",
+    "public": true
+  },
+  "hardinessZone": {
+    "dataSource": "db",
+    "public": true
+  },
+  "plantRating": {
+    "dataSource": "db",
+    "public": true
+  },
+  "soilAcidity": {
+    "dataSource": "db",
+    "public": true
+  },
+  "soilType": {
+    "dataSource": "db",
+    "public": true
+  }
+}

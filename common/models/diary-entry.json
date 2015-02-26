@@ -1,0 +1,82 @@
+{
+  "name": "diaryEntry",
+  "plural": "diaryEntries",
+  "base": "PersistedModel",
+  "properties": {
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "countryId": {
+      "type": "string",
+      "required": true
+    },
+    "hardinessZoneId": {
+      "type": "string",
+      "required": true
+    },
+    "soilAcidityId": {
+      "type": "string",
+      "required": true
+    },
+    "soilTypeId": {
+      "type": "string",
+      "required": true
+    },
+    "isPrivate": {
+      "type": "boolean",
+      "required": true
+    },
+    "plantRatingId": {
+      "type": "number",
+      "required": false
+    },
+    "maturityDate": {
+      "type": "date",
+      "required": false
+    },
+    "notes": {
+      "type": "string",
+      "required": false
+    },
+    "plantFamily": {
+      "type": "string",
+      "required": false
+    },
+    "plantCultivar": {
+      "type": "string",
+      "required": false
+    },
+    "seedSource": {
+      "type": "string",
+      "required": false
+    },
+    "entryDate": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diary": {
+      "type": "belongsTo",
+      "model": "diary",
+      "foreignKey": "diaryId"
+    },
+    "diaryProgression": {
+      "type": "hasMany",
+      "model": "diaryProgress",
+      "foreignKey": "diaryEntryId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

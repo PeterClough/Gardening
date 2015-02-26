@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="AppCtrl">
+<head>
+  <title ng-bind="pageTitle"></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- font awesome from BootstrapCDN -->
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+  <link rel="stylesheet" type="text/css" href="<%= file %>"/>
+  <% }); %>
+
+  <!-- added CSS -->
+
+  <link rel="stylesheet" type="text/css" href="assets/myApp.css"/>
+
+
+  <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+  <script type="text/javascript" src="<%= file %>"></script>
+  <% }); %>
+
+
+  <!-- it's stupid to have to load it here, but this is for the +1 button -->
+  <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+    {
+      "parsetags"
+    :
+      "explicit"
+    }
+  </script>
+</head>
+<body>
+<div class="container">
+
+  <div class="gj-header">
+    <h1>
+      Gardens y Jardines
+    </h1>
+    <p>
+      A site all about gardening.
+    </p>
+  </div>
+  <div class="navbar navbar-default">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
+              ng-click="menuCollapsed = ! menuCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" collapse="menuCollapsed">
+      <ul class="nav navbar-nav">
+        <li ui-sref-active="active">
+          <a href ui-sref="home">
+            <i class="fa fa-home"></i>
+            {{'MENU_HOME' | translate}}
+          </a>
+        </li>
+<!--        <li ui-sref-active="active">
+          <a href ui-sref="about">
+            <i class="fa fa-info-circle"></i>
+            {{'MENU_ABOUT' | translate}}
+          </a>
+        </li>
+-->
+        <li ui-sref-active="active">
+          <a ui-sref="diary.view">
+            <i class="fa fa-book"></i>
+            {{'MENU_DIARY' | translate}}
+          </a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+
+        <li ui-sref-active="active">
+          <a ui-sref="users.login">
+            {{'MENU_LOGIN' | translate}}
+          </a>
+        </li>
+        <li ui-sref-active="active">
+          <a href="#" ng-click="logout()">
+            {{'MENU_LOGOUT' | translate}}
+          </a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="users.register">
+            {{'MENU_REGISTER' | translate}}
+          </a>
+        </li>
+
+<!--        <li>
+          <ui-select ng-model="language.selected"
+                     theme="bootstrap"
+                     ng-disabled="disabled"
+                     reset-search-input="false"
+                     style="width: 105px;">
+            <ui-select-match placeholder="Language">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="language in languages">
+              <div ng-bind-html="language.name"></div>
+
+            </ui-select-choices>
+          </ui-select>
+        </li>
+-->
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" ui-view="main"></div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <ul class="social">
+      </ul>
+
+
+    </div>
+  </div>
+</footer>
+</body>
+</html>

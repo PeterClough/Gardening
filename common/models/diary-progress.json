@@ -1,0 +1,41 @@
+{
+  "name": "diaryProgress",
+  "plural": "diaryProgression",
+  "base": "PersistedModel",
+  "properties": {
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "plantRatingId": {
+      "type": "number",
+      "required": false
+    },
+    "notes": {
+      "type": "string",
+      "required": false
+    },
+    "entryDate": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diaryEntry": {
+      "type": "belongsTo",
+      "model": "diaryEntry",
+      "foreignKey": "diaryEntryId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

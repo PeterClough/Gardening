@@ -1,0 +1,12 @@
+{
+  "db": {
+    "host":"127.10.45.2",
+    "port":27017,
+    "database": "gardening",
+    "username": "admin",
+    "password": "P-DPtwUznTTY",
+    "name": "gardening",
+    "connector": "mongodb",
+    "debug":true
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "diaryDefault",
+  "plural": "diaryDefaults",
+  "base": "PersistedModel",
+  "properties": {
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "countryId": {
+      "type": "string",
+      "required": true
+    },
+    "hardinessZoneId": {
+      "type": "string",
+      "required": true
+    },
+    "soilAcidityId": {
+      "type": "string",
+      "required": true
+    },
+    "soilTypeId": {
+      "type": "string",
+      "required": true
+    },
+    "isPrivate": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diary": {
+      "type": "belongsTo",
+      "model": "diary",
+      "foreignKey": "diaryId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

@@ -1,0 +1,132 @@
+<h3>{{'DIARY_DEFAULT' | translate}}</h3>
+
+
+<div ng-show="loggedIn">
+
+  <div class="card view-animate" ng-show="showCard">
+    <div class="item item-divider">
+    </div>
+
+    <form name="defaultForm" class="form-horizontal" role="form" ng-submit="save()">
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+      </div>
+
+      <div class="form-group" show-errors>
+        <label class="col-sm-2 control-label">Country *</label>
+        <div class="col-sm-10">
+          <ui-select ng-model="diaryDefault.countryId"
+                     theme="bootstrap"
+                     ng-disabled="disabled"
+                     reset-search-input="false"
+                     style="width: 150px;"
+                     ng-required="true"
+                     name="countryId"
+                     class="form-control">
+            <ui-select-match placeholder="Country">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="country.id as country in countries | filter: $select.search">
+              <div ng-bind-html="country.name | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+
+      <div class="form-group" show-errors>
+        <label class="col-sm-2 control-label">Hardiness Zone *</label>
+        <div class="col-sm-10">
+          <ui-select ng-model="diaryDefault.hardinessZoneId"
+                     theme="bootstrap"
+                     ng-disabled="disabled"
+                     reset-search-input="false"
+                     style="width: 150px;"
+                     ng-required="true"
+                     name="hardinessZoneId"
+                     class="form-control">
+            <ui-select-match placeholder="Hardiness Zone">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="hardinessZone.id as hardinessZone in hardinessZones | filter: $select.search">
+              <div ng-bind-html="hardinessZone.name | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+
+
+      <div class="form-group" show-errors>
+        <label class="col-sm-2 control-label">Soil Acidity *</label>
+        <div class="col-sm-10">
+          <ui-select ng-model="diaryDefault.soilAcidityId"
+                     theme="bootstrap"
+                     ng-disabled="disabled"
+                     reset-search-input="false"
+                     style="width: 150px;"
+                     ng-required="true"
+                     name="soilAcidityId"
+                     class="form-control">
+            <ui-select-match placeholder="Soil Acidity">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="soilAcidity.id as soilAcidity in soilAcidities | filter: $select.search">
+              <div ng-bind-html="soilAcidity.name | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+
+      <div class="form-group" show-errors>
+        <label class="col-sm-2 control-label">Soil Type *</label>
+        <div class="col-sm-10">
+          <ui-select ng-model="diaryDefault.soilTypeId"
+                     theme="bootstrap"
+                     ng-disabled="disabled"
+                     reset-search-input="false"
+                     style="width: 150px;"
+                     ng-required="true"
+                     name="soilTypeId"
+                     class="form-control">
+            <ui-select-match placeholder="Soil Type">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="soilType.id as soilType in soilTypes | filter: $select.search">
+              <div ng-bind-html="soilType.name | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"
+                   ng-model="diaryDefault.isPrivate"> Make each diary entry to be private by default?
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+
+
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Save</button>
+        </div>
+      </div>
+
+
+
+    </form>
+  </div>
+</div>
+
+
+
+
+<div class="card" ng-hide=loggedIn>
+  {{'DIARY_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_LOGIN' | translate}}</a> {{'DIARY_OR' |
+  translate}} <a ui-sref="users.register"> {{'DIARY_REGISTER' | translate}}</a>
+
+</div>
+

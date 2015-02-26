@@ -1,0 +1,9 @@
+*.sw*
+*~
+client/build/
+client/bin/
+client/node_modules/
+client/vendor/
+node_modules/
+.idea/
+.git/

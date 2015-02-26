@@ -1,0 +1,38 @@
+{
+  "name": "soilType",
+  "plural": "soilTypes",
+  "base": "PersistedModel",
+  "properties": {
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "updatedBy": {
+    "type": "belongsTo",
+    "model": "user",
+    "foreignKey": "userId"
+  },
+    "language": {
+      "type": "belongsTo",
+      "model": "language",
+      "foreignKey": "languageId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "everyone",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

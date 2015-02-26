@@ -1,0 +1,243 @@
+<h3>{{'DIARY_VIEW' | translate}}</h3>
+
+
+<div class="card" ng-hide="loggedIn">
+  {{'DIARY_VIEW_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_VIEW_LOGIN' | translate}}</a> {{'DIARY_VIEW_OR' |
+  translate}} <a ui-sref="users.register"> {{'DIARY_VIEW_REGISTER' | translate}}</a>
+
+</div>
+
+
+<div ng-show="loggedIn" id="diary-container">
+  <div class="view-animate" ng-show="!showCard" id="loading-message">Loading Please wait</div>
+
+  <div class="card view-animate" ng-show="showCard" id="diary-card">
+
+
+    <div>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="addButtons">
+            <button class="btn btn-default" ng-click="addDiaryEntry()" name="addDiaryEntry" ng-show="isDiaryEntry || isDiaryProgress || isNewDiary">Add Diary Entry</button>
+            <button class="btn btn-default" ng-click="addDiaryProgress($event, selected)" ng-show="isDiaryEntry || isDiaryProgress" nam
+                    e="addDiaryProgress">Add Diary Progress</button>
+          </div>
+          <treecontrol class="tree-classic"
+                       tree-model="diaryTreeData"
+                       options="diaryTreeOptions"
+                       on-selection="showSelected(node)"
+                       selected-node="selected"
+                       expanded-nodes="expandedNodes"
+                       order-by="node.entryDate"
+                       reverse-order="{{true}}">
+            <span style="color: {{node.valid ? 'black':'#a94442'}}">
+            {{node.entryDate | date:'d-MMM-yyyy'}} {{node.plantFamily}} {{node.plantCultivar}} {{node.notes | limitTo : 30}}...
+            </span>
+          </treecontrol>
+        </div>
+
+
+
+        <div class="col-xs-6">
+
+
+          <form class="form-horizontal" role="form" ng-submit="save()" ng-show="isDiaryEntry" name="$parent.frmDiaryEntry">
+
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Entry Date</label>
+              <div class="col-sm-9">
+                <input date-directive type="text" class="form-control" placeholder="Entry Date" ng-model="diaryEntry.entryDate">
+              </div>
+            </div>
+
+
+            <div class="form-group" show-errors>
+              <label class="col-sm-3 control-label">Plant Family *</label>
+              <div class="col-sm-9">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Plant Family"
+                       ng-model="diaryEntry.plantFamily"
+                       ng-required="true"
+                       name="plantFamily"
+                       class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Plant Cultivar</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Plant Cultivar" ng-model="diaryEntry.plantCultivar">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Notes</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" rows="6" placeholder="Notes" ng-model="diaryEntry.notes"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Country</label>
+              <div class="col-sm-9">
+                <ui-select ng-model="diaryEntry.countryId"
+                           theme="bootstrap"
+                           ng-disabled="disabled"
+                           reset-search-input="false"
+                           style="width: 150px;">
+                  <ui-select-match placeholder="Country">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="country.id as country in countries">
+                    <div ng-bind-html="country.name"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Hardiness Zone</label>
+              <div class="col-sm-9">
+                <ui-select ng-model="diaryEntry.hardinessZoneId"
+                           theme="bootstrap"
+                           ng-disabled="disabled"
+                           reset-search-input="false"
+                           style="width: 150px;">
+                  <ui-select-match placeholder="Hardiness Zone">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="hardinessZone.id as hardinessZone in hardinessZones">
+                    <div ng-bind-html="hardinessZone.name"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Soil Acidity</label>
+              <div class="col-sm-9">
+                <ui-select ng-model="diaryEntry.soilAcidityId"
+                           theme="bootstrap"
+                           ng-disabled="disabled"
+                           reset-search-input="false"
+                           style="width: 150px;">
+                  <ui-select-match placeholder="Soil Acidity">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="soilAcidity.id as soilAcidity in soilAcidities">
+                    <div ng-bind-html="soilAcidity.name"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Soil Type</label>
+              <div class="col-sm-9">
+                <ui-select ng-model="diaryEntry.soilTypeId"
+                           theme="bootstrap"
+                           ng-disabled="disabled"
+                           reset-search-input="false"
+                           style="width: 150px;">
+                  <ui-select-match placeholder="Soil Type">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="soilType.id as soilType in soilTypes">
+                    <div ng-bind-html="soilType.name"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Maturity Date</label>
+              <div class="col-sm-9">
+                <input date-directive type="text" class="form-control" placeholder="Maturity Date" ng-model="diaryEntry.maturityDate">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Seed Source</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Seed Source" ng-model="diaryEntry.seedSource">
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Plant Rating</label>
+              <div class="col-sm-9">
+                <ui-select ng-model="diaryEntry.plantRatingId"
+                           theme="bootstrap"
+                           ng-disabled="disabled"
+                           reset-search-input="false"
+                           style="width: 150px;">
+                  <ui-select-match placeholder="Plant Rating">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="plantRating.id as plantRating in plantRatings">
+                    <div ng-bind-html="plantRating.name"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default">Save</button>
+                <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+                <div  ng-show="saveSuccess">{{saveSuccessText}}</div>
+              </div>
+            </div>
+
+          </form>
+
+
+
+          <form class="form-horizontal" role="form" ng-submit="save()" ng-show="isDiaryProgress" name="$parent.frmDiaryProgress">
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Entry Date</label>
+              <div class="col-sm-9">
+                <input date-directive type="text" class="form-control" placeholder="Entry Date" ng-model="diaryProgress.entryDate">
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Notes</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" rows="6" placeholder="Notes" ng-model="diaryProgress.notes"></textarea>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Plant Rating</label>
+              <div class="col-sm-9">
+                <ui-select ng-model="diaryProgress.plantRatingId"
+                           theme="bootstrap"
+                           ng-disabled="disabled"
+                           reset-search-input="false"
+                           style="width: 150px;">
+                  <ui-select-match placeholder="Plant Rating">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="plantRating.id as plantRating in plantRatings">
+                    <div ng-bind-html="plantRating.name"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default">Save</button>
+                <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+                <div  ng-show="saveSuccess">{{saveSuccessText}}</div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
