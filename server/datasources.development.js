@@ -7,6 +7,25 @@ module.exports = {
     username: "systemUser",
     password: "idunno",
     name: "myApp"
+  },
+  "emailDs": {
+    "name": "emailDs",
+    "connector": "mail",
+    "transports": [
+      {
+        "type": "smtp",
+        "host": "smtp.gardensyjardines.com",
+        "secure": true,
+        "port": 465,
+        "tls": {
+          "rejectUnauthorized": false
+        },
+        "auth": {
+          "user": "noreply@gardensyjardines.com",
+          "pass": "Idunno123"
+        }
+      }
+    ]
   }
 };
 

@@ -21,6 +21,7 @@ angular.module( 'diary.view', [
   });
 
   showErrorsConfigProvider.showSuccess(true);
+
 })
 
 

@@ -1,9 +1,10 @@
 angular.module( 'users.register', [
   'ui.router',
-  'lbServices'
+  'lbServices',
+  'ui.bootstrap.showErrors'
 ])
 
-.config(function config( $stateProvider ) {
+.config(function config( $stateProvider, showErrorsConfigProvider  ) {
   $stateProvider.state( 'users.register', {
     url: '/register',
     views: {
@@ -14,10 +15,13 @@ angular.module( 'users.register', [
     },
     data:{ pageTitle: 'What is It?' }
   });
+
+    showErrorsConfigProvider.showSuccess(true);
+
 })
 
 
-.controller('RegisterCtrl', function RegisterCtrl($scope, $timeout, $location, User) {
+.controller('RegisterCtrl', function RegisterCtrl($scope, $timeout, User) {
 
   $scope.showCard = false;
   $timeout(function(){
@@ -28,18 +32,55 @@ angular.module( 'users.register', [
 
 
   $scope.register = function() {
-    $scope.user = User.save($scope.registration,
+    console.log('User.save');
+    User.save($scope.registration,
         function() {
-          var next = $location.nextAfterLogin || '/users/login';
-          $location.nextAfterLogin = null;
-          $location.path(next);        // success
+          console.log('registered');
+          $scope.showCard = false;
+          $scope.showVerify = true;
         },
         function(res) {
-          $scope.registerError = res.data.error;
+//          $scope.registerError = res.data.error;
+          console.log('$scope.registerError');
         }
     );
+
   };
 })
 
+
+
+
+.directive("passwordVerify", function() {
+  return {
+    require: "ngModel",
+    scope: {
+      passwordVerify: '='
+    },
+    link: function(scope, element, attrs, ctrl) {
+      scope.$watch(function() {
+        var combined;
+
+        if (scope.passwordVerify || ctrl.$viewValue) {
+          combined = scope.passwordVerify + '_' + ctrl.$viewValue;
+        }
+        return combined;
+      }, function(value) {
+        if (value) {
+          ctrl.$parsers.unshift(function(viewValue) {
+            var origin = scope.passwordVerify;
+            if (origin !== viewValue) {
+              ctrl.$setValidity("passwordVerify", false);
+              return undefined;
+            } else {
+              ctrl.$setValidity("passwordVerify", true);
+              return viewValue;
+            }
+          });
+        }
+      });
+    }
+  };
+})
 
 ;

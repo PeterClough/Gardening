@@ -39,7 +39,10 @@
   },
   "user": {
     "dataSource": "db",
-    "public": true
+    "public": true,
+    "options": {
+      "emailVerificationRequired": true
+    }
   },
   "systemLanguage": {
     "dataSource": "db",
@@ -68,5 +71,8 @@
   "soilType": {
     "dataSource": "db",
     "public": true
+  },
+  "Email": {
+    "dataSource": "emailDs"
   }
 }

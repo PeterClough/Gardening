@@ -157,4 +157,17 @@ img {
   width: 100%;
 }
 
+/** showErrors **/
 
+.form-group .help-block {
+  display: none;
+}
+
+.form-group.has-error .help-block {
+  display: block;
+}
+
+
+input[type="checkbox"] {
+  box-shadow: none;
+}

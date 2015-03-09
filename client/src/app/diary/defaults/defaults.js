@@ -5,7 +5,7 @@ angular.module( 'diary.defaults', [
 ])
 
 
-.config(function config($stateProvider, showErrorsConfigProvider) {
+.config(function config( $stateProvider, showErrorsConfigProvider ) {
 
   $stateProvider.state( 'diary.defaults', {
     url: '/defaults',

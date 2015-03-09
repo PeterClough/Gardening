@@ -1,7 +1,8 @@
 angular.module( 'myApp.users', [
   'ui.router',
   'users.login',
-  'users.register'
+  'users.register',
+  'users.verified'
 ])
 
 .config(function config( $stateProvider ) {

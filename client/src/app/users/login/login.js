@@ -1,9 +1,11 @@
 angular.module( 'users.login', [
   'ui.router',
-  'lbServices'
+  'lbServices',
+  'ui.bootstrap.showErrors',
+  'pascalprecht.translate'
 ])
 
-.config(function config( $stateProvider ) {
+.config(function config( $stateProvider, showErrorsConfigProvider ) {
   $stateProvider.state( 'users.login', {
     url: '/login',
     views: {
@@ -14,9 +16,12 @@ angular.module( 'users.login', [
     },
     data:{ pageTitle: 'What is It?' }
   });
+
+    showErrorsConfigProvider.showSuccess(true);
+
 })
 
-.controller('LoginCtrl', function LoginCtrl($scope, $timeout, User, $location) {
+.controller('LoginCtrl', function LoginCtrl($scope, $timeout, User, $location, $translate) {
 
   $scope.showCard = false;
   $timeout(function(){
@@ -33,9 +38,32 @@ angular.module( 'users.login', [
         },
         function (res) {
           $scope.loginError = res.data.error;
-          console.log($scope.loginError);
-        }
-    );
+          console.log('loginError', $scope.loginError);
+          switch (res.data.error.message) {
+            case "login failed as the email has not been verified" :
+              $translate('LOGIN_FAILED_EMAIL_NOT_VERIFIED').then(function (text) {
+                $scope.loginErrorMessage = text;
+              });
+              break;
+            case "login failed" :
+              $translate('LOGIN_FAILED').then(function (text) {
+                $scope.loginErrorMessage = text;
+              });
+              break;
+            case "USERNAME_EMAIL_REQUIRED" :
+            $translate('USERNAME_EMAIL_REQUIRED').then(function (text) {
+              $scope.loginErrorMessage = text;
+            });
+            break;
+
+            default:
+              $translate('LOGIN_FAILED_OTHER').then(function (text) {
+                $scope.loginErrorMessage = text;
+              });
+          }
+
+
+    });
   };
 })
 

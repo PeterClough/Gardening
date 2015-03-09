@@ -4,6 +4,7 @@ client/build/
 client/bin/
 client/node_modules/
 client/vendor/
+client/src/app/lb-services.js
 node_modules/
 .idea/
 .git/

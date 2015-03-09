@@ -2,32 +2,67 @@
     has-header="true"
     scroll="true"
     >
-  <div class="card view-animate" ng-show="showCard">
 
-    <div class="item item-divider assertive" ng-if="registerError">
-      An error has occured.
-    </div>
-    <form class="item item-text-wrap" ng-submit="register()">
-      <div class="list list-inset">
-        <label class="item item-input">
-          <input type="text" placeholder="First Name" ng-model="registration.firstName">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Last Name" ng-model="registration.lastName">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Email" ng-model="registration.email">
-        </label>
-        <label class="item item-input">
-          <input type="password" placeholder="Password" ng-model="registration.password">
-        </label>
-        <label class="item item-input">
-          <input type="password" placeholder="Confirm Password" ng-model="confirmPassword">
-        </label>
-      </div>
-      <button type="submit" class="button button-full button-positive">
-        Register
-      </button>
-    </form>
+  <div class=" view-animate" ng-show="showVerify">
+    {{ 'REGISTER_VERIFY' | translate }}
+
   </div>
+
+  <div class=" view-animate" ng-show="showCard">
+    <div class="row">
+      <div class="col-xs-6">
+
+        <div class="card">
+
+          <div class="item item-divider assertive" ng-if="registerError">
+            An error has occured.
+          </div>
+          <form name="userForm" ng-submit="register()">
+
+            <div class="form-group" show-errors>
+              <input type="text" class="form-control" name="firstName" placeholder="First Name"
+                     ng-model="registration.firstName" required>
+              <p class="help-block" ng-if="userForm.firstName.$error.required">{{ 'REGISTER_FIRST_NAME_REQUIRED' | translate }}</p>
+            </div>
+
+            <div class="form-group" show-errors>
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name"
+                     ng-model="registration.lastName" required>
+              <p class="help-block" ng-if="userForm.lastName.$error.required">{{ 'REGISTER_LAST_NAME_REQUIRED' | translate }}</p>
+            </div>
+
+            <div class="form-group" show-errors>
+              <input type="email" class="form-control" name="email" placeholder="Email" ng-model="registration.email" required>
+              <p class="help-block" ng-if="userForm.email.$error.required">{{ 'REGISTER_EMAIL_REQUIRED' | translate }}</p>
+              <p class="help-block" ng-if="userForm.email.$error.email">{{ 'REGISTER_EMAIL_INVALID' | translate }}</p>
+            </div>
+
+            <div class="form-group" show-errors>
+              <input type="password" class="form-control" name="password" placeholder="Password"
+                     ng-model="registration.password" required>
+              <p class="help-block" ng-if="userForm.password.$error.required">{{ 'REGISTER_PASSWORD_REQUIRED' | translate }}</p>
+            </div>
+
+            <div class="form-group" show-errors>
+              <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password"
+                     ng-model="registration.confirmPassword" required data-password-verify="registration.password">
+              <p class="help-block" ng-if="userForm.confirmPassword.$error.required">{{ 'REGISTER_CONFIRM_PASSWORD_REQUIRED' | translate }}</p>
+              <div ng-show="userForm.confirmPassword.$error.passwordVerify"><p class="help-block">{{
+                'REGISTER_CONFIRM_PASSWORD_EQUAL' | translate }}</p></div>
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-default">{{ 'REGISTER_BUTTON' | translate }}</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+      <div class="col-xs-6">
+      </div>
+    </div>
+  </div>
+
+
+
 </content>

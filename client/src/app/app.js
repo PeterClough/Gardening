@@ -61,12 +61,12 @@ angular.module( 'myApp', [
       User.logout(lo, function(cb) {
         console.log(cb);
         $scope.loggedIn=false;
-        var next = $location.nextAfterLogin || '/';
-        $location.nextAfterLogin = null;
+        var next = $location.nextAfterLogout || '/';
+        $location.nextAfterLogout = null;
         $location.path(next);
       }, function(err){
-        var next = $location.nextAfterLogin || '/';
-        $location.nextAfterLogin = null;
+        var next = $location.nextAfterLogout || '/';
+        $location.nextAfterLogout = null;
         $location.path(next);
         console.log("err");
         console.log(err);

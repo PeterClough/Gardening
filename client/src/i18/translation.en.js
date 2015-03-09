@@ -19,7 +19,34 @@ var translationsEN= {
   ABOUT_HEADER: '',
   ABOUT_TEXT: 'About text',
 
-  FORM_REQUIRED_ITEMS: 'Items marked with a * are required',
+  FORM_REQUIRED_ITEMS: 'Items marked with a * are required.',
+
+
+
+  REGISTER_FIRST_NAME_REQUIRED: 'First name is required.',
+  REGISTER_LAST_NAME_REQUIRED: 'Last name is required.',
+  REGISTER_EMAIL_REQUIRED: 'Email is required.',
+  REGISTER_EMAIL_INVALID: 'Invalid Email.',
+  REGISTER_PASSWORD_REQUIRED: 'Password is required.',
+  REGISTER_CONFIRM_PASSWORD_REQUIRED: 'Confirm password is required.',
+  REGISTER_CONFIRM_PASSWORD_EQUAL: 'Confirmation password must match.',
+  REGISTER_VERIFY: 'You have successfully registered, please check your email and verify the account.',
+
+
+
+
+  REGISTER_BUTTON:'Register',
+
+
+  LOGIN_FAILED_EMAIL_NOT_VERIFIED:'Please check your inbox for your verification email and click the verification link.',
+  LOGIN_FAILED:'Username or password incorrect.',
+  USERNAME_EMAIL_REQUIRED:'The email and password are required.',
+  LOGIN_FAILED_OTHER:'Login Failed please try again later.',
+  LOGIN_EMAIL_REQUIRED:'The email field is required.',
+  LOGIN_PASSWORD_REQUIRED:'The password field is required.',
+  LOGIN_BUTTON:'Login',
+
+
 
 
   DIARY_HEADER: '',
@@ -51,6 +78,7 @@ var translationsEN= {
   DIARY_VIEW_SAVE_INVALID: 'Incomplete data items marked in red in dairy',
 
   DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family'
+
 
 
 };
