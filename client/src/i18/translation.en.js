@@ -33,8 +33,6 @@ var translationsEN= {
   REGISTER_VERIFY: 'You have successfully registered, please check your email and verify the account.',
 
 
-
-
   REGISTER_BUTTON:'Register',
 
 
@@ -45,8 +43,6 @@ var translationsEN= {
   LOGIN_EMAIL_REQUIRED:'The email field is required.',
   LOGIN_PASSWORD_REQUIRED:'The password field is required.',
   LOGIN_BUTTON:'Login',
-
-
 
 
   DIARY_HEADER: '',
@@ -73,12 +69,12 @@ var translationsEN= {
 
 
   DIARY_VIEW: 'View Diary',
-  DIARY_VIEW_SAVE_SUCCESS: 'Diary Saved',
+  DIARY_VIEW_SAVE_SUCCESS: 'Diary saved',
   DIARY_VIEW_SAVE_NOTHING: 'Nothing to save',
   DIARY_VIEW_SAVE_INVALID: 'Incomplete data items marked in red in dairy',
+  DIARY_VIEW_SELECT_MULTIPLE_FILES: 'Select Multiple Files',
 
   DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family'
-
 
 
 };

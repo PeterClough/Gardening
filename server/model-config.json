@@ -74,5 +74,21 @@
   },
   "Email": {
     "dataSource": "emailDs"
+  },
+  "diaryEntryImage": {
+    "dataSource": "diaryEntryDS",
+    "public": true
+  },
+  "diaryEntryImageDoc": {
+    "dataSource": "db",
+    "public": true
+  },
+  "diaryProgressImage": {
+    "dataSource": "diaryProgressDS",
+    "public": true
+  },
+  "diaryProgressImageDoc": {
+    "dataSource": "db",
+    "public": true
   }
 }

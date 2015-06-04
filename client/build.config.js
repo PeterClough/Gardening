@@ -9,6 +9,7 @@ module.exports = {
    */
   build_dir: 'build',
   compile_dir: 'bin',
+  storage_dir: 'src/storage',
 
   /**
    * This is a collection of file patterns that refer to our app code (the
@@ -73,18 +74,24 @@ module.exports = {
       'vendor/angular-ui-select/dist/select.js',
       'vendor/angular-sanitize/angular-sanitize.js',
       'vendor/angular-bootstrap-show-errors/src/showErrors.js',
-      'vendor/angular-animate/angular-animate.js'
+      'vendor/angular-animate/angular-animate.js',
+      'vendor/angular-file-upload/angular-file-upload.js',
+      'vendor/angular-touch/angular-touch.js',
+      'vendor/angular-loading-bar/build/loading-bar.js'
     ],
     css: [
       'vendor/angular-tree-control/css/tree-control.css',
       'vendor/angular-tree-control/css/tree-control-attribute.css',
-      'vendor/angular-ui-select/dist/select.css'
+      'vendor/angular-ui-select/dist/select.css',
+      'vendor/angular-loading-bar/build/loading-bar.css'
     ],
     assets: [
-
     ],
     images:[
       'src/images/*.*'
+    ],
+    fonts:[
+      'vendor/bootstrap/dist/fonts/*.*'
     ]
   }
 };
