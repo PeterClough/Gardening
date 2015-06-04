@@ -30,5 +30,12 @@
     "email": "baz@bar.com",
     "username": "baz",
     "password": "123456"
+  },
+  {
+    "firstName": "Peter",
+    "lastName": "Clough",
+    "password": "1",
+    "email": "peter.gordon.clough@gmail.com",
+    "emailVerified": true
   }
 ]

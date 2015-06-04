@@ -1,9 +1,12 @@
+/*jshint scripturl:true*/
 angular.module( 'diary.view', [
   'ui.router',
   'pascalprecht.translate',
   'treeControl',
   'ui.bootstrap.showErrors',
-  'ngAnimate'
+  'ngAnimate',
+  'angularFileUpload',
+  'bootstrapLightbox'
 ])
 
 
@@ -25,11 +28,11 @@ angular.module( 'diary.view', [
 })
 
 
-.controller( 'DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, User, Diary, DiaryDefault, DiaryEntry, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress) {
+.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, User, Diary, DiaryDefault, DiaryEntry, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, MyUploader, Lightbox) {
+  'use strict';
 
 
   $scope.showCard = false;
-
   $scope.loggedIn = User.isAuthenticated();
   $scope.userId = User.getCurrentId();
     console.log('getCurrentId:'+$scope.userId+' '+typeof($scope.userId));
@@ -51,118 +54,121 @@ angular.module( 'diary.view', [
     }
   };
 
+
   if ($scope.loggedIn) {
-    console.log('$scope.userId:' + $scope.userId);
-    Diary.findByUserId({"userId":$scope.userId})
-      .$promise.then(function (cb) {
-        console.log("diary success");
-        console.log(cb);
-        if (cb.diary.length===0){
-          console.log('diary undefined');
+  console.log('$scope.userId:' + $scope.userId);
+  Diary.findByUserId({"userId":$scope.userId})
+    .$promise.then(function (cb) {
+      console.log("diary success");
+      console.log(cb);
+      if (cb.diary.length===0){
+        console.log('diary undefined');
 
-          var next = $location.nextAfterDefaults || '/diary/create';
-          $location.nextAfterDefaults = null;
-          $location.path(next);
-        }
-        else {
-          DiaryDefault.findByDiaryId({"diaryId":$scope.userId})
-            .$promise.then(function (cb) {
-              console.log("defaults success");
-              console.log(cb.diaryDefault);
-              if (cb.diaryDefault.length===0){
-                var next = $location.nextAfterDefaults || '/diary/defaults';
-                $location.nextAfterDefaults = null;
-                $location.path(next);
-              }
-              else {
-                $scope.diaryDefault = cb.diaryDefault;
-                //Need to remove id before copy to new diaryEntry later.
-    //              delete $scope.diaryDefault[0].id;
-                console.log("diaryDefault");
-                DiaryEntry.findByDiaryId({"diaryId":$scope.userId})
-                  .$promise.then(function (cb) {
-                    console.log("entries success");
-                    console.log(cb.diaryEntries);
-                    angular.forEach(cb.diaryEntries, function(node){
+        var next = $location.nextAfterDefaults || '/diary/create';
+        $location.nextAfterDefaults = null;
+        $location.path(next);
+      }
+      else {
+        DiaryDefault.findByDiaryId({"diaryId":$scope.userId})
+          .$promise.then(function (cb) {
+            console.log("defaults success");
+            console.log(cb.diaryDefault);
+            if (cb.diaryDefault.length===0){
+              var next = $location.nextAfterDefaults || '/diary/defaults';
+              $location.nextAfterDefaults = null;
+              $location.path(next);
+            }
+            else {
+              $scope.diaryDefault = cb.diaryDefault;
+              //Need to remove id before copy to new diaryEntry later.
+  //              delete $scope.diaryDefault[0].id;
+              console.log("diaryDefault");
+              DiaryEntry.findByDiaryId({"diaryId":$scope.userId})
+                .$promise.then(function (cb) {
+                  console.log("entries success");
+                  console.log(cb.diaryEntries);
+                  angular.forEach(cb.diaryEntries, function(node){
+                    node.valid=true;
+                    node.children = node.diaryProgression;
+                    delete node.diaryProgression;
+                    angular.forEach(node.children, function(node){
                       node.valid=true;
-                      node.children = node.diaryProgression;
-                      delete node.diaryProgression;
-                      angular.forEach(node.children, function(node){
-                        node.valid=true;
-                      });
                     });
-                    $scope.diaryTreeData = cb.diaryEntries;
+                  });
+                  $scope.diaryTreeData = cb.diaryEntries;
 
-                    //set the diary node to first entry and trigger update to show form
-                    if($scope.diaryTreeData.length!==0){
-                      $scope.selected = $scope.diaryTreeData[0];
-                      $scope.showSelected($scope.diaryTreeData[0]);
-                      $scope.isNewDiary = false;
-                      $scope.showCard = true;
-                    }
-                    else {
-                      $scope.isNewDiary = true;
-                      $scope.showCard = true;
-                    }
+                  //set the diary node to first entry and trigger update to show form
+                  if($scope.diaryTreeData.length!==0){
+                    $scope.selected = $scope.diaryTreeData[0];
+                  $scope.showSelected($scope.diaryTreeData[0]);
+                    $scope.isNewDiary = false;
+                    $scope.showCard = true;
+                  }
+                  else {
+                    $scope.isNewDiary = true;
+                    $scope.showCard = true;
+                  }
 
 
-                    Country.getList()
-                      .$promise.then(function (cb) {
-                        $scope.countries = cb.countries;
-                        $scope.country = {};
-                      });
+                  Country.getList()
+                    .$promise.then(function (cb) {
+                      $scope.countries = cb.countries;
+                      $scope.country = {};
+                    });
 
-                    HardinessZone.getList()
-                      .$promise.then(function (cb) {
-                        $scope.hardinessZones = cb.hardinessZones;
-                        $scope.hardinessZone = {};
-                      });
+                  HardinessZone.getList()
+                    .$promise.then(function (cb) {
+                      $scope.hardinessZones = cb.hardinessZones;
+                      $scope.hardinessZone = {};
+                    });
 
-                    SoilAcidity.getList()
-                      .$promise.then(function (cb) {
-                        $scope.soilAcidities = cb.soilAcidities;
-                        $scope.soilAcidity = {};
-                      });
+                  SoilAcidity.getList()
+                    .$promise.then(function (cb) {
+                      $scope.soilAcidities = cb.soilAcidities;
+                      $scope.soilAcidity = {};
+                    });
 
-                    SoilType.getList()
-                      .$promise.then(function (cb) {
-                        $scope.soilTypes = cb.soilTypes;
-                        $scope.soilType = {};
-                      });
+                  SoilType.getList()
+                    .$promise.then(function (cb) {
+                      $scope.soilTypes = cb.soilTypes;
+                      $scope.soilType = {};
+                    });
 
-                    PlantRating.getList()
-                      .$promise.then(function (cb) {
-                        $scope.plantRatings = cb.plantRatings;
-                        $scope.plantRating = {};
-                      });
-
-                });
-              }
-            });
-        }
-
+                  PlantRating.getList()
+                    .$promise.then(function (cb) {
+                      $scope.plantRatings = cb.plantRatings;
+                      $scope.plantRating = {};
+                    });
+              });
+            }
+          });
+      }
     });
   }
+
+
+
+
   $scope.$watch('frmDiaryEntry.$valid', function(newVal) {
     //$scope.valid = newVal;
+    console.log('frmDiaryEntry.$valid.newVal', newVal);
     if (typeof $scope.diaryEntry!='undefined'){
       $scope.diaryEntry.valid = newVal;
-      console.log('$scope.diaryEntry.valid');
-      console.log($scope.diaryEntry.valid);
+      console.log('$scope.diaryEntry.valid', $scope.diaryEntry.valid);
     }
   });
 
 
   $scope.$watch('frmDiaryEntry.$dirty', function(newValue) {
-    console.log('In frmDiaryEntry.$dirty: '+newValue);
+    console.log('In frmDiaryEntry.$dirty: ', newValue);
 
     if (typeof newValue!='undefined') {
       console.log("newValue: "+newValue);
-      console.log("$scope.diaryEntry: "+$scope.diaryEntry);
+      console.log("$scope.diaryEntry: ",$scope.diaryEntry);
 
       if (typeof $scope.diaryEntry!='undefined') {
         $scope.diaryEntry.isDirty = newValue;
-        console.log($scope.diaryEntry.id+' diaryEntryDirty= '+$scope.diaryEntry.isDirty);
+        console.log($scope.diaryEntry.id+' diaryEntryDirty= ',$scope.diaryEntry.isDirty);
       }
     }
   });
@@ -172,11 +178,11 @@ angular.module( 'diary.view', [
 
     if (typeof newValue!='undefined') {
       console.log("newValue: "+newValue);
-      console.log("$scope.diaryProgress: "+$scope.diaryProgress);
+      console.log("$scope.diaryProgress: ",$scope.diaryProgress);
 
       if (typeof $scope.diaryProgress!='undefined') {
         $scope.diaryProgress.isDirty = newValue;
-        console.log($scope.diaryProgress.id+' diaryProgressDirty= '+$scope.diaryProgress.isDirty);
+        console.log($scope.diaryProgress.id+' diaryProgressDirty= ',$scope.diaryProgress.isDirty);
       }
     }
   });
@@ -186,6 +192,7 @@ angular.module( 'diary.view', [
 
   $scope.showSelected = function(sel) {
     console.log('showSelected fired');
+    $scope.images = [];
     $scope.saveSuccess = false;
     $scope.saveError = false;
 
@@ -194,20 +201,25 @@ angular.module( 'diary.view', [
 
       $scope.isDiaryEntry = sel.hasOwnProperty('countryId');
       if ($scope.isDiaryEntry) {
+        $scope.isDiaryProgress = false;
         $scope.diaryEntry = sel;
         $scope.frmDiaryEntry.$setPristine();
       }
 
       $scope.isDiaryProgress = sel.hasOwnProperty('diaryEntryId');
       if ($scope.isDiaryProgress) {
+        $scope.isDiaryEntry = false;
         $scope.diaryProgress = sel;
         $scope.frmDiaryProgress.$setPristine();
       }
+      $scope.loadImageDocs();
     }
   };
 
 
   $scope.addDiaryEntry = function() {
+
+    console.log('$scope.diaryDefault', $scope.diaryDefault);
 
     var newNode = angular.copy($scope.diaryDefault);
     newNode[0].entryDate = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -220,13 +232,13 @@ angular.module( 'diary.view', [
         console.log('res.id');
         console.log(res.id);
         newNode[0].id = res.id;
+        newNode[0].updated="";
 
         $scope.diaryTreeData.push(newNode[0]);
         $scope.selected=newNode[0];
         $scope.showSelected(newNode[0]);
 
-        console.log('$scope.diaryTreeData');
-        console.log($scope.diaryTreeData);
+        console.log('$scope.diaryTreeData',$scope.diaryTreeData);
       });
 
   };
@@ -246,8 +258,6 @@ angular.module( 'diary.view', [
       newNode.diaryEntryId=node.id;
       node.children.push(newNode);
       $scope.expandedNodes.push(node);
-
-
       $scope.selected=newNode;
       $scope.showSelected(newNode);
     }
@@ -351,7 +361,189 @@ angular.module( 'diary.view', [
 
   };
 
-}) // end controller
+
+
+    // create a uploader with options for Diary entry
+    var uploader = $scope.uploader = new MyUploader ({
+      scope: $scope,                          // to automatically update the html. Default: $rootScope
+      url: '/api/diaryEntryImages/original/upload',
+      progress: 100,
+      formData: [
+      ]
+    });
+
+    uploader.filters.push({
+      name: 'customFilter',
+      fn: function(item /*{File|FileLikeObject}*/, options) {
+        return this.queue.length < 20;
+      }
+    });
+
+// File must be jpeg or png
+    uploader.filters.push({
+      name: 'imageFilter',
+      fn: function(item /*{File|FileLikeObject}*/, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+      }
+    });
+
+
+    // CALLBACKS
+
+    uploader.onAfterAddingFile = function(fileItem) {
+
+      DiaryEntryImageDoc.objectId(function(res){
+        // rename file with the presupplied oid and add the extension
+        fileItem.file.name = res.id + '.' + fileItem.file.name.split('.').pop();
+
+      });
+
+    };
+    uploader.onCompleteItem = function(fileItem, response, status, headers) {
+      var diaryEntryImageDoc = {
+        "id": fileItem.file.name.substr(0, fileItem.file.name.lastIndexOf('.')),
+        "uploaded": $filter('date')(new Date(), 'yyyy-MM-dd'),
+        "updated": $filter('date')(new Date(), 'yyyy-MM-dd'),
+        "comments": "",
+        "extension": "."+fileItem.file.name.split('.').pop(),
+        "diaryEntryId": $scope.diaryEntry.id
+      };
+      DiaryEntryImageDoc.upsert(diaryEntryImageDoc);
+      var image = {};
+      image.thumbUrl =  "api/diaryEntryImages/thumbs/download/"+ fileItem.file.name;
+      image.url =  "api/diaryEntryImages/lightbox/download/"+ fileItem.file.name;
+      $scope.images.unshift(image);
+
+    };
+    uploader.onCompleteAll = function() {
+      console.info('onCompleteAll');
+      uploader.clearQueue();
+
+    };
+
+    console.info('uploader', uploader);
+
+
+    // create a uploader2 with options for Diary Progress
+    var uploader2 = $scope.uploader2 = new MyUploader ({
+      scope: $scope,                          // to automatically update the html. Default: $rootScope
+      url: '/api/diaryProgressImages/original/upload',
+      progress: 100,
+      formData: [
+      ]
+    });
+
+    uploader2.filters.push({
+      name: 'customFilter',
+      fn: function(item /*{File|FileLikeObject}*/, options) {
+        return this.queue.length < 20;
+      }
+    });
+
+// File must be jpeg or png
+    uploader2.filters.push({
+      name: 'imageFilter',
+      fn: function(item /*{File|FileLikeObject}*/, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+      }
+    });
+
+
+    // CALLBACKS
+
+    uploader2.onAfterAddingFile = function(fileItem) {
+
+      DiaryProgressImageDoc.objectId(function(res){
+        // rename file with the presupplied oid and add the extension
+        fileItem.file.name = res.id + '.' + fileItem.file.name.split('.').pop();
+
+      });
+
+    };
+    uploader2.onCompleteItem = function(fileItem, response, status, headers) {
+      var diaryProgressImageDoc = {
+        "id": fileItem.file.name.substr(0, fileItem.file.name.lastIndexOf('.')),
+        "uploaded": $filter('date')(new Date(), 'yyyy-MM-dd'),
+        "updated": $filter('date')(new Date(), 'yyyy-MM-dd'),
+        "comments": "",
+        "extension": "."+fileItem.file.name.split('.').pop(),
+        "diaryProgressId": $scope.diaryProgress.id
+      };
+      DiaryProgressImageDoc.upsert(diaryProgressImageDoc);
+      var image = {};
+      image.thumbUrl =  "api/diaryProgressImages/thumbs/download/"+ fileItem.file.name;
+      image.url =  "api/diaryProgressImages/lightbox/download/"+ fileItem.file.name;
+      $scope.images.unshift(image);
+
+    };
+    uploader2.onCompleteAll = function() {
+      console.info('onCompleteAll');
+      uploader2.clearQueue();
+
+    };
+
+    console.info('uploader2', uploader2);
+
+
+
+
+    $scope.loadImageDocs  = function () {
+
+    if ($scope.isDiaryEntry &&  typeof $scope.diaryEntry.id!='undefined') {
+      console.log('getting DiaryEntryImageDoc', $scope.diaryEntry.id);
+      DiaryEntryImageDoc.getIdsByDiaryEntryId({"diaryEntryId": $scope.diaryEntry.id})
+        .$promise.then(function (cb) {
+          console.log(JSON.stringify(cb.diaryEntryImageIds));
+          $scope.images = cb.diaryEntryImageIds;
+          angular.forEach($scope.images, function(image) {
+            image.thumbUrl =  "api/diaryEntryImages/thumbs/download/"+ image.id + image.extension;
+            image.url =  "api/diaryEntryImages/lightbox/download/"+ image.id + image.extension;
+          });
+        });
+    }
+    if ($scope.isDiaryProgress &&  typeof $scope.diaryProgress.id!='undefined') {
+      console.log('getting DiaryProgressImageDoc', $scope.diaryProgress.id);
+      DiaryProgressImageDoc.getIdsByDiaryProgressId({"diaryProgressId": $scope.diaryProgress.id})
+        .$promise.then(function (cb) {
+          console.log(cb.diaryProgressImageIds);
+          $scope.images = cb.diaryProgressImageIds;
+          angular.forEach($scope.images, function(image) {
+            image.thumbUrl =  "api/diaryProgressImages/thumbs/download/"+ image.id + image.extension;
+            image.url =  "api/diaryProgressImages/lightbox/download/"+ image.id + image.extension;
+          });
+
+        });
+    }
+  };
+
+
+
+
+  $scope.fileDelete = function (index, id) {
+    $http.delete('/api/diaryEventImages/original/files/' + encodeURIComponent(id)).success(function (data, status, headers) {
+      $scope.files.splice(index, 1);
+    });
+  };
+
+  $scope.$on('uploadCompleted', function(event) {
+    console.log('uploadCompleted event received');
+
+   // could attach the snippet here
+
+//    $scope.loadImages();
+  });
+
+  $scope.openLightboxModal = function (index) {
+    Lightbox.openModal($scope.images, index);
+  };
+
+
+  }) // end controller
+
+
+
 
 
 .directive('dateDirective', function($filter) {
@@ -371,6 +563,17 @@ angular.module( 'diary.view', [
   };
 })
 
+.filter('max', function() {
+  return function(input) {
+    input = input || '';
+    var out = 0;
+    angular.forEach(input, function(value) {
+      out = Math.max(out, value);
+    });
+    return out;
+  };
+})
+
 
 .filter('getById', function() {
   return function(input, id) {
@@ -386,7 +589,7 @@ angular.module( 'diary.view', [
       }
     }
     return null;
-  };
+};
 })
 
 
@@ -402,17 +605,19 @@ angular.module( 'diary.view', [
       console.log('isDirty inside saveDiaryEntry: ' + node.isDirty);
       console.log(node);
 
+      node.updated = $filter('date')(new Date(), 'yyyy-MM-dd');
+
       var saveNode = angular.copy(node);
       delete saveNode.isDirty;
       delete saveNode.children;
       delete saveNode.valid;
 
-      saveNode.updated = $filter('date')(new Date(), 'yyyy-MM-dd');
 
       DiaryEntry.upsert(saveNode)
         .$promise.then(function(res) {
           deferred.resolve({isDirty:true});
           console.log("Diary Entry " + saveNode.id + " Saved ");
+          node.id = saveNode.id;
         });
 
 
@@ -444,10 +649,10 @@ angular.module( 'diary.view', [
       console.log(node);
       if (node.isDirty) {
         console.log("progression isdirty id: "+node.id);
+        node.updated = $filter('date')(new Date(), 'yyyy-MM-dd');
         var saveNode = angular.copy(node);
         delete saveNode.isDirty;
         delete saveNode.valid;
-        saveNode.updated = $filter('date')(new Date(), 'yyyy-MM-dd');
         if (saveNode.diaryEntryId === undefined) {
           saveNode.diaryEntryId = diaryEntryId;
           console.log("set child diaryEntryId :" + saveNode.diaryEntryId);
@@ -456,7 +661,8 @@ angular.module( 'diary.view', [
         DiaryProgress.upsert(saveNode)
           .$promise.then(function(res) {
             //success
-            console.log("Diary Progress " + res.id + " Saved ");
+            console.log("Diary Progress Saved :" , res.id);
+            node.id = res.id;
 
           });
         node.isDirty=false;
@@ -473,6 +679,88 @@ angular.module( 'diary.view', [
 
   return service;
 })
+
+.directive('ngThumb', function($window) {
+  var helper = {
+    support: !!($window.FileReader && $window.CanvasRenderingContext2D),
+    isFile: function(item) {
+      return angular.isObject(item) && item instanceof $window.File;
+    },
+    isImage: function(file) {
+      var type =  '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+      return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+    }
+  };
+
+  return {
+    restrict: 'A',
+    template: '<canvas/>',
+    link: function(scope, element, attributes) {
+      if (!helper.support) {
+        return;
+      }
+
+      var params = scope.$eval(attributes.ngThumb);
+
+      if (!helper.isFile(params.file)) {
+        return;
+      }
+      if (!helper.isImage(params.file)) {
+        return;
+      }
+
+      var canvas = element.find('canvas');
+      var reader = new FileReader();
+
+      reader.onload = onLoadFile;
+      reader.readAsDataURL(params.file);
+
+      function onLoadFile(event) {
+        var img = new Image();
+        img.onload = onLoadImage;
+        img.src = event.target.result;
+      }
+
+      function onLoadImage() {
+        var width = params.width || this.width / this.height * params.height;
+        var height = params.height || this.height / this.width * params.width;
+        canvas.attr({ width: width, height: height });
+        canvas[0].getContext('2d').drawImage(this, 0, 0, width, height);
+      }
+    }
+  };
+})
+
+
+
+.factory('MyUploader', function(FileUploader) {
+  // The inheritance. See https://github.com/nervgh/angular-file-upload/blob/v1.0.2/src/module.js#L686
+  FileUploader.inherit(MyUploader, FileUploader);
+
+    function MyUploader(options) {
+      MyUploader.super_.apply(this, arguments);
+    }
+
+
+    MyUploader.prototype._getTotalProgress = function(value) {
+      if(this.removeAfterUpload) {
+        return value || 0;
+      }
+
+      var notUploaded = this.getNotUploadedItems().length;
+      var uploaded = notUploaded ? this.queue.length - notUploaded : this.queue.length;
+      var ratio = 100 / this.queue.length;
+      var current = (value || 0) * ratio / 100;
+      if (this.queue.length===0){
+        return 100;
+      }
+      return Math.round(uploaded * ratio + current);
+    };
+
+
+    return MyUploader;
+})
+
 
 
 ;

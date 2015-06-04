@@ -1,0 +1,41 @@
+{
+  "name": "diaryProgressImageDoc",
+  "plural": "diaryProgressImageDocs",
+  "base": "PersistedModel",
+  "properties": {
+    "uploaded": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "extension": {
+      "type": "string",
+      "required": true
+    },
+    "comments": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diaryProgress": {
+      "type": "belongsTo",
+      "model": "diaryProgress",
+      "foreignKey": "diaryProgressId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

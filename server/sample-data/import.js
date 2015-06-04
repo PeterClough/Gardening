@@ -43,6 +43,9 @@ var soilAcidities = require('./soil-acidities.json');
 console.log('Assigning file: soil-types.json');
 var soilTypes = require('./soil-types.json');
 
+console.log('Assigning file: diary-entry-image-docs.json');
+var diaryEntryImageDocs = require('./diary-entry-image-docs.json');
+
 
 
 module.exports = function(app, cb) {
@@ -83,6 +86,8 @@ module.exports = function(app, cb) {
   console.log('Assigning model: soilType');
   var soilType = app.models.soilType;
 
+  console.log('Assigning model: diaryEntryImageDoc');
+  var diaryEntryImageDoc = app.models.diaryEntryImageDoc;
 
 
 
@@ -134,7 +139,8 @@ module.exports = function(app, cb) {
     importData.bind(null, hardinessZone, hardinessZones),
     importData.bind(null, plantRating, plantRatings),
     importData.bind(null, soilAcidity, soilAcidities),
-    importData.bind(null, soilType, soilTypes)
+    importData.bind(null, soilType, soilTypes),
+    importData.bind(null, diaryEntryImageDoc, diaryEntryImageDocs)
 
 
 
