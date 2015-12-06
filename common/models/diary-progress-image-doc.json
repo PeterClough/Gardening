@@ -1,5 +1,5 @@
 {
-  "name": "diaryProgressImageDoc",
+  "name": "DiaryProgressImageDoc",
   "plural": "diaryProgressImageDocs",
   "base": "PersistedModel",
   "properties": {
@@ -24,7 +24,7 @@
   "relations": {
     "diaryProgress": {
       "type": "belongsTo",
-      "model": "diaryProgress",
+      "model": "DiaryProgress",
       "foreignKey": "diaryProgressId"
     }
   },

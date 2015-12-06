@@ -5,6 +5,9 @@ client/bin/
 client/node_modules/
 client/vendor/
 client/src/app/lb-services.js
+client/src/storage/
+client/docular_generated/
 node_modules/
 .idea/
 .git/
+

@@ -1,0 +1,30 @@
+{
+  "name": "QuestionTagJunction",
+  "plural": "questionTagJunctions",
+  "base": "PersistedModel",
+  "properties": {
+   },
+  "validations": [],
+  "relations": {
+    "questions": {
+      "type": "belongsTo",
+      "model": "Question",
+      "foreignKey": "questionId"
+    },
+    "tags": {
+      "type": "belongsTo",
+      "model": "Tag",
+      "foreignKey": "tagId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

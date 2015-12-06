@@ -1,0 +1,63 @@
+{
+  "name": "Question",
+  "plural": "questions",
+  "base": "PersistedModel",
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "question": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "language": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": "languageId"
+    },
+    "questionComment": {
+      "type": "hasMany",
+      "model": "QuestionComment",
+      "foreignKey": "questionId"
+    },
+    "answer": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "questionId"
+    },
+    "tag": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": "questionId",
+      "through": "QuestionTagJunction"
+    },
+    "rating": {
+      "type": "hasMany",
+      "model": "QuestionRating",
+      "foreignKey": "questionId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

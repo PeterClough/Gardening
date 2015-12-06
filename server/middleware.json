@@ -26,7 +26,7 @@
         "params": "$!../client/build"
       },
       {
-        "params": "$!../client/build/fonts"
+        "params": "$!../client/build/images"
       }
     ]
   },

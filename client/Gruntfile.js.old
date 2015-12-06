@@ -20,7 +20,6 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-loopback-sdk-angular');
   grunt.loadNpmTasks('grunt-docular');
-  grunt.loadNpmTasks('grunt-release');
 
   /**
    * Load in our build configuration file.
@@ -32,14 +31,6 @@ module.exports = function ( grunt ) {
    * instructions.
    */
   var taskConfig = {
-    release: {
-      ngbpbuild: {
-        options: {
-          input: 'build/',
-          output: '../../gardening/client/build/'
-        }
-      }
-    },
 
     loopback_sdk_angular: {
       services: {
@@ -190,6 +181,17 @@ module.exports = function ( grunt ) {
           {
             src: [ '<%= vendor_files.images %>' ],
             dest: '<%= build_dir %>/images/',
+            cwd: '.',
+            expand: true,
+            flatten: true
+          }
+        ]
+      },
+      build_vendorfonts: {
+        files: [
+          {
+            src: [ '<%= vendor_files.fonts %>' ],
+            dest: '<%= build_dir %>/fonts/',
             cwd: '.',
             expand: true,
             flatten: true
@@ -409,7 +411,7 @@ module.exports = function ( grunt ) {
         configFile: '<%= build_dir %>/karma-unit.js'
       },
       unit: {
-        port: 9019,
+        port: 9876,
         background: true
       },
       continuous: {
@@ -618,7 +620,7 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:build_vendorcss', 'copy:build_vendorimages', 'index:build', 'karmaconfig',
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:build_vendorcss', 'copy:build_vendorimages', 'copy:build_vendorfonts', 'index:build', 'karmaconfig',
     'karma:continuous'
   ]);
 
@@ -637,7 +639,6 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'loopback', ['loopback_sdk_angular', 'docular']);
 
 
-  grunt.registerTask( 'release', ['release', 'ngbpbuild']);
 
 
 

@@ -1,0 +1,35 @@
+{
+  "name": "AnswerRating",
+  "plural": "answerRatings",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "rating": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "answer": {
+      "type": "belongsTo",
+      "model": "Answer",
+      "foreignKey": "answerId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}

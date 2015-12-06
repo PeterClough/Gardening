@@ -63,6 +63,7 @@ module.exports = {
    */
   vendor_files: {
     js: [
+      'vendor/jquery/dist/jquery.min.js',
       'vendor/angular/angular.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
@@ -75,15 +76,20 @@ module.exports = {
       'vendor/angular-sanitize/angular-sanitize.js',
       'vendor/angular-bootstrap-show-errors/src/showErrors.js',
       'vendor/angular-animate/angular-animate.js',
-      'vendor/angular-file-upload/angular-file-upload.js',
+      'vendor/angular-file-upload/dist/angular-file-upload.js',
       'vendor/angular-touch/angular-touch.js',
-      'vendor/angular-loading-bar/build/loading-bar.js'
+      'vendor/angular-loading-bar/build/loading-bar.js',
+      'vendor/ng-tags-input/ng-tags-input.js'
     ],
     css: [
       'vendor/angular-tree-control/css/tree-control.css',
       'vendor/angular-tree-control/css/tree-control-attribute.css',
       'vendor/angular-ui-select/dist/select.css',
-      'vendor/angular-loading-bar/build/loading-bar.css'
+      'vendor/angular-loading-bar/build/loading-bar.css',
+      'vendor/ng-tags-input/ng-tags-input.css',
+      'vendor/ng-tags-input/ng-tags-input.bootstrap.css',
+      'vendor/angular-file-upload/dist/angular-file-upload.js.map',
+      'vendor/jquery/dist/jquery.min.map'
     ],
     assets: [
     ],

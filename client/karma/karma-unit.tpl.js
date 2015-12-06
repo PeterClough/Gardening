@@ -18,7 +18,7 @@ module.exports = function ( karma ) {
       'src/assets/**/*.js'
     ],
     frameworks: [ 'jasmine' ],
-    plugins: [ 'karma-jasmine', 'karma-firefox-launcher', 'karma-chrome-launcher', 'karma-coffee-preprocessor' ],
+    plugins: [ 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-coffee-preprocessor' ],
     preprocessors: {
       '**/*.coffee': 'coffee',
     },
@@ -33,15 +33,14 @@ module.exports = function ( karma ) {
      * operating, and what is the URL path for the browser to use.
      */
     port: 9018,
-    runnerPort: 9100,
+    runnerPort: 9101,
     urlRoot: '/',
 
     /**
      * Disable file watching by default.
      */
     autoWatch: false,
-
-    /**
+  /**
      * The list of browsers to launch to test on. This includes only "Firefox" by
      * default, but other browser names include:
      * Chrome, ChromeCanary, Firefox, Opera, Safari, PhantomJS
@@ -55,7 +54,7 @@ module.exports = function ( karma ) {
      * the aesthetic advantage of not launching a browser every time you save.
      */
     browsers: [
-        'Chrome'
+      'PhantomJS'
     ]
   });
 };

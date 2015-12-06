@@ -1,0 +1,110 @@
+<h3>{{ listHeader }} <div class="tag-header">{{ tagHeader }}</div></h3>
+
+
+
+
+
+<div id="list-container">
+
+  <div class="view-animate" ng-show="!showCard" id="loading-message">Loading Please wait</div>
+
+
+
+
+  <div id="recent-questions-container" class="view-animate" ng-show="showCard">
+
+    <div class="card" id="recent-card">
+
+      <div ng-repeat="question in questions">
+        <div class="row">
+          <a class="col-xs-9" ui-sref="ask.view({ questionId: '{{question.id}}' })">{{question.question}}</a>
+          <div class="asked-by col-xs-3">
+            {{'ASK_ASKED_BY' | translate}} {{question.user.firstName}} {{question.user.lastName }}<br>
+            {{question.created | date: 'medium'}}
+          </div>
+        </div>
+        <div class="phaedra-colors tags">
+          <a ui-sref="ask.list({ tagId: '{{tag.id}}' })"  class="label label-info tag" ng-repeat="tag in question.tag" ng-bind-html="tag.tag"></a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="view-animate" id="message-saved" ng-show="messageSaved">{{ 'ASK_MESSAGE_SAVED' | translate}}</div>
+
+
+
+    <div id="ask-container">
+
+      <div class="card slide" id="ask-card" ng-show="gotQuestion">
+
+        <form class="form-horizontal" role="form" ng-submit="submitQuestion()" name="$parent.frmAskQuestion" id="form-ask-question"  ng-esc="closeBoxes()">
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+          </div>
+
+          <div class="form-group" show-errors>
+            <label class="col-sm-3 control-label">{{ 'ASK_QUESTION' | translate}}  *</label>
+
+            <div class="col-sm-9">
+              <textarea
+                      class="form-control"
+                      placeholder="{{ 'ASK_QUESTION' | translate}}"
+                      ng-model="question.question"
+                      ng-required="true"
+                      name="question">
+              </textarea>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{ 'ASK_TAGS' | translate}}</label>
+
+            <div class="col-sm-9">
+              <tags-input
+                     placeholder="{{ 'ASK_TAGS' | translate}}"
+                     ng-model="question.tags"
+                     data-role="tagsinput"
+                     name="tags"
+                     allowed-tags-pattern="[a-z]"
+                     add-on-enter=true
+                     add-on-space=true
+                     add-on-comma=true
+                     add-on-blur=true
+                     on-tag-adding=tagAdding($tag)
+                >
+                <auto-complete source="allTags"></auto-complete>
+              </tags-input>
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-default">{{ 'ASK_SUBMIT_QUESTION_BUTTON' | translate}}</button>
+              <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+            </div>
+          </div>
+
+        </form>
+
+
+
+      </div>
+      <div class="addButtons" id="add-buttons">
+        <button class="btn btn-default view-animate" ng-click="getQuestion()" name="getQuestion" ng-show="loggedIn && !gotQuestion"
+          >{{'ASK_QUESTION_BUTTON' | translate}}
+        </button>
+        <div ng-show="!loggedIn">{{'ASK_LOGGED_IN' | translate}}</div>
+      </div>
+
+    </div>
+
+    <a ui-sref="ask.list({ tagId: '' })" ng-show="tagHeader.length > 0">{{ 'ASK_VIEW_RECENT_LINK' | translate}}</a>
+    <a ui-sref="ask.tags"> {{ 'ASK_VIEW_ALL_TAGS_LINK' | translate}}</a>
+
+  </div>
+</div>

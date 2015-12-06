@@ -1,5 +1,5 @@
 {
-  "name": "diaryEntryImage",
+  "name": "DiaryEntryImage",
   "base": "Model",
   "properties": {},
   "validations": [],

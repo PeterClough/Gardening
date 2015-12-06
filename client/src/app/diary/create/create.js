@@ -19,7 +19,7 @@ angular.module( 'diary.create', [
 })
 
 
-.controller( 'DiaryCreateCtrl', function DiaryCreateCtrl($scope, User, Diary, DiaryDefault, $location) {
+.controller( 'DiaryCreateCtrl', function DiaryCreateCtrl($scope, User, Diary, DiaryDefault, $location, $timeout) {
 
   $scope.showCard = false;
 
@@ -48,7 +48,9 @@ console.log ("userid="+$scope.userId);
         }
         console.log("$scope.diary:");
         console.log($scope.diary);
-        $scope.showCard = true;
+        $timeout(function(){
+          $scope.showCard = true;
+        },100);
       });
   }
 

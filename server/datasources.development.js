@@ -31,13 +31,13 @@ module.exports = {
     "name": "diaryProgressDS",
     "connector": "loopback-component-storage",
     "provider": "filesystem",
-    "root": "../client/src/storage/assets/images/diary_progress"
+    "root": "/Users/peter/Intranet/myApp/client/src/storage/assets/images/diary_progress"
   },
   "diaryEntryDS": {
     "name": "diaryEntryDS",
     "connector": "loopback-component-storage",
     "provider": "filesystem",
-    "root": "../client/src/storage/assets/images/diary_entry"
+    "root": "/Users/peter/Intranet/myApp/client/src/storage/assets/images/diary_entry"
   }
 };
 

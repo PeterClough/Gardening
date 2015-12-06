@@ -1,5 +1,5 @@
 {
-  "name": "plantRating",
+  "name": "PlantRating",
   "plural": "plantRatings",
   "base": "PersistedModel",
   "properties": {
@@ -21,7 +21,7 @@
   },
     "language": {
       "type": "belongsTo",
-      "model": "language",
+      "model": "Language",
       "foreignKey": "languageId"
     }
   },

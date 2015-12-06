@@ -7,10 +7,13 @@ module.exports = function(DiaryProgressImage) {
     var file = res.result.files.file[0];
     console.log("file uploaded", JSON.stringify(file));
 
+    var app = require('../../server/server');
+    var ds = app.dataSources.diaryProgressDS;
+    var fp = ds.root;
 
-    var filePath = "../client/src/storage/assets/images/diary_progress/" + file.container + "/" + file.name;
-    var fileThumbPath = "../client/src/storage/assets/images/diary_progress/"  + "thumbs/" + file.name;
-    var fileLightboxPath = "../client/src/storage/assets/images/diary_progress/"  + "lightbox/" + file.name;
+    var filePath = fp + file.container + "/" + file.name;
+    var fileThumbPath = fp  + "thumbs/" + file.name;
+    var fileLightboxPath = fp  + "lightbox/" + file.name;
 
     setTimeout(function() {
 

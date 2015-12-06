@@ -1,4 +1,3 @@
-/*jshint scripturl:true*/
 angular.module( 'diary.view', [
   'ui.router',
   'pascalprecht.translate',
@@ -222,7 +221,7 @@ angular.module( 'diary.view', [
     console.log('$scope.diaryDefault', $scope.diaryDefault);
 
     var newNode = angular.copy($scope.diaryDefault);
-    newNode[0].entryDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+    newNode[0].entryDate = $filter('date')(new Date(), 'medium');
     newNode[0].children =[];
     newNode[0].isDirty =true;
 
@@ -249,7 +248,7 @@ angular.module( 'diary.view', [
   $scope.addDiaryProgress = function($event, node) {
 
     var newNode = {
-      "entryDate": $filter('date')(new Date(), 'yyyy-MM-dd'),
+      "entryDate": $filter('date')(new Date(), 'medium'),
       "isDirty": true,
       "valid":true
     };
@@ -403,8 +402,8 @@ angular.module( 'diary.view', [
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
       var diaryEntryImageDoc = {
         "id": fileItem.file.name.substr(0, fileItem.file.name.lastIndexOf('.')),
-        "uploaded": $filter('date')(new Date(), 'yyyy-MM-dd'),
-        "updated": $filter('date')(new Date(), 'yyyy-MM-dd'),
+        "uploaded": $filter('date')(new Date(), 'medium'),
+        "updated": $filter('date')(new Date(), 'medium'),
         "comments": "",
         "extension": "."+fileItem.file.name.split('.').pop(),
         "diaryEntryId": $scope.diaryEntry.id
@@ -465,8 +464,8 @@ angular.module( 'diary.view', [
     uploader2.onCompleteItem = function(fileItem, response, status, headers) {
       var diaryProgressImageDoc = {
         "id": fileItem.file.name.substr(0, fileItem.file.name.lastIndexOf('.')),
-        "uploaded": $filter('date')(new Date(), 'yyyy-MM-dd'),
-        "updated": $filter('date')(new Date(), 'yyyy-MM-dd'),
+        "uploaded": $filter('date')(new Date(), 'medium'),
+        "updated": $filter('date')(new Date(), 'medium'),
         "comments": "",
         "extension": "."+fileItem.file.name.split('.').pop(),
         "diaryProgressId": $scope.diaryProgress.id
@@ -605,7 +604,7 @@ angular.module( 'diary.view', [
       console.log('isDirty inside saveDiaryEntry: ' + node.isDirty);
       console.log(node);
 
-      node.updated = $filter('date')(new Date(), 'yyyy-MM-dd');
+      node.updated = $filter('date')(new Date(), 'medium');
 
       var saveNode = angular.copy(node);
       delete saveNode.isDirty;
@@ -649,7 +648,7 @@ angular.module( 'diary.view', [
       console.log(node);
       if (node.isDirty) {
         console.log("progression isdirty id: "+node.id);
-        node.updated = $filter('date')(new Date(), 'yyyy-MM-dd');
+        node.updated = $filter('date')(new Date(), 'medium');
         var saveNode = angular.copy(node);
         delete saveNode.isDirty;
         delete saveNode.valid;

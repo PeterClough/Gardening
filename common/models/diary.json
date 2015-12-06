@@ -1,5 +1,5 @@
 {
-  "name": "diary",
+  "name": "Diary",
   "plural": "diaries",
   "base": "PersistedModel",
   "properties": {
@@ -25,7 +25,7 @@
     },
     "language": {
       "type": "belongsTo",
-      "model": "language",
+      "model": "Language",
       "foreignKey": "languageId"
     }
   },

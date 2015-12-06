@@ -1,0 +1,260 @@
+<h3 id="view-heading">{{'ASK_RECENT_HEADER' | translate}}</h3>
+
+
+<div id="view-question-container">
+
+  <div class="view-animate" ng-show="!showCard" id="loading-message">Loading Please wait</div>
+
+
+  <div class="card view-animate" ng-show="showCard" id="view-question-card">
+
+    <div id="question-card">
+      <div class="row">
+        <div class="rating-card col-xs-2">
+          <div class="rating-container">
+            <a ng-href="#" ng-click="rateQuestion(question[0].id, 1)" class="rating view-animate" ng-show="!questionAlreadyRatedUp">
+              <span class="glyphicon glyphicon-triangle-top rate-up"></span>
+            </a>
+            <div class="view-animate already-rated rated-up"  ng-show="questionAlreadyRatedUp" >{{'ASK_ALREADY_RATED_UP' | translate}}</div>
+          </div>
+          <div class="rating-value" ng-bind="question[0].rating || 0"></div>
+          <div class="rating-container">
+            <a ng-href="#" ng-click="rateQuestion(question[0].id, -1)" class="rating view-animate" ng-show="!questionAlreadyRatedDown">
+              <span class="rating glyphicon glyphicon-triangle-bottom rate-down"></span>
+            </a>
+            <div class="view-animate already-rated rated-down"  ng-show="questionAlreadyRatedDown" >{{'ASK_ALREADY_RATED_DOWN' | translate}}</div>
+          </div>
+        </div>
+
+        <div class="question-text col-xs-10" ng-bind-html="question[0].question"></div>
+      </div>
+
+      <div class="row">
+        <div class="phaedra-colors tags col-xs-9">
+          <a ui-sref="ask.list({ tagId: '{{tag.id}}' })" class="label label-info tag" ng-repeat="tag in question[0].tag" ng-bind-html="tag.tag" ></a>
+        </div>
+        <div class="asked-by col-xs-3">
+          {{'ASK_ASKED_BY' | translate}} {{question[0].user.firstName}} {{question[0].user.lastName }}<br>
+          {{question[0].created | date: 'medium'}}
+        </div>
+      </div>
+
+      <div class="comments-card">
+        <div class="comment-card" ng-repeat="comment in question[0].questionComment">
+          <div class="row">
+            <div class="comment-text col-xs-offset-2 col-xs-7" ng-bind-html="comment.comment"></div>
+              <div class="comment-by col-xs-3">
+                {{'ASK_COMMENTED_BY' | translate}} {{comment.user.firstName}} {{comment.user.lastName}}<br>
+                {{comment.created | date: 'medium'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <a
+        ng-href="#"
+        class="add-comment"
+        ng-click="getQuestionComment()"
+        name="getQuestionComment"
+        ng-show="loggedIn">
+        {{'ASK_COMMENT_TEXT' | translate}}
+      </a>
+
+
+      <a
+        ng-href="#"
+        class="answer-question"
+        ng-click="getAnswer()"
+        name="getAnswer"
+        ng-show="loggedIn">
+        {{'ANSWER_QUESTION_TEXT' | translate}}
+      </a>
+
+
+      <div ng-show="!loggedIn">{{'ANSWER_LOGGED_IN' | translate}}</div>
+
+
+      <div class="comment-container slide" ng-show="gotQuestionComment" ng-esc="closeBoxes()">
+        <div class="card" class="comment-card">
+
+          <form class="form-horizontal"
+                role="form" ng-submit="submitQuestionComment()"
+                name="$parent.frmQuestionComment"
+                id="form-question-comment">
+
+            <div class="form-group row">
+              <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+            </div>
+
+            <div class="form-group row" show-errors>
+              <label class="col-sm-3 control-label">{{ 'ASK_COMMENT' | translate}}  *</label>
+
+              <div class="col-sm-9">
+                <textarea
+                  class="form-control"
+                  placeholder="{{ 'ASK_COMMENT' | translate}}"
+                  ng-model="questionComment.comment"
+                  ng-required="true"
+                  name="questionComment">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default">{{ 'ASK_SUBMIT_COMMENT_BUTTON' | translate}}</button>
+                <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+
+      <div id="answer-container" class="slide" ng-show="gotAnswer" ng-esc="closeBoxes()">
+        <div class="card" id="answer-card">
+
+          <form class="form-horizontal"
+                role="form" ng-submit="submitAnswer()"
+                name="$parent.frmAnswerQuestion"
+                id="form-ask-question">
+
+            <div class="form-group row">
+              <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+            </div>
+
+            <div class="form-group row" show-errors>
+              <label class="col-sm-3 control-label">{{ 'ANSWER_QUESTION' | translate}}  *</label>
+
+              <div class="col-sm-9">
+                <textarea
+                  class="form-control"
+                  placeholder="{{ 'ANSWER_QUESTION' | translate}}"
+                  ng-model="answer.answer"
+                  ng-required="true"
+                  name="answer">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default">{{ 'ASK_SUBMIT_ANSWER_BUTTON' | translate}}</button>
+                <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="answers-card" ng-show="question[0].answer.length>0">
+      <div class="number-answers" ng-show="question[0].answer.length>0">{{question[0].answer.length}} {{question[0].answer.length === 1 ? "Answer" : "Answers"}}</div>
+
+      <div class = "answer-card" ng-repeat="answer in question[0].answer">
+        <div class="row">
+          <div class="rating-card col-xs-2">
+            <div class="rating-container">
+              <a ng-href="#" ng-click="rateAnswer(($index),answer.id, 1)" class="rating view-animate" ng-show="!answerAlreadyRatedUp[$index]">
+                <span class="glyphicon glyphicon-triangle-top rate-up"></span>
+              </a>
+              <div class="view-animate already-rated rated-up"  ng-show="answerAlreadyRatedUp[$index]" >{{'ASK_ALREADY_RATED_UP' | translate}}</div>
+            </div>
+            <div class="rating-value" ng-bind="answer.rating || 0"></div>
+            <div class="rating-container">
+              <a ng-href="#" ng-click="rateAnswer(($index),answer.id, -1)" class="rating view-animate" ng-show="!answerAlreadyRatedDown[$index]">
+                <span class="rating glyphicon glyphicon-triangle-bottom rate-down"></span>
+              </a>
+              <div class="view-animate already-rated rated-down"  ng-show="answerAlreadyRatedDown[$index]" >{{'ASK_ALREADY_RATED_DOWN' | translate}}</div>
+            </div>
+          </div>
+          <div class="question-text col-xs-10" ng-bind-html="answer.answer"></div>
+        </div>
+        <div class="row">
+          <div class="answered-by col-xs-offset-9 col-xs-3">
+            {{'ASK_ANSWERED_BY' | translate}} {{answer.user.firstName}} {{answer.user.lastName}}<br>
+            {{answer.created | date: 'medium'}}
+          </div>
+        </div>
+
+
+        <div class="comments-card">
+          <div class="comment-card" ng-repeat="comment in answer.answerComment">
+            <div class="row">
+              <div class="comment-text col-xs-offset-2 col-xs-7" ng-bind-html="comment.comment"></div>
+              <div class="comment-by col-xs-3">
+                {{'ASK_COMMENTED_BY' | translate}} {{comment.user.firstName}} {{comment.user.lastName}}<br>
+                {{comment.created | date: 'medium'}}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-xs-10">
+            <a
+              ng-href="#"
+              class="add-comment"
+              ng-click="getAnswerComment($index)"
+              name="getAnswerComment"
+              ng-show="loggedIn">
+              {{'ASK_COMMENT_TEXT' | translate}}
+            </a>
+          </div>
+
+        </div>
+
+
+        <div class="comment-container slide" ng-show="gotAnswerComment[$index]" ng-esc="closeBoxes()">
+          <div class="card" class="comment-card">
+
+            <form class="form-horizontal"
+                  role="form" ng-submit="submitAnswerComment($index, answer.id)"
+                  name="$parent.frmAnswerComment"
+                  id="form-answer-comment">
+
+              <div class="form-group row">
+                <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+              </div>
+
+              <div class="form-group row" show-errors>
+                <label class="col-sm-3 control-label">{{ 'ASK_COMMENT' | translate}}  *</label>
+
+                <div class="col-sm-9">
+              <textarea
+                class="form-control"
+                placeholder="{{ 'ASK_COMMENT' | translate}}"
+                ng-model="answerComment.comment"
+                ng-required="true"
+                name="answerComment">
+              </textarea>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-offset-3 col-sm-9">
+                  <button type="submit" class="btn btn-default">{{ 'ASK_SUBMIT_COMMENT_BUTTON' | translate}}</button>
+                  <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

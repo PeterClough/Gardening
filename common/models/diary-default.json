@@ -1,5 +1,5 @@
 {
-  "name": "diaryDefault",
+  "name": "DiaryDefault",
   "plural": "diaryDefaults",
   "base": "PersistedModel",
   "properties": {
@@ -32,7 +32,7 @@
   "relations": {
     "diary": {
       "type": "belongsTo",
-      "model": "diary",
+      "model": "Diary",
       "foreignKey": "diaryId"
     }
   },

@@ -32,17 +32,6 @@ angular.module( 'diary.defaults', [
   $scope.loggedIn = User.isAuthenticated();
   $scope.userId = User.getCurrentId();
 
-/**
-  if ($scope.loggedIn) {
-    diaryDefault.find({where:{userId: $scope.userId}})
-        .$promise.then(function(cb) {
-          $scope.diarydefault = cb[0];
-          //possible redirect here
-        });
-  }
-**/
-
-
 
 
   $translate('DIARY_DEFAULT_COUNTRY_LABEL').then(function (country) {

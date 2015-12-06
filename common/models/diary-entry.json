@@ -1,5 +1,5 @@
 {
-  "name": "diaryEntry",
+  "name": "DiaryEntry",
   "plural": "diaryEntries",
   "base": "PersistedModel",
   "properties": {
@@ -60,12 +60,12 @@
   "relations": {
     "diary": {
       "type": "belongsTo",
-      "model": "diary",
+      "model": "Diary",
       "foreignKey": "diaryId"
     },
     "diaryProgression": {
       "type": "hasMany",
-      "model": "diaryProgress",
+      "model": "DiaryProgress",
       "foreignKey": "diaryEntryId"
     }
   },

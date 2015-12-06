@@ -10,7 +10,8 @@ angular.module( 'myApp', [
   'myApp.home',
   'myApp.about',
   'myApp.diary',
-  'myApp.users'
+  'myApp.users',
+  'myApp.ask'
 ])
 
   .config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider ) {
@@ -18,6 +19,7 @@ angular.module( 'myApp', [
     $translateProvider.translations('es', translationsES);
     $translateProvider.preferredLanguage('en');
     $translateProvider.fallbackLanguage('en');
+    $translateProvider.useSanitizeValueStrategy('sanitize');
     $urlRouterProvider.otherwise( '/home' );
   })
 

@@ -1,5 +1,5 @@
 {
-  "name": "systemLanguage",
+  "name": "SystemLanguage",
   "plural": "systemLanguages",
   "base": "PersistedModel",
   "properties": {

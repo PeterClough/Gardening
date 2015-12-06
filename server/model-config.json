@@ -21,19 +21,19 @@
     "dataSource": "db",
     "public": false
   },
-  "diary": {
+  "Diary": {
     "dataSource": "db",
     "public": true
   },
-  "diaryDefault": {
+  "DiaryDefault": {
     "dataSource": "db",
     "public": true
   },
-  "diaryEntry": {
+  "DiaryEntry": {
     "dataSource": "db",
     "public": true
   },
-  "diaryProgress": {
+  "DiaryProgress": {
     "dataSource": "db",
     "public": true
   },
@@ -44,50 +44,82 @@
       "emailVerificationRequired": true
     }
   },
-  "systemLanguage": {
+  "SystemLanguage": {
     "dataSource": "db",
     "public": true
   },
-  "language": {
+  "Language": {
     "dataSource": "db",
     "public": true
   },
-  "country": {
+  "Country": {
     "dataSource": "db",
     "public": true
   },
-  "hardinessZone": {
+  "HardinessZone": {
     "dataSource": "db",
     "public": true
   },
-  "plantRating": {
+  "PlantRating": {
     "dataSource": "db",
     "public": true
   },
-  "soilAcidity": {
+  "SoilAcidity": {
     "dataSource": "db",
     "public": true
   },
-  "soilType": {
+  "SoilType": {
     "dataSource": "db",
     "public": true
   },
   "Email": {
     "dataSource": "emailDs"
   },
-  "diaryEntryImage": {
+  "DiaryEntryImage": {
     "dataSource": "diaryEntryDS",
     "public": true
   },
-  "diaryEntryImageDoc": {
+  "DiaryEntryImageDoc": {
     "dataSource": "db",
     "public": true
   },
-  "diaryProgressImage": {
+  "DiaryProgressImage": {
     "dataSource": "diaryProgressDS",
     "public": true
   },
-  "diaryProgressImageDoc": {
+  "DiaryProgressImageDoc": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Question": {
+    "dataSource": "db",
+    "public": true
+  },
+  "QuestionComment": {
+    "dataSource": "db",
+    "public": true
+  },
+  "QuestionRating": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Answer": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AnswerRating": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AnswerComment": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Tag": {
+    "dataSource": "db",
+    "public": true
+  },
+  "QuestionTagJunction": {
     "dataSource": "db",
     "public": true
   }

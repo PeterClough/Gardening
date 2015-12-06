@@ -2,15 +2,23 @@ module.exports = function(DiaryEntryImage) {
 
   DiaryEntryImage.afterRemote('upload', function(ctx, res, next) {
 
+    var ds = DiaryEntryImage.app.datasources.diaryEntryDS;
 
 
     var file = res.result.files.file[0];
     console.log("file uploaded", JSON.stringify(file));
 
 
-    var filePath = "../client/src/storage/assets/images/diary_entry/" + file.container + "/" + file.name;
-    var fileThumbPath = "../client/src/storage/assets/images/diary_entry/"  + "thumbs/" + file.name;
-    var fileLightboxPath = "../client/src/storage/assets/images/diary_entry/"  + "lightbox/" + file.name;
+
+
+
+    console.log('hello');
+    console.log('ds',ds);
+    var fp = ds.root;
+
+    var filePath = fp + file.container + "/" + file.name;
+    var fileThumbPath = fp  + "thumbs/" + file.name;
+    var fileLightboxPath = fp  + "lightbox/" + file.name;
 
     setTimeout(function() {
 

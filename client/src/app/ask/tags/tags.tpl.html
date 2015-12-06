@@ -1,0 +1,14 @@
+<h3 id="view-heading">{{'ASK_TAGS_HEADER' | translate}}</h3>
+
+<div class="view-animate" ng-show="!showCard" id="loading-message">Loading Please wait</div>
+
+<div id="tags-container" class="view-animate" ng-show="showCard">
+
+
+  <div class="phaedra-colors tags">
+    <a ui-sref="ask.list({ tagId: '{{tag.id}}' })"  class="label label-info tag" ng-repeat="tag in allTags" ng-bind-html="tag.tag"></a>
+  </div>
+
+
+  <a ui-sref="ask.list({ tagId: '' })">{{ 'ASK_VIEW_RECENT_LINK' | translate}}</a>
+</div>

@@ -1,0 +1,53 @@
+{
+  "name": "Answer",
+  "plural": "answers",
+  "base": "PersistedModel",
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "answer": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "question": {
+      "type": "belongsTo",
+      "model": "Question",
+      "foreignKey": "questionId"
+    },
+    "answerComment": {
+      "type": "hasMany",
+      "model": "AnswerComment",
+      "foreignKey": "answerId"
+    },
+    "rating": {
+      "type": "hasMany",
+      "model": "AnswerRating",
+      "foreignKey": "answerId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": []
+}
+

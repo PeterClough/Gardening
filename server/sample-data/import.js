@@ -57,37 +57,37 @@ module.exports = function(app, cb) {
   var user = app.models.user;
 
   console.log('Assigning model: systemLanguage');
-  var systemLanguage = app.models.systemLanguage;
+  var systemLanguage = app.models.SystemLanguage;
 
   console.log('Assigning model: diary');
-  var diary = app.models.diary;
+  var diary = app.models.Diary;
 
   console.log('Assigning model: diaryDefault');
-  var diaryDefault = app.models.diaryDefault;
+  var diaryDefault = app.models.DiaryDefault;
 
   console.log('Assigning model: diaryProgress');
-  var diaryProgress = app.models.diaryProgress;
+  var diaryProgress = app.models.DiaryProgress;
 
   console.log('Assigning model: diaryEntry');
-  var diaryEntry = app.models.diaryEntry;
+  var diaryEntry = app.models.DiaryEntry;
 
   console.log('Assigning model: country');
-  var country = app.models.country;
+  var country = app.models.Country;
 
   console.log('Assigning model: hardinessZone');
-  var hardinessZone = app.models.hardinessZone;
+  var hardinessZone = app.models.HardinessZone;
 
   console.log('Assigning model: plantRating');
-  var plantRating = app.models.plantRating;
+  var plantRating = app.models.PlantRating;
 
   console.log('Assigning model: soilAcidity');
-  var soilAcidity = app.models.soilAcidity;
+  var soilAcidity = app.models.SoilAcidity;
 
   console.log('Assigning model: soilType');
-  var soilType = app.models.soilType;
+  var soilType = app.models.SoilType;
 
   console.log('Assigning model: diaryEntryImageDoc');
-  var diaryEntryImageDoc = app.models.diaryEntryImageDoc;
+  var diaryEntryImageDoc = app.models.DiaryEntryImageDoc;
 
 
 
@@ -140,7 +140,7 @@ module.exports = function(app, cb) {
     importData.bind(null, plantRating, plantRatings),
     importData.bind(null, soilAcidity, soilAcidities),
     importData.bind(null, soilType, soilTypes),
-    importData.bind(null, diaryEntryImageDoc, diaryEntryImageDocs)
+  //  importData.bind(null, diaryEntryImageDoc, diaryEntryImageDocs)
 
 
 

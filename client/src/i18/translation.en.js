@@ -5,6 +5,7 @@ var translationsEN= {
   NAVBAR_BRAND: 'Gardening',
   MENU_HOME: 'Home',
   MENU_DIARY: 'Diary',
+  MENU_ASK: 'Ask',
   MENU_ABOUT:'About us',
   MENU_LOGIN: 'Login',
   MENU_LOGOUT: 'Logout',
@@ -74,7 +75,33 @@ var translationsEN= {
   DIARY_VIEW_SAVE_INVALID: 'Incomplete data items marked in red in dairy',
   DIARY_VIEW_SELECT_MULTIPLE_FILES: 'Select Multiple Files',
 
-  DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family'
+  DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family',
 
 
+  ASK_HEADER: '',
+
+  ASK_RECENT_HEADER: 'Recent Questions',
+  ASK_BY_TAG_HEADER: 'Questions With Tag: ',
+  ASK_VIEW_HEADER: 'View Question',
+  ASK_QUESTION_BUTTON: 'Ask A Question',
+  ASK_LOGGED_IN: 'Please log in to ask a Question',
+  ANSWER_LOGGED_IN: 'Please log in to answer a question or leave a comment',
+  ASK_QUESTION: 'Question',
+  ASK_TAGS: 'Add a tag',
+  ASK_SUBMIT_QUESTION_BUTTON: 'Submit Question',
+  ASK_MESSAGE_SAVED: 'Your message has been submitted successfully.',
+  ASK_ASKED_BY: 'asked by',
+  ASK_ANSWERED_BY: 'answered by',
+  ANSWER_QUESTION_TEXT: 'Answer question',
+  ANSWER_QUESTION: 'Answer',
+  ASK_SUBMIT_ANSWER_BUTTON: 'Submit Answer',
+  ASK_ALREADY_RATED_UP: 'rated up',
+  ASK_ALREADY_RATED_DOWN: 'rated down',
+  ASK_COMMENT_TEXT: 'Add comment',
+  ASK_COMMENT: 'Comment',
+  ASK_SUBMIT_COMMENT_BUTTON: 'Submit Comment',
+  ASK_COMMENTED_BY: 'comment by',
+  ASK_VIEW_RECENT_LINK: 'View recent',
+  ASK_TAGS_HEADER: 'All Tags',
+  ASK_VIEW_ALL_TAGS_LINK: 'View all tags'
 };

@@ -4,10 +4,6 @@
   "base": "User",
   "idInjection": true,
   "properties": {
-    "id": {
-      "type": "string",
-      "id": true
-    },
     "firstName": {
       "type": "string",
       "required": true
@@ -18,7 +14,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "question": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId"
+    },
+    "answer": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [
     {
       "accessType": "READ",
