@@ -6,14 +6,6 @@ module.exports = function(DiaryEntryImage) {
 
 
     var file = res.result.files.file[0];
-    console.log("file uploaded", JSON.stringify(file));
-
-
-
-
-
-    console.log('hello');
-    console.log('ds',ds);
     var fp = ds.root;
 
     var filePath = fp + file.container + "/" + file.name;
@@ -24,8 +16,6 @@ module.exports = function(DiaryEntryImage) {
 
       // obtain an image object:
     require('lwip').open(filePath, function(err, image){
-
-      console.log('in image open err', err);
 
       var fileHeight = image.height();
       var fileWidth = image.width();

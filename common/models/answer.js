@@ -2,7 +2,6 @@ module.exports = function(Answer){
 
 
   Answer.getAnswer = function(answerId, cb) {
-    console.log('about to get answer id: ', answerId);
 
     Answer.find({
         where: {id: answerId},
@@ -38,10 +37,7 @@ module.exports = function(Answer){
         ]
       },
       function(err, cb2) {
-        console.log(err);
-        console.log("cb2");
-        console.log(cb2);
-        cb(null, cb2);
+         cb(null, cb2);
       });
   };
 

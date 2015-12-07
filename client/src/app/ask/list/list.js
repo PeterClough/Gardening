@@ -27,14 +27,10 @@ angular.module( 'ask.list', [
 
 .controller( 'AskListCtrl', function AskListCtrl( $scope, $rootScope, $translate, $filter, $timeout, $stateParams, $q, Question, Tag, QuestionTagJunction, User ) {
 
-
-    console.log("in ask ctrl");
     $scope.gotQuestion = false;
     $scope.showCard = false;
     $scope.loggedIn = User.isAuthenticated();
     var userId = User.getCurrentId();
-    console.log('userId', userId);
-    console.log('$stateParams.tagId', $stateParams.tagId);
 
     if ($stateParams.tagId === '') {
       $translate('ASK_RECENT_HEADER').then(function (translation) {
@@ -72,9 +68,7 @@ angular.module( 'ask.list', [
 
       Question.recentQuestions()
         .$promise.then(function (cb) {
-          console.log("question success", cb);
           $scope.questions = cb.recentQuestions;
-          console.log("$scope.questions", $scope.questions);
           $timeout(function(){
             $scope.showCard = true;
           },100);
@@ -90,12 +84,7 @@ angular.module( 'ask.list', [
 
       Tag.questionsByTag({"tagId":tagId})
         .$promise.then(function (cb) {
-          console.log("questions by tag success", cb);
-
-
           $scope.questions = cb.questionsByTag[0].question;
-
-          console.log("$scope.questions", $scope.questions);
           $timeout(function () {
             $scope.showCard = true;
           }, 100);
@@ -119,19 +108,16 @@ angular.module( 'ask.list', [
 
     Tag.getAllTags()
       .$promise.then(function (cb) {
-        console.log("getAllTags success", cb);
         var tagText = [];
         cb.allTags.forEach( function(tag) {
           tagText.push({text: tag.tag});
         });
         $scope.allTags = tagText;
-        console.log($scope.allTags);
       });
 
 
     $scope.tagAdding = function(tag) {
       if ($scope.allTags.indexOf(tag) === -1){
-        console.log('New Tag adding: ', tag);
       }
     };
 
@@ -145,21 +131,12 @@ angular.module( 'ask.list', [
       $scope.question.userId = userId;
       $scope.question.created = $scope.question.updated = $filter('date')(new Date(), 'medium');
       $scope.question.languageId = "1";
-      console.log("submitting question", $scope.question);
       Question.upsert($scope.question)
         .$promise.then(function(res) {
-
-          console.log("Question.upsert.res", res);
-
-          console.log("$scope.question.tags", $scope.question.tags);
-
           //save tags
           var questionTagJunction = {questionId: res.id};
           var requests = [];
           angular.forEach($scope.question.tags, function(tag) {
-            console.log('Saving tag: ', tag);
-
-
             var deferredTagJunction = $q.defer();
             requests.push(deferredTagJunction.promise);
 
@@ -171,23 +148,17 @@ angular.module( 'ask.list', [
             if (!("id" in tag)){
                Tag.findByTag({"tag":tag.text})
                 .$promise.then(function (cb) {
-                  console.log("tag found", cb);
                   if (cb.tag.length===0) {
                     saveTag.created = saveTag.updated = $filter('date')(new Date(), 'medium');
-
-                    console.log('cb length 0 pushed deferredTag', deferredTag);
                     Tag.upsert(saveTag)
                       .$promise.then(function (res) {
                           deferredTag.resolve(res);
-                          console.log('tag upserted: ', tag);
                           //set the tag id
                           tag.id = res.id;
                           questionTagJunction.tagId = tag.id;
                           QuestionTagJunction.upsert(questionTagJunction)
                                 .$promise.then(function (res) {
                                   deferredTagJunction.resolve(res);
-                                  console.log("questionTagJunction", res);
-                                  console.log(res);
                                 });
 
 
@@ -199,9 +170,7 @@ angular.module( 'ask.list', [
                     QuestionTagJunction.upsert(questionTagJunction)
                       .$promise.then(function (res) {
                         deferredTagJunction.resolve(res);
-                        console.log("questionTagJunction", res);
-                        console.log(res);
-                      });
+                       });
                   }
                 });
             }
@@ -211,23 +180,14 @@ angular.module( 'ask.list', [
               QuestionTagJunction.upsert(questionTagJunction)
                 .$promise.then(function (res) {
                   deferredTagJunction.resolve(res);
-                  console.log("questionTagJunction", res);
-                  console.log(res);
                 });
             }
 
           });
 
           $q.all(requests).then(function() {
-            requests.forEach( function(request) {
-              console.log('request ', request);
-
-            });
-            console.log('requests in $q.all', requests, requests.length);
-            Question.recentQuestions()
+             Question.recentQuestions()
               .$promise.then(function (res) {
-                console.log("question success");
-                console.log(res);
                 $scope.questions = res.recentQuestions;
               });
           });

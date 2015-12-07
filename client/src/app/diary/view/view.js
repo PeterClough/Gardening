@@ -34,7 +34,6 @@ angular.module( 'diary.view', [
   $scope.showCard = false;
   $scope.loggedIn = User.isAuthenticated();
   $scope.userId = User.getCurrentId();
-    console.log('getCurrentId:'+$scope.userId+' '+typeof($scope.userId));
   $scope.saveSuccess = false;
   $scope.diaryTreeData={};
 
@@ -55,14 +54,9 @@ angular.module( 'diary.view', [
 
 
   if ($scope.loggedIn) {
-  console.log('$scope.userId:' + $scope.userId);
   Diary.findByUserId({"userId":$scope.userId})
     .$promise.then(function (cb) {
-      console.log("diary success");
-      console.log(cb);
       if (cb.diary.length===0){
-        console.log('diary undefined');
-
         var next = $location.nextAfterDefaults || '/diary/create';
         $location.nextAfterDefaults = null;
         $location.path(next);
@@ -70,8 +64,6 @@ angular.module( 'diary.view', [
       else {
         DiaryDefault.findByDiaryId({"diaryId":$scope.userId})
           .$promise.then(function (cb) {
-            console.log("defaults success");
-            console.log(cb.diaryDefault);
             if (cb.diaryDefault.length===0){
               var next = $location.nextAfterDefaults || '/diary/defaults';
               $location.nextAfterDefaults = null;
@@ -81,11 +73,8 @@ angular.module( 'diary.view', [
               $scope.diaryDefault = cb.diaryDefault;
               //Need to remove id before copy to new diaryEntry later.
   //              delete $scope.diaryDefault[0].id;
-              console.log("diaryDefault");
               DiaryEntry.findByDiaryId({"diaryId":$scope.userId})
                 .$promise.then(function (cb) {
-                  console.log("entries success");
-                  console.log(cb.diaryEntries);
                   angular.forEach(cb.diaryEntries, function(node){
                     node.valid=true;
                     node.children = node.diaryProgression;
@@ -99,7 +88,7 @@ angular.module( 'diary.view', [
                   //set the diary node to first entry and trigger update to show form
                   if($scope.diaryTreeData.length!==0){
                     $scope.selected = $scope.diaryTreeData[0];
-                  $scope.showSelected($scope.diaryTreeData[0]);
+                    $scope.showSelected($scope.diaryTreeData[0]);
                     $scope.isNewDiary = false;
                     $scope.showCard = true;
                   }
@@ -145,58 +134,37 @@ angular.module( 'diary.view', [
     });
   }
 
-
-
-
   $scope.$watch('frmDiaryEntry.$valid', function(newVal) {
     //$scope.valid = newVal;
-    console.log('frmDiaryEntry.$valid.newVal', newVal);
     if (typeof $scope.diaryEntry!='undefined'){
       $scope.diaryEntry.valid = newVal;
-      console.log('$scope.diaryEntry.valid', $scope.diaryEntry.valid);
     }
   });
 
 
   $scope.$watch('frmDiaryEntry.$dirty', function(newValue) {
-    console.log('In frmDiaryEntry.$dirty: ', newValue);
-
     if (typeof newValue!='undefined') {
-      console.log("newValue: "+newValue);
-      console.log("$scope.diaryEntry: ",$scope.diaryEntry);
-
       if (typeof $scope.diaryEntry!='undefined') {
         $scope.diaryEntry.isDirty = newValue;
-        console.log($scope.diaryEntry.id+' diaryEntryDirty= ',$scope.diaryEntry.isDirty);
       }
     }
   });
 
   $scope.$watch('frmDiaryProgress.$dirty', function(newValue) {
-    console.log('In frmDiaryProgress.$dirty: '+newValue);
-
     if (typeof newValue!='undefined') {
-      console.log("newValue: "+newValue);
-      console.log("$scope.diaryProgress: ",$scope.diaryProgress);
-
       if (typeof $scope.diaryProgress!='undefined') {
         $scope.diaryProgress.isDirty = newValue;
-        console.log($scope.diaryProgress.id+' diaryProgressDirty= ',$scope.diaryProgress.isDirty);
       }
     }
   });
 
 
-
-
   $scope.showSelected = function(sel) {
-    console.log('showSelected fired');
     $scope.images = [];
     $scope.saveSuccess = false;
     $scope.saveError = false;
 
     if (typeof sel!='undefined') {
-      console.log(sel);
 
       $scope.isDiaryEntry = sel.hasOwnProperty('countryId');
       if ($scope.isDiaryEntry) {
@@ -217,9 +185,6 @@ angular.module( 'diary.view', [
 
 
   $scope.addDiaryEntry = function() {
-
-    console.log('$scope.diaryDefault', $scope.diaryDefault);
-
     var newNode = angular.copy($scope.diaryDefault);
     newNode[0].entryDate = $filter('date')(new Date(), 'medium');
     newNode[0].children =[];
@@ -228,16 +193,11 @@ angular.module( 'diary.view', [
 
     DiaryEntry.objectId()
       .$promise.then(function(res) {
-        console.log('res.id');
-        console.log(res.id);
         newNode[0].id = res.id;
         newNode[0].updated="";
-
         $scope.diaryTreeData.push(newNode[0]);
         $scope.selected=newNode[0];
         $scope.showSelected(newNode[0]);
-
-        console.log('$scope.diaryTreeData',$scope.diaryTreeData);
       });
 
   };
@@ -262,24 +222,16 @@ angular.module( 'diary.view', [
     }
 
     if (node.hasOwnProperty('diaryEntryId')) {
-      console.log('finding diaryEntryId :'+node.diaryEntryId);
-      console.log('$scope.diaryTreeData :');
-      console.log($scope.diaryTreeData);
-
 
       var found = $filter('getById')($scope.diaryTreeData, node.diaryEntryId);
       if (found){
         newNode.diaryEntryId=node.diaryEntryId;
-        console.log(newNode);
         found.children.push(newNode);
         $scope.selected=newNode;
         $scope.showSelected(newNode);
       }
-      else{console.log("not found");}
     }
   };
-
-
 
   $scope.save = function() {
     $scope.saveError = false;
@@ -311,31 +263,20 @@ angular.module( 'diary.view', [
 
           promises.push(saveDiaryEntry.save(node)
             .then(function (res) {
-              $scope.isDirty = $scope.isDirty || res.isDirty;
-              console.log('Promises Entry id: '+node.id);
-              console.log('res.isDirty: '+res.isDirty);
-              console.log('$scope.isDirty: '+$scope.isDirty);
-            }));
+                $scope.isDirty = $scope.isDirty || res.isDirty;
+             }));
 
           saveDiaryProgress.save(children, node.id)
             .then(function (res) {
-              $scope.isDirty = $scope.isDirty || res.isDirty;
-              console.log('Promises Progress id: '+node.id);
-              console.log('res.isDirty: '+res.isDirty);
-              console.log('$scope.isDirty: '+$scope.isDirty);
+                $scope.isDirty = $scope.isDirty || res.isDirty;
             });
         });
 
       $q.all(promises).then(function(){
-
-        console.log('isDirty outside then()'+$scope.isDirty);
-
         if ($scope.isDirty===true) {
-          console.log("save finished, setting pristine");
           $scope.frmDiaryEntry.$setPristine();
           $scope.frmDiaryProgress.$setPristine();
           $translate('DIARY_VIEW_SAVE_SUCCESS').then(function (text) {
-            console.log("save text translated: "+text);
             $scope.saveSuccessText = text;
             $scope.saveSuccess = true;
           });
@@ -478,23 +419,15 @@ angular.module( 'diary.view', [
 
     };
     uploader2.onCompleteAll = function() {
-      console.info('onCompleteAll');
       uploader2.clearQueue();
 
     };
 
-    console.info('uploader2', uploader2);
-
-
-
-
     $scope.loadImageDocs  = function () {
 
     if ($scope.isDiaryEntry &&  typeof $scope.diaryEntry.id!='undefined') {
-      console.log('getting DiaryEntryImageDoc', $scope.diaryEntry.id);
       DiaryEntryImageDoc.getIdsByDiaryEntryId({"diaryEntryId": $scope.diaryEntry.id})
         .$promise.then(function (cb) {
-          console.log(JSON.stringify(cb.diaryEntryImageIds));
           $scope.images = cb.diaryEntryImageIds;
           angular.forEach($scope.images, function(image) {
             image.thumbUrl =  "api/diaryEntryImages/thumbs/download/"+ image.id + image.extension;
@@ -503,10 +436,8 @@ angular.module( 'diary.view', [
         });
     }
     if ($scope.isDiaryProgress &&  typeof $scope.diaryProgress.id!='undefined') {
-      console.log('getting DiaryProgressImageDoc', $scope.diaryProgress.id);
       DiaryProgressImageDoc.getIdsByDiaryProgressId({"diaryProgressId": $scope.diaryProgress.id})
         .$promise.then(function (cb) {
-          console.log(cb.diaryProgressImageIds);
           $scope.images = cb.diaryProgressImageIds;
           angular.forEach($scope.images, function(image) {
             image.thumbUrl =  "api/diaryProgressImages/thumbs/download/"+ image.id + image.extension;
@@ -527,9 +458,7 @@ angular.module( 'diary.view', [
   };
 
   $scope.$on('uploadCompleted', function(event) {
-    console.log('uploadCompleted event received');
-
-   // could attach the snippet here
+    // could attach the snippet here
 
 //    $scope.loadImages();
   });
@@ -578,11 +507,6 @@ angular.module( 'diary.view', [
   return function(input, id) {
     var i=0, len=input.length;
     for (; i<len; i++) {
-      console.log('input:'+i);
-      console.log(input[i]);
-      console.log(+input[i].id);
-      console.log(+id);
-
       if (input[i].id == id) {
         return input[i];
       }
@@ -598,12 +522,7 @@ angular.module( 'diary.view', [
   service.save = function(node) {
 
     var deferred = $q.defer();
-    console.log(node);
-
     if (node.isDirty) {
-      console.log('isDirty inside saveDiaryEntry: ' + node.isDirty);
-      console.log(node);
-
       node.updated = $filter('date')(new Date(), 'medium');
 
       var saveNode = angular.copy(node);
@@ -611,11 +530,9 @@ angular.module( 'diary.view', [
       delete saveNode.children;
       delete saveNode.valid;
 
-
       DiaryEntry.upsert(saveNode)
         .$promise.then(function(res) {
           deferred.resolve({isDirty:true});
-          console.log("Diary Entry " + saveNode.id + " Saved ");
           node.id = saveNode.id;
         });
 
@@ -624,7 +541,6 @@ angular.module( 'diary.view', [
       node.isDirty=false;
     }
     else {
-      console.log("returning saveDiaryEntry isDirty false: "+node.id);
       deferred.resolve({isDirty:false});
     }
     return deferred.promise;
@@ -644,34 +560,26 @@ angular.module( 'diary.view', [
     isDirty = false;
 
     children.forEach(function (node) {
-      console.log("in child");
-      console.log(node);
       if (node.isDirty) {
-        console.log("progression isdirty id: "+node.id);
         node.updated = $filter('date')(new Date(), 'medium');
         var saveNode = angular.copy(node);
         delete saveNode.isDirty;
         delete saveNode.valid;
         if (saveNode.diaryEntryId === undefined) {
           saveNode.diaryEntryId = diaryEntryId;
-          console.log("set child diaryEntryId :" + saveNode.diaryEntryId);
         }
 
         DiaryProgress.upsert(saveNode)
           .$promise.then(function(res) {
             //success
-            console.log("Diary Progress Saved :" , res.id);
             node.id = res.id;
-
           });
         node.isDirty=false;
         isDirty=true;
       }
       else {
-        console.log("progression not isdirty "+diaryEntryId);
       }
     });
-    console.log("progression returning isDirty: "+isDirty);
     deferred.resolve({isDirty:isDirty});
     return deferred.promise;
   };

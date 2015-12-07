@@ -31,9 +31,7 @@ angular.module( 'ask.view', [
 
 .controller( 'AskViewCtrl', function AskViewCtrl( $scope, $translate, $filter, $timeout, $stateParams, Question, QuestionRating, QuestionComment, Answer, AnswerRating, AnswerComment, User ) {
 
-
-    console.log("in ask ctrl");
-    $scope.showCard = false;
+   $scope.showCard = false;
     $scope.gotAnswer = false;
     $scope.gotQuestionComment = false;
     $scope.gotAnswerComment = [];
@@ -42,29 +40,18 @@ angular.module( 'ask.view', [
     $scope.loggedIn = User.isAuthenticated();
     var userId = User.getCurrentId();
 
-      console.log('userId', userId);
-
-
-
-
-      Question.getQuestion({"questionId":$stateParams.questionId})
+    Question.getQuestion({"questionId":$stateParams.questionId})
       .$promise.then(function (cb) {
-        console.log("question success", cb);
-
         $scope.question = cb.question;
         var total=0;
         for(var i in $scope.question[0].rating) {
           total += $scope.question[0].rating[i].rating;
-          console.log("tag userId", $scope.question[0].rating[i].userId, userId);
           if ($scope.question[0].rating[i].userId === userId){
             $scope.questionAlreadyRatedUp = ($scope.question[0].rating[i].rating===1);
             $scope.questionAlreadyRatedDown = ($scope.question[0].rating[i].rating===-1);
-
           }
         }
         $scope.question[0].rating = total;
-        console.log("sum", total);
-
         // Answer ratings
 
         $scope.question[0].answer.forEach(function(answer, index) {
@@ -73,7 +60,6 @@ angular.module( 'ask.view', [
           var alreadyRatedDown = false;
           for(var i in answer.rating) {
             total += answer.rating[i].rating;
-            console.log("answer tag userId", answer.rating[i].userId, userId);
             if (answer.rating[i].userId === userId){
               if (answer.rating[i].rating===1) {
                 alreadyRatedUp = true;
@@ -86,10 +72,7 @@ angular.module( 'ask.view', [
           }
           $scope.answerAlreadyRatedUp.push(alreadyRatedUp);
           $scope.answerAlreadyRatedDown.push(alreadyRatedDown);
-
           answer.rating = total;
-          console.log("answer rating total", index, total, answer);
-
         });
 
 
@@ -110,7 +93,6 @@ angular.module( 'ask.view', [
         setSliders(true, false, -1);
 
         event.preventDefault();
-
       };
 
 
@@ -118,20 +100,14 @@ angular.module( 'ask.view', [
         $scope.answer.userId = userId;
         $scope.answer.questionId = $scope.question[0].id;
         $scope.answer.created = $scope.answer.updated = $filter('date')(new Date(), 'medium');
-
-        console.log("submitting answer", $scope.answer);
-
         Answer.upsert($scope.answer)
           .$promise.then(function(res) {
-            console.log("after upsert answer", $scope.answer);
             $scope.answer.id = res.id;
             Answer.getAnswer({"answerId":$scope.answer.id})
               .$promise.then(function (cb) {
                 var answer = cb.answer[0];
                 answer.rating = 0;
                 $scope.question[0].answer.push(answer);
-            console.log("pushed answer", $scope.question);
-
                 $scope.gotAnswer = false;
                 $scope.messageSaved = true;
               });
@@ -158,18 +134,13 @@ angular.module( 'ask.view', [
         $scope.questionComment.userId = userId;
         $scope.questionComment.questionId = $scope.question[0].id;
         $scope.questionComment.created = $scope.questionComment.updated = $filter('date')(new Date(), 'medium');
-        console.log("submitting questionComment", $scope.questionComment);
-
         QuestionComment.upsert($scope.questionComment)
           .$promise.then(function(res) {
-            console.log("after upsert questionComment", $scope.questionComment);
             $scope.questionComment.id = res.id;
             QuestionComment.getQuestionComment({"commentId":$scope.questionComment.id})
               .$promise.then(function (cb) {
                 var questionComment = cb.questionComment[0];
                 $scope.question[0].questionComment.push(questionComment);
-                console.log("pushed questionComment", $scope.question);
-
                 $scope.gotQuestionComment = false;
                 $scope.messageSaved = true;
               });
@@ -195,20 +166,13 @@ angular.module( 'ask.view', [
         $scope.answerComment.userId = userId;
         $scope.answerComment.answerId = answerId;
         $scope.answerComment.created = $scope.answerComment.updated = $filter('date')(new Date(), 'medium');
-        console.log("submitting answerComment", $scope.answerComment);
-
         AnswerComment.upsert($scope.answerComment)
           .$promise.then(function(res) {
-            console.log("after upsert answerComment", $scope.answerComment);
             $scope.answerComment.id = res.id;
             AnswerComment.getAnswerComment({"commentId":$scope.answerComment.id})
               .$promise.then(function (cb) {
-                console.log("cb", cb);
                 var answerComment = cb.answerComment[0];
-                console.log("$scope.question", $scope.question);
                 $scope.question[0].answer[index].answerComment.push(answerComment);
-                console.log("pushed answerComment", $scope.answer);
-
                 $scope.gotAnswerComment[index] = false;
                 $scope.messageSaved = true;
               });
@@ -218,30 +182,18 @@ angular.module( 'ask.view', [
       };
 
 
-
-
-
-
-
-
       $scope.rateQuestion = function(questionId, rating) {
         $scope.questionAlreadyRatedUp = $scope.questionAlreadyRatedDown = false;
-        console.log("rating up", questionId, userId);
         $scope.rating=rating;
         $scope.questionId=questionId;
         //check the ratings table to see if record exists for user and questionId
         QuestionRating.userRated({"questionId":questionId,"userId": userId})
           .$promise.then(function (cb) {
-            console.log("user Rating success");
-            console.log(cb);
             //if not exists upsert record
             if (cb.rated.length ===0){
               var rating = {"userId": userId, "questionId": $scope.questionId, "rating": $scope.rating};
-              console.log("upserting rating", rating);
-
               QuestionRating.upsert(rating)
                 .$promise.then(function(res) {
-                  console.log("question rated up", res);
                   $scope.question[0].rating += $scope.rating;
                   $scope.questionAlreadyRatedUp = ($scope.rating===1);
                   $scope.questionAlreadyRatedDown = ($scope.rating===-1);
@@ -249,35 +201,27 @@ angular.module( 'ask.view', [
             }
             //if exists and is rated up return already rated up
             else if (cb.rated[0].rating ===1 && $scope.rating===1 ) {
-              console.log("question already rated up", cb);
               $scope.questionAlreadyRatedUp = true;
 
             }
             //if exists and is rated down return already rated down
             else if (cb.rated[0].rating ===-1 && $scope.rating===-1 ) {
-              console.log("question already rated down", cb);
               $scope.questionAlreadyRatedDown = true;
 
             }
             //if rating up and exists and is rated down delete record
             else if (cb.rated[0].rating ===-1 && $scope.rating===1) {
-              console.log("question already rated down deleting record", cb);
               QuestionRating.delete({"id":cb.rated[0].id})
                 .$promise.then(function (cb) {
-                  console.log("questionRating success");
-                  console.log(cb);
                   $scope.question[0].rating += $scope.rating;
                 });
 
             }
             //if exists and is rated down delete record, finish
             else if (cb.rated[0].rating ===1 && $scope.rating===-1) {
-              console.log("question already rated up deleting record", cb);
               QuestionRating.delete({"id":cb.rated[0].id})
                 .$promise.then(function (cb) {
-                  console.log("questionRating success");
-                  console.log(cb);
-                  $scope.question[0].rating += $scope.rating;
+                   $scope.question[0].rating += $scope.rating;
                 });
 
             }
@@ -289,32 +233,17 @@ angular.module( 'ask.view', [
 
 
       $scope.rateAnswer = function(index, answerId, rating) {
-        console.log("rating up", index, answerId, userId, $scope.answerAlreadyRatedUp[index]);
         $scope.rating=rating;
         $scope.index=index;
         $scope.answerAlreadyRatedUp[$scope.index] = $scope.answerAlreadyRatedDown[$scope.index] = false;
         //check the ratings table to see if record exists for user and answerId
         AnswerRating.userRated({"answerId":answerId,"userId": userId})
           .$promise.then(function (cb) {
-            console.log("user Rating success");
-            console.log(cb);
-            //if not exists upsert record
+              //if not exists upsert record
             if (cb.rated.length ===0){
-              console.log("userId", userId);
-              console.log("$scope.index", $scope.index);
-              console.log("answerId", $scope.question[0].answer[$scope.index].id);
-              console.log("rating", $scope.rating);
-
-
-
-
-
-              var rating = {"userId": userId, "answerId": $scope.question[0].answer[$scope.index].id, "rating": $scope.rating};
-              console.log("upserting rating", rating);
-
+            var rating = {"userId": userId, "answerId": $scope.question[0].answer[$scope.index].id, "rating": $scope.rating};
               AnswerRating.upsert(rating)
                 .$promise.then(function(res) {
-                  console.log("answer rated up", res);
                   $scope.question[0].answer[$scope.index].rating += $scope.rating;
                   $scope.answerAlreadyRatedUp[$scope.index] = ($scope.rating===1);
                   $scope.answerAlreadyRatedDown[$scope.index] = ($scope.rating===-1);
@@ -322,35 +251,27 @@ angular.module( 'ask.view', [
             }
             //if exists and is rated up return already rated up
             else if (cb.rated[0].rating ===1 && $scope.rating===1 ) {
-              console.log("answer already rated up", cb);
               $scope.answerAlreadyRatedUp[$scope.index] = true;
 
             }
             //if exists and is rated down return already rated down
             else if (cb.rated[0].rating ===-1 && $scope.rating===-1 ) {
-              console.log("answer already rated down", cb);
               $scope.answerAlreadyRatedDown[$scope.index] = true;
 
             }
             //if rating up and exists and is rated down delete record
             else if (cb.rated[0].rating ===-1 && $scope.rating===1) {
-              console.log("answer already rated down deleting record", cb);
               AnswerRating.delete({"id":cb.rated[0].id})
                 .$promise.then(function (cb) {
-                  console.log("answerRating success");
-                  console.log(cb);
                   $scope.question[0].answer[$scope.index].rating += $scope.rating;
                 });
 
             }
             //if exists and is rated down delete record, finish
             else if (cb.rated[0].rating ===1 && $scope.rating===-1) {
-              console.log("answer already rated up deleting record", cb);
               AnswerRating.delete({"id":cb.rated[0].id})
                 .$promise.then(function (cb) {
-                  console.log("answerRating success");
-                  console.log(cb);
-                  $scope.question[0].answer[$scope.index].rating += $scope.rating;
+                   $scope.question[0].answer[$scope.index].rating += $scope.rating;
                 });
 
             }
@@ -367,10 +288,6 @@ angular.module( 'ask.view', [
 
     function setSliders (isQuestion, isComment, index) {
 
-      console.log('isQuestion', isQuestion);
-      console.log('isComment', isComment);
-      console.log('index', index);
-
       if (isQuestion) {
         if (isComment) {
           $scope.gotAnswer = false;
@@ -379,17 +296,13 @@ angular.module( 'ask.view', [
           $scope.gotQuestionComment = false;
         }
         $scope.gotAnswerComment.forEach(function(ac, i) {
-          console.log('ac', ac);
           $scope.gotAnswerComment[i] = false;
-          console.log('ac after', ac);
         });
       }
       else {
 
         $scope.gotAnswer = $scope.gotQuestionComment = false;
         $scope.gotAnswerComment.forEach(function(ac, i) {
-          console.log('i', i);
-          console.log('index', index);
           if (i != index){
             $scope.gotAnswerComment[i] = false;
           }

@@ -32,16 +32,13 @@ angular.module( 'users.register', [
 
 
   $scope.register = function() {
-    console.log('User.save');
     User.save($scope.registration,
         function() {
-          console.log('registered');
           $scope.showCard = false;
           $scope.showVerify = true;
         },
         function(res) {
 //          $scope.registerError = res.data.error;
-          console.log('$scope.registerError');
         }
     );
 

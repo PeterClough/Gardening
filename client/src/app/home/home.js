@@ -26,8 +26,7 @@ angular.module( 'myApp.home', [
  */
 .controller( 'HomeCtrl', function( $scope, $timeout, User ) {
     $scope.loggedIn = User.isAuthenticated();
-    console.log("homectrl"+$scope.loggedIn);
-    $scope.showCard = false;
+     $scope.showCard = false;
     $timeout(function(){
       $scope.showCard = true;
     },100);

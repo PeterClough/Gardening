@@ -4,11 +4,9 @@
 module.exports = function(DiaryDefault){
 
   DiaryDefault.findByDiaryId = function(diaryId, cb) {
-    console.log('findByDiaryId: '+diaryId);
+
     DiaryDefault.find({"where":{"diaryId": diaryId}},
         function(err, cb2) {
-          console.log(err);
-          console.log(cb2);
           cb(null, cb2);
         });
 

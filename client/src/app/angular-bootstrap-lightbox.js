@@ -106,10 +106,6 @@ angular.module('bootstrapLightbox').provider('Lightbox', function () {
    */
   this.calculateImageDimensionLimits = function (dimensions) {
 
-    console.log('dimensions.windowWidth',dimensions.windowWidth);
-    console.log('dimensions.windowHeight',dimensions.windowHeight);
-
-
     if (dimensions.windowWidth >= 768) {
       return {
         // 92px = 2 * (30px margin of .modal-dialog
@@ -170,8 +166,6 @@ angular.module('bootstrapLightbox').provider('Lightbox', function () {
     //if (height >= dimensions.windowHeight) {
     //  height = 'auto';
     //}
-    console.log('height',height);
-
     return {
       'width': width,
       'height': height

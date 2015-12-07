@@ -36,7 +36,6 @@ angular.module( 'myApp', [
       if ( angular.isDefined( toState.data.pageTitle ) ) {
         $scope.pageTitle = toState.data.pageTitle + ' | myApp' ;
         $scope.loggedIn = User.isAuthenticated();
-        console.log('state change :'+$scope.loggedIn);
       }
     });
 
@@ -58,10 +57,8 @@ angular.module( 'myApp', [
       if ($window.localStorage) {
         accessToken=$window.localStorage.getItem("$LoopBack$accessTokenId");
       }
-      console.log(accessToken);
       var lo = {"sid":accessToken};
       User.logout(lo, function(cb) {
-        console.log(cb);
         $scope.loggedIn=false;
         var next = $location.nextAfterLogout || '/';
         $location.nextAfterLogout = null;
@@ -70,14 +67,8 @@ angular.module( 'myApp', [
         var next = $location.nextAfterLogout || '/';
         $location.nextAfterLogout = null;
         $location.path(next);
-        console.log("err");
-        console.log(err);
       });
-
     };
-
-
-
   })
 
 

@@ -20,25 +20,17 @@ angular.module( 'ask.tags', [
 
 .controller( 'AskTagsCtrl', function AskTagsCtrl( $scope, $translate, $filter, $timeout, Tag ) {
 
-
-    console.log("in tag ctrl");
     $scope.showCard = false;
 
+    Tag.getAllTags()
+        .$promise.then(function (cb) {
+          $scope.allTags = cb.allTags;
 
+          $timeout(function(){
+            $scope.showCard = true;
+          },100);
 
-  Tag.getAllTags()
-      .$promise.then(function (cb) {
-        console.log("getAllTags success", cb);
-        $scope.allTags = cb.allTags;
-
-        $timeout(function(){
-          $scope.showCard = true;
-        },100);
-
-      });
-
-
-
+        });
 })
 
 ;

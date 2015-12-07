@@ -1,9 +1,7 @@
 module.exports = function(Question){
 
   Question.recentQuestions = function(cb) {
-    console.log('about to get recent questions');
 
-//order: "created DESC", limit: 30
     Question.find({
         fields: ['question', 'created', 'userId', 'id'],
         order: "created DESC",
@@ -24,9 +22,6 @@ module.exports = function(Question){
         ]
       },
       function(err, cb2) {
-        console.log(err);
-        console.log("cb2");
-        console.log(cb2);
         cb(null, cb2);
       });
   };
@@ -41,7 +36,6 @@ module.exports = function(Question){
 
 
   Question.getQuestion = function(questionId, cb) {
-    console.log('about to get question id: ', questionId);
 
     Question.find({
         where: {id: questionId},
@@ -118,10 +112,7 @@ module.exports = function(Question){
         ]
      },
       function(err, cb2) {
-        console.log(err);
-        console.log("cb2");
-        console.log(cb2);
-        cb(null, cb2);
+         cb(null, cb2);
       });
   };
 

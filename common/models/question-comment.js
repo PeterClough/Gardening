@@ -2,7 +2,6 @@ module.exports = function(QuestionComment){
 
 
   QuestionComment.getQuestionComment = function(commentId, cb) {
-    console.log('about to get questionComment id: ', commentId);
 
     QuestionComment.find({
         where: {id: commentId},
@@ -17,9 +16,6 @@ module.exports = function(QuestionComment){
         ]
       },
       function(err, cb2) {
-        console.log(err);
-        console.log("cb2");
-        console.log(cb2);
         cb(null, cb2);
       });
   };

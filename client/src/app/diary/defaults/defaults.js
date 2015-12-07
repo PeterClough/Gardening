@@ -73,27 +73,17 @@ angular.module( 'diary.defaults', [
 
     DiaryDefault.findByDiaryId({"diaryId": $scope.userId})
       .$promise.then(function(cb) {
-        console.log('cb.diaryDefault');
-        console.log(cb.diaryDefault);
           if (cb.diaryDefault.length===0){
             $scope.diaryDefault ={};
           }
           else {
-
             $scope.diaryDefault = cb.diaryDefault[0];
-            console.log('$scope.diaryDefault');
-            console.log($scope.diaryDefault);
-
           }
         $scope.showCard = true;
       });
 
-
-
   $scope.save = function() {
 
-
-    console.log('starting save');
     $scope.$broadcast('show-errors-check-validity');
 
     if ($scope.defaultForm.$valid) {
@@ -101,9 +91,6 @@ angular.module( 'diary.defaults', [
       $scope.diaryDefault.diaryId = $scope.userId;
       $scope.diaryDefault.id = $scope.userId;
       $scope.diaryDefault.updated = Date.now();
-
-      console.log('saving $scope.diaryDefault');
-      console.log($scope.diaryDefault);
 
       $scope.defaultsResult = DiaryDefault.upsert($scope.diaryDefault, function () {
 
@@ -114,7 +101,6 @@ angular.module( 'diary.defaults', [
       },
       function (res) {
         $scope.createError = res.data.error;
-        console.log("error=" + $scope.createError);
         if ($scope.createError.code == 11000) {
           $scope.messages = 'You already have a diary default. Click on the diary in the menu to view.';
         }

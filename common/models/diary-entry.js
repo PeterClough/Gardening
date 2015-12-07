@@ -4,7 +4,6 @@
 module.exports = function(DiaryEntry){
 
   DiaryEntry.findByDiaryId = function(diaryId, cb) {
-    console.log("DiaryEntry.findByDiaryId: "+diaryId)
     DiaryEntry.find({"where":{"diaryId": diaryId},
                       "order": "entryDate DESC",
                       "include": {

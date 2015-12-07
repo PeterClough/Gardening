@@ -11,7 +11,6 @@ module.exports = function(user) {
 
 
   user.afterRemote('create', function(context, user, next) {
-    console.log('> user.afterRemote triggered');
 
     var options = {
       type: 'email',
@@ -26,7 +25,6 @@ module.exports = function(user) {
         next(err);
         return;
       }
-     console.log('> verification email sent:', response);
     });
 
     next();
@@ -91,10 +89,6 @@ module.exports = function(user) {
 
       var template = loopback.template(options.template);
 
-
-      console.log('template.options', template.options);
-
-
       Email.send({
         to: options.to || user.email,
         from: options.from,
@@ -124,8 +118,6 @@ module.exports = function(user) {
       subject: 'Password reset',
       html: html
     }, function(err) {
-      if (err) return console.log('> error sending password reset email');
-      console.log('> sending password reset email to:', info.email);
     });
   });
 

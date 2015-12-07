@@ -4,7 +4,7 @@
 module.exports = function(DiaryEntryImageDoc){
 
   DiaryEntryImageDoc.getIdsByDiaryEntryId = function(diaryEntryId, cb) {
-    console.log("DiaryEntryImageDoc.getIdsByDiaryEntryId: " + diaryEntryId)
+
     DiaryEntryImageDoc.find({
         "fields": {"id": true, "extension": true},
         "where": {"diaryEntryId": diaryEntryId},

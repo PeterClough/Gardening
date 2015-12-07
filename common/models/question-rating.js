@@ -1,7 +1,6 @@
 module.exports = function(QuestionRating){
 
   QuestionRating.userRated = function(questionId, userId, cb) {
-    console.log('about to get check rated');
 
     QuestionRating.find({
         where:{
@@ -10,9 +9,6 @@ module.exports = function(QuestionRating){
         }
       },
       function(err, cb2) {
-        console.log(err);
-        console.log("cb2");
-        console.log(cb2);
         cb(null, cb2);
       });
   };
@@ -29,9 +25,7 @@ module.exports = function(QuestionRating){
   );
 
 
-
   QuestionRating.deleteRating = function(questionId, userId, cb) {
-    console.log('about to delete rating');
 
     QuestionRating.delete({
         where:{
@@ -40,9 +34,6 @@ module.exports = function(QuestionRating){
         }
       },
       function(err, cb2) {
-        console.log(err);
-        console.log("cb2");
-        console.log(cb2);
         cb(null, cb2);
       });
   };
@@ -57,9 +48,6 @@ module.exports = function(QuestionRating){
       returns: {arg: 'deleted', type: 'object'}
     }
   );
-
-
-
 
 
 }

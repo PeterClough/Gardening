@@ -38,8 +38,7 @@ angular.module( 'users.login', [
         },
         function (res) {
           $scope.loginError = res.data.error;
-          console.log('loginError', $scope.loginError);
-          switch (res.data.error.message) {
+         switch (res.data.error.message) {
             case "login failed as the email has not been verified" :
               $translate('LOGIN_FAILED_EMAIL_NOT_VERIFIED').then(function (text) {
                 $scope.loginErrorMessage = text;
