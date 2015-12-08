@@ -2,17 +2,14 @@ module.exports = function(DiaryEntryImage) {
 
   DiaryEntryImage.afterRemote('upload', function(ctx, res, next) {
 
-    var ds = DiaryEntryImage.app.datasources.diaryEntryDS;
-
-
+    var ds = DiaryEntryImage.app.datasources.diaryEntryDS.settings;
     var file = res.result.files.file[0];
     var fp = ds.root;
 
-    var filePath = fp + file.container + "/" + file.name;
-    var fileThumbPath = fp  + "thumbs/" + file.name;
-    var fileLightboxPath = fp  + "lightbox/" + file.name;
+    var filePath = fp + "/" + file.container + "/" + file.name;
+    var fileThumbPath = fp + "/"  + "thumbs/" + file.name;
+    var fileLightboxPath = fp + "/"  + "lightbox/" + file.name;
 
-    setTimeout(function() {
 
       // obtain an image object:
     require('lwip').open(filePath, function(err, image){
@@ -27,7 +24,6 @@ module.exports = function(DiaryEntryImage) {
         thumb.batch()
           .resize(34, 34)
           .writeFile(fileThumbPath, function (err) {
-            console.log("Thumb", fileThumbPath);
           });
       });
 
@@ -35,15 +31,11 @@ module.exports = function(DiaryEntryImage) {
         lightbox.batch()
           .resize(fileWidth, fileHeight)
           .writeFile(fileLightboxPath, function (err) {
-            console.log("Lightbox", fileLightboxPath);
             next(err);
           });
       });
 
-
-
      });
-    },1000);
 
   });
 

@@ -88,11 +88,13 @@ treecontrol li li {
 #diary-container,
 #ask-container,
 #list-container,
+#tags-container,
 #view-question-container {
   width: 100%;
   height: 100%;
   position: relative;
 }
+
 #answer-container,
 .comment-container,
 #ask-card {
@@ -101,10 +103,9 @@ treecontrol li li {
   position: relative;
 }
 
-
-
 #loading-message,
 #diary-card,
+#tag-container,
 #form-ask-question,
 #form-answer-question {
   width: 100%;

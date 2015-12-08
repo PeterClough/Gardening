@@ -27,7 +27,7 @@ angular.module( 'diary.view', [
 })
 
 
-.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, User, Diary, DiaryDefault, DiaryEntry, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, MyUploader, Lightbox) {
+.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, User, Diary, DiaryDefault, DiaryEntry, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox) {
   'use strict';
 
 
@@ -304,7 +304,7 @@ angular.module( 'diary.view', [
 
 
     // create a uploader with options for Diary entry
-    var uploader = $scope.uploader = new MyUploader ({
+    var uploader = $scope.uploader = new FileUploader ({
       scope: $scope,                          // to automatically update the html. Default: $rootScope
       url: '/api/diaryEntryImages/original/upload',
       progress: 100,
@@ -357,16 +357,12 @@ angular.module( 'diary.view', [
 
     };
     uploader.onCompleteAll = function() {
-      console.info('onCompleteAll');
       uploader.clearQueue();
 
     };
-
-    console.info('uploader', uploader);
-
-
+    
     // create a uploader2 with options for Diary Progress
-    var uploader2 = $scope.uploader2 = new MyUploader ({
+    var uploader2 = $scope.uploader2 = new FileUploader ({
       scope: $scope,                          // to automatically update the html. Default: $rootScope
       url: '/api/diaryProgressImages/original/upload',
       progress: 100,
@@ -449,8 +445,6 @@ angular.module( 'diary.view', [
   };
 
 
-
-
   $scope.fileDelete = function (index, id) {
     $http.delete('/api/diaryEventImages/original/files/' + encodeURIComponent(id)).success(function (data, status, headers) {
       $scope.files.splice(index, 1);
@@ -469,8 +463,6 @@ angular.module( 'diary.view', [
 
 
   }) // end controller
-
-
 
 
 
@@ -501,7 +493,6 @@ angular.module( 'diary.view', [
     return out;
   };
 })
-
 
 .filter('getById', function() {
   return function(input, id) {
@@ -637,37 +628,6 @@ angular.module( 'diary.view', [
     }
   };
 })
-
-
-
-.factory('MyUploader', function(FileUploader) {
-  // The inheritance. See https://github.com/nervgh/angular-file-upload/blob/v1.0.2/src/module.js#L686
-  FileUploader.inherit(MyUploader, FileUploader);
-
-    function MyUploader(options) {
-      MyUploader.super_.apply(this, arguments);
-    }
-
-
-    MyUploader.prototype._getTotalProgress = function(value) {
-      if(this.removeAfterUpload) {
-        return value || 0;
-      }
-
-      var notUploaded = this.getNotUploadedItems().length;
-      var uploaded = notUploaded ? this.queue.length - notUploaded : this.queue.length;
-      var ratio = 100 / this.queue.length;
-      var current = (value || 0) * ratio / 100;
-      if (this.queue.length===0){
-        return 100;
-      }
-      return Math.round(uploaded * ratio + current);
-    };
-
-
-    return MyUploader;
-})
-
 
 
 ;
