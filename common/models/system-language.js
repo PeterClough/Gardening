@@ -4,7 +4,7 @@
 module.exports = function(SystemLanguage){
 
   SystemLanguage.getList = function(cb) {
-      SystemLanguage.find({ fields: {name: true, code: true} }, function(err, cb2) {
+      SystemLanguage.find({ fields: ['name', 'code'] }, function(err, cb2) {
          cb(null, cb2);
     });
   };

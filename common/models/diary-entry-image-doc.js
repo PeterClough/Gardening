@@ -39,4 +39,60 @@ module.exports = function(DiaryEntryImageDoc){
     }
   );
 
+
+
+
+  DiaryEntryImageDoc.deleteFiles = function(diaryEntryId, cb1) {
+    console.log("DiaryEntryImageDoc.deleteFiles: " + diaryEntryId);
+
+    var dEIModel = DiaryEntryImageDoc.app.models.DiaryEntryImage;
+
+
+    DiaryEntryImageDoc.find({
+        "fields": ['id','extension'],
+        "where": {"diaryEntryId": diaryEntryId},
+        "order": "uploaded DESC"
+      },
+      function(err, cb2) {
+        console.log('DEIM.deleteFiles', cb2);
+        var fileNames = [];
+        cb2.forEach(function(file){
+          fileNames.push(file.id+file.extension);
+        });
+        console.log('DEIM.fileNames', fileNames);
+
+        dEIModel.deleteFiles(fileNames, function(err, cb3){
+
+          console.log('cb3', cb3);
+          console.log('About to DiaryEntryImageDoc.delete', diaryEntryId);
+
+          DiaryEntryImageDoc.destroyAll({ diaryEntryId: diaryEntryId},
+            function(err, cb4) {
+
+              console.log('DiaryEntryImageDoc.destroyAll', cb4);
+              cb1(null, cb4);
+
+            });
+
+
+        });
+
+
+      });
+  };
+
+
+  DiaryEntryImageDoc.remoteMethod(
+    'deleteFiles',
+    {
+      accepts: {arg: 'diaryEntryId', type: 'array'},
+      returns: {arg: 'success', type: 'object'}
+    }
+  );
+
+
+
+
+
+
 }

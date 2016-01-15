@@ -3,7 +3,10 @@
   "plural": "diaryProgression",
   "base": "PersistedModel",
   "properties": {
-    "updated": {
+    "created": {
+      "type": "date",
+      "required": true
+    },"updated": {
       "type": "date",
       "required": true
     },

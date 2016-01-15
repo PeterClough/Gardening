@@ -4,7 +4,7 @@
 module.exports = function(HardinessZone){
 
   HardinessZone.getList = function(cb) {
-      HardinessZone.find({ fields: {name: true, id: true} }, function(err, cb2) {
+      HardinessZone.find({ fields: ['name', 'id'] }, function(err, cb2) {
          cb(null, cb2);
     });
   };

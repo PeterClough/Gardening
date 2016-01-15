@@ -79,7 +79,11 @@ module.exports = {
       'vendor/angular-file-upload/dist/angular-file-upload.js',
       'vendor/angular-touch/angular-touch.js',
       'vendor/angular-loading-bar/build/loading-bar.js',
-      'vendor/ng-tags-input/ng-tags-input.js'
+      'vendor/ng-tags-input/ng-tags-input.js',
+      'vendor/ng-context-menu/dist/ng-context-menu.js',
+      'vendor/moment/min/moment.min.js',
+      'vendor/angular-growl-v2/build/angular-growl.min.js',
+      'vendor/angular-confirm-modal/angular-confirm.min.js'
     ],
     css: [
       'vendor/angular-tree-control/css/tree-control.css',
@@ -88,6 +92,7 @@ module.exports = {
       'vendor/angular-loading-bar/build/loading-bar.css',
       'vendor/ng-tags-input/ng-tags-input.css',
       'vendor/ng-tags-input/ng-tags-input.bootstrap.css',
+      'vendor/angular-growl-v2/build/angular-growl.min.css',
       'vendor/angular-file-upload/dist/angular-file-upload.js.map',
       'vendor/jquery/dist/jquery.min.map'
     ],

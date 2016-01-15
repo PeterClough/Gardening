@@ -4,7 +4,7 @@
 module.exports = function(SoilAcidity){
 
   SoilAcidity.getList = function(cb) {
-      SoilAcidity.find({ fields: {name: true, id: true} }, function(err, cb2) {
+      SoilAcidity.find({ fields: ['name', 'id'] }, function(err, cb2) {
          cb(null, cb2);
     });
   };

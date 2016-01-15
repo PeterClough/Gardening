@@ -102,6 +102,7 @@ angular.module( 'ask.list', [
         "rating" : 0,
         "tags": []
       };
+      $scope.$broadcast('show-errors-reset');
       $scope.gotQuestion = true;
     };
 
@@ -122,7 +123,12 @@ angular.module( 'ask.list', [
     };
 
 
-
+    $scope.filteredTagsAutoComplete = function(query) {
+      var deferred = $q.defer();
+      deferred.resolve( $filter('filter')($scope.allTags, query));
+      console.log('inFilter', deferred.promise);
+      return deferred.promise;
+    };
 
 
     $scope.submitQuestion = function() {
@@ -202,7 +208,6 @@ angular.module( 'ask.list', [
 
     $scope.closeBoxes = function () {
       $scope.gotQuestion = false;
-      $scope.$broadcast('show-errors-reset');
     };
 
 

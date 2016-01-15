@@ -4,8 +4,8 @@
 module.exports = function(Country){
 
   Country.getList = function(cb) {
-      Country.find({ fields: {name: true, id: true} }, function(err, cb2) {
-         cb(null, cb2);
+      Country.find({ fields: ['name', 'id'] }, function(err, cb2) {
+        cb(null, cb2);
     });
   };
 

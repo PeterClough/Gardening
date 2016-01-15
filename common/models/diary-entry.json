@@ -3,6 +3,10 @@
   "plural": "diaryEntries",
   "base": "PersistedModel",
   "properties": {
+    "created": {
+    "type": "date",
+    "required": true
+  },
     "updated": {
       "type": "date",
       "required": true

@@ -76,7 +76,9 @@
                      add-on-blur=true
                      on-tag-adding=tagAdding($tag)
                 >
-                <auto-complete source="allTags"></auto-complete>
+                <auto-complete
+                  source="filteredTagsAutoComplete($query)"
+                  ></auto-complete>
               </tags-input>
 
             </div>

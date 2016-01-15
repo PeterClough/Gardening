@@ -4,7 +4,7 @@
 module.exports = function(SoilType){
 
   SoilType.getList = function(cb) {
-    SoilType.find({ fields: {name: true, id: true} }, function(err, cb2) {
+    SoilType.find({ fields: ['name', 'id'] }, function(err, cb2) {
          cb(null, cb2);
     });
   };

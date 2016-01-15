@@ -1,5 +1,6 @@
 <h3>{{'DIARY_VIEW' | translate}}</h3>
 
+<div growl></div>
 
 <div class="card" ng-hide="loggedIn">
   {{'DIARY_VIEW_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_VIEW_LOGIN' | translate}}</a> {{'DIARY_VIEW_OR' |
@@ -19,11 +20,19 @@
         <div class="col-xs-6">
           <div class="addButtons">
             <button class="btn btn-default" ng-click="addDiaryEntry()" name="addDiaryEntry"
-                    ng-show="isDiaryEntry || isDiaryProgress || isNewDiary">Add Diary Entry
+                    ng-show="isDiaryEntry || isDiaryProgress || isNewDiary">{{'DIARY_ADD_ENTRY' | translate}}
             </button>
             <button class="btn btn-default" ng-click="addDiaryProgress($event, selected)"
                     ng-show="isDiaryEntry || isDiaryProgress"
-                    name="addDiaryProgress">Add Diary Progress
+                    name="addDiaryProgress">{{'DIARY_ADD_PROGRESS' | translate}}
+            </button>
+            <button class="btn btn-default" ng-click="deleteRow(selected)"
+                    ng-show="selected !== undefined"
+                    confirm="{{'CONFIRM_SURE' | translate}}"
+                    confirm-title="{{'DIARY_DELETE_ROW' | translate}}"
+                    confirm-ok="{{'CONFIRM_OK' | translate}}"
+                    confirm-cancel="{{'CONFIRM_CANCEL' | translate}}"
+                    name="deleteRow">{{'DIARY_DELETE_ROW' | translate}}
             </button>
           </div>
           <treecontrol class="tree-classic"
@@ -33,13 +42,12 @@
                        selected-node="selected"
                        expanded-nodes="expandedNodes"
                        order-by="node.entryDate"
-                       reverse-order="{{true}}">
+                       reverse-order="true">
             <span style="color: {{node.valid ? 'black':'#a94442'}}">
-            {{node.entryDate | date:'d-MMM-yyyy'}} {{node.plantFamily}} {{node.plantCultivar}} {{node.notes | limitTo : 30}}...
+              {{node.entryDate | date:'d-MMM-yyyy'}} {{node.plantFamily}} {{node.plantCultivar}} {{node.notes | limitTo : 30}} ...
             </span>
-          </treecontrol>
-        </div>
-
+            </treecontrol>
+         </div>
 
         <div class="col-xs-6">
           <div id="diary-entry" ng-show="isDiaryEntry" nv-file-drop uploader="uploader" filters="queueLimit, customFilter">
@@ -110,7 +118,11 @@
                 <label class="col-sm-3 control-label">Entry Date</label>
 
                 <div class="col-sm-9">
-                  <input date-directive type="text" class="form-control" placeholder="Entry Date" ng-model="diaryEntry.entryDate">
+                  <input type="text"
+                         class="form-control datepicker"
+                         mo-date-input="DD-MMM-YYYY"
+                         placeholder="Entry Date"
+                         ng-model="diaryEntry.entryDate">
                 </div>
               </div>
 
@@ -248,12 +260,17 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label class="col-sm-3 control-label">{{'DIARY_ENTRY_IS_PRIVATE_LABEL' | translate}}</label>
+                <div class="col-sm-9">
+                  <input type="checkbox" class="form-control" ng-model="diaryEntry.isPrivate">
+                </div>
+              </div>
 
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                   <button type="submit" class="btn btn-default">Save</button>
                   <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
-                  <div ng-show="saveSuccess">{{saveSuccessText}}</div>
                 </div>
               </div>
 
@@ -324,7 +341,10 @@
                 <label class="col-sm-3 control-label">Entry Date</label>
 
                 <div class="col-sm-9">
-                  <input date-directive type="text" class="form-control" placeholder="Entry Date"
+                  <input type="text"
+                         class="form-control datepicker"
+                         mo-date-input="DD-MMM-YYYY"
+                         placeholder="Entry Date"
                          ng-model="diaryProgress.entryDate">
                 </div>
               </div>
@@ -361,7 +381,6 @@
                 <div class="col-sm-offset-3 col-sm-9">
                   <button type="submit" class="btn btn-default">Save</button>
                   <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
-                  <div ng-show="saveSuccess">{{saveSuccessText}}</div>
                 </div>
               </div>
 

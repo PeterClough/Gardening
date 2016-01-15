@@ -4,7 +4,7 @@
 module.exports = function(Language){
 
   Language.getList = function(cb) {
-    Language.find({ fields: {name: true, code: true} }, function(err, cb2) {
+    Language.find({ fields: ['name', 'code'] }, function(err, cb2) {
 
       cb(null, cb2);
     });

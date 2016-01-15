@@ -30,7 +30,7 @@
     "grunt-html2js": "^0.1.9",
     "grunt-karma": "^0.12.1",
     "grunt-loopback-sdk-angular": "^1.1.1",
-    "grunt-ng-annotate": "^0.8.0",
+    "grunt-ng-annotate": "^1.0.0",
     "jasmine-core": "2.3.4",
     "karma": "^0.13.15",
     "karma-coffee-preprocessor": "^0.3.0",

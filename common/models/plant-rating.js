@@ -4,7 +4,7 @@
 module.exports = function(PlantRating){
 
   PlantRating.getList = function(cb) {
-      PlantRating.find({ fields: {name: true, id: true} }, function(err, cb2) {
+      PlantRating.find({ fields: ['name', 'id'] }, function(err, cb2) {
          cb(null, cb2);
     });
   };

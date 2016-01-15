@@ -5,7 +5,9 @@ angular.module( 'diary.view', [
   'ui.bootstrap.showErrors',
   'ngAnimate',
   'angularFileUpload',
-  'bootstrapLightbox'
+  'bootstrapLightbox',
+  'angular-growl',
+  'angular-confirm'
 ])
 
 
@@ -27,19 +29,19 @@ angular.module( 'diary.view', [
 })
 
 
-.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, User, Diary, DiaryDefault, DiaryEntry, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox) {
+.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, $confirm, growl, User, Diary, DiaryDefault, DiaryEntry, DiaryProgress, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox) {
   'use strict';
 
 
   $scope.showCard = false;
   $scope.loggedIn = User.isAuthenticated();
   $scope.userId = User.getCurrentId();
-  $scope.saveSuccess = false;
   $scope.diaryTreeData={};
 
   $scope.diaryTreeOptions = {
     nodeChildren: "children",
     dirSelectable: true,
+    allowDeselect: false,
     injectClasses: {
       ul: "a1",
       li: "a2",
@@ -49,6 +51,7 @@ angular.module( 'diary.view', [
       iLeaf: "a5",
       label: "a6",
       labelSelected: "a8"
+
     }
   };
 
@@ -87,8 +90,8 @@ angular.module( 'diary.view', [
 
                   //set the diary node to first entry and trigger update to show form
                   if($scope.diaryTreeData.length!==0){
-                    $scope.selected = $scope.diaryTreeData[0];
-                    $scope.showSelected($scope.diaryTreeData[0]);
+                    $scope.selected = $scope.diaryTreeData[$scope.diaryTreeData.length-1];
+                    $scope.showSelected($scope.diaryTreeData[$scope.diaryTreeData.length-1]);
                     $scope.isNewDiary = false;
                     $scope.showCard = true;
                   }
@@ -161,8 +164,6 @@ angular.module( 'diary.view', [
 
   $scope.showSelected = function(sel) {
     $scope.images = [];
-    $scope.saveSuccess = false;
-    $scope.saveError = false;
 
     if (typeof sel!='undefined') {
 
@@ -187,8 +188,9 @@ angular.module( 'diary.view', [
   $scope.addDiaryEntry = function() {
     var newNode = angular.copy($scope.diaryDefault);
     newNode[0].entryDate = $filter('date')(new Date(), 'medium');
-    newNode[0].children =[];
-    newNode[0].isDirty =true;
+    newNode[0].children = [];
+    newNode[0].isPrivate = false;
+    newNode[0].isDirty = true;
 
 
     DiaryEntry.objectId()
@@ -249,10 +251,7 @@ angular.module( 'diary.view', [
         }
       }))
     {
-
-
       var children = [];
-
       var promises = [];
 
         $scope.diaryTreeData.forEach(function (node) {
@@ -276,34 +275,96 @@ angular.module( 'diary.view', [
         if ($scope.isDirty===true) {
           $scope.frmDiaryEntry.$setPristine();
           $scope.frmDiaryProgress.$setPristine();
-          $translate('DIARY_VIEW_SAVE_SUCCESS').then(function (text) {
-            $scope.saveSuccessText = text;
-            $scope.saveSuccess = true;
-          });
+          growl.success("DIARY_VIEW_SAVE_SUCCESS",{title: "GROWL_SAVED_TITLE"});
+
         }
         else {
-          $translate('DIARY_VIEW_SAVE_NOTHING').then(function (text) {
-            $scope.saveErrorText = text;
-            $scope.saveError = true;
-          });
-
+          growl.info("DIARY_VIEW_SAVE_NOTHING",{title: "GROWL_INFO_TITLE"});
         }
       });
 
     }
     else {
-      $translate('DIARY_VIEW_SAVE_INVALID').then(function (text) {
-        $scope.saveErrorText = text;
-        $scope.saveError = true;
-      });
+      growl.error("DIARY_VIEW_SAVE_INVALID",{title: "GROWL_ERROR_TITLE"});
     }
 
 
   };
 
 
+  $scope.deleteRow = function(sel) {
 
-    // create a uploader with options for Diary entry
+
+    var index;
+
+    if (sel.diaryId !== undefined) {
+      //is diary entry
+
+      if (sel.created !== undefined) {
+        //not persisted
+        DiaryEntry.deleteEntry({entryId: sel.id})
+          .$promise.then(function (cb) {
+          });
+      }
+      index = $scope.diaryTreeData.indexOf(sel);
+      $scope.diaryTreeData.splice(index,1);
+
+      if ($scope.diaryTreeData.length===0) {
+        $scope.selected = undefined;
+        $scope.isDiaryEntry = $scope.isDiaryProgress = false;
+        $scope.isNewDiary = true;
+      }
+      else if ($scope.diaryTreeData.length>index){
+        $scope.selected = $scope.diaryTreeData[index];
+      }
+      else {
+        $scope.selected = $scope.diaryTreeData[index-1];
+      }
+      $scope.showSelected($scope.selected);
+
+
+
+    }
+    else {
+      var diaryProgressIds = [sel.id];
+      if (sel.created !== undefined) {
+        //not persisted
+        DiaryProgress.deleteProgress({"id": diaryProgressIds, "isEntry": false})
+          .$promise.then(function (cb) {
+          });
+      }
+
+      var diaryEntry = $scope.diaryTreeData.filter(function ( diaryEntry ) {
+        return diaryEntry.id === sel.diaryEntryId;
+      })[0];
+
+      index = diaryEntry.children.indexOf(sel);
+      diaryEntry.children.splice(index,1);
+
+      if (diaryEntry.children.length===0) {
+        $scope.selected = diaryEntry;
+      }
+      else if (diaryEntry.children.length>index){
+        $scope.selected = diaryEntry.children[index];
+      }
+      else {
+        $scope.selected = diaryEntry.children[index-1];
+      }
+      $scope.showSelected($scope.selected);
+
+
+    }
+
+
+     // $scope.isDiaryEntry = $scope.isDiaryProgress = false;
+
+    growl.success("DIARY_VIEW_DELETE_SUCCESS", {title: "GROWL_DELETED_TITLE"});
+  };
+
+
+
+
+        // create a uploader with options for Diary entry
     var uploader = $scope.uploader = new FileUploader ({
       scope: $scope,                          // to automatically update the html. Default: $rootScope
       url: '/api/diaryEntryImages/original/upload',
@@ -360,7 +421,7 @@ angular.module( 'diary.view', [
       uploader.clearQueue();
 
     };
-    
+
     // create a uploader2 with options for Diary Progress
     var uploader2 = $scope.uploader2 = new FileUploader ({
       scope: $scope,                          // to automatically update the html. Default: $rootScope
@@ -462,22 +523,35 @@ angular.module( 'diary.view', [
   };
 
 
-  }) // end controller
+}) // end controller
 
 
-
-.directive('dateDirective', function($filter) {
+.directive('moDateInput', function ($window) {
   return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(data) {
-        //convert data from view format to model format
-        return data; //converted
+    require:'^ngModel',
+    restrict:'A',
+    link:function (scope, elm, attrs, ctrl) {
+      var moment = $window.moment;
+      var dateFormat = attrs.moDateInput;
+      attrs.$observe('moDateInput', function (newValue) {
+        if (dateFormat == newValue || !ctrl.$modelValue) {
+          return;
+        }
+        dateFormat = newValue;
+        ctrl.$modelValue = new Date(ctrl.$setViewValue);
       });
 
-      ngModelController.$formatters.push(function(data) {
-        //convert data from model format to view format
-        return $filter('date')(data, "d-MMM-yyyy"); //converted
+      ctrl.$formatters.unshift(function (modelValue) {
+        if (!dateFormat || !modelValue) {
+          return "";
+        }
+        var retVal = moment(modelValue).format(dateFormat);
+        return retVal;
+      });
+
+      ctrl.$parsers.unshift(function (viewValue) {
+        var date = moment(viewValue, dateFormat);
+        return (date && date.isValid() && date.year() > 1950 ) ? date.toDate() : "";
       });
     }
   };
@@ -515,7 +589,9 @@ angular.module( 'diary.view', [
     var deferred = $q.defer();
     if (node.isDirty) {
       node.updated = $filter('date')(new Date(), 'medium');
-
+      if (node.created === undefined) {
+        node.created = node.updated;
+      }
       var saveNode = angular.copy(node);
       delete saveNode.isDirty;
       delete saveNode.children;
@@ -553,6 +629,10 @@ angular.module( 'diary.view', [
     children.forEach(function (node) {
       if (node.isDirty) {
         node.updated = $filter('date')(new Date(), 'medium');
+        if (node.created === undefined) {
+          node.created = node.updated;
+        }
+
         var saveNode = angular.copy(node);
         delete saveNode.isDirty;
         delete saveNode.valid;

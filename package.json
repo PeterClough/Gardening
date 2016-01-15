@@ -17,7 +17,8 @@
     "cors": "~2.7.1",
     "serve-favicon": "~2.3.0",
     "uuid": "~2.0.1",
-    "lwip": "~0.0.6"
+    "lwip": "~0.0.6",
+    "q":"~2.0.3"
   },
   "devDependencies": {
     "loopback-explorer": "~1.8.0"

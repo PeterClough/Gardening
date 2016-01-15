@@ -70,12 +70,16 @@ var translationsEN= {
 
 
   DIARY_VIEW: 'View Diary',
-  DIARY_VIEW_SAVE_SUCCESS: 'Diary saved',
+  DIARY_VIEW_SAVE_SUCCESS: 'Your diary has been saved.',
   DIARY_VIEW_SAVE_NOTHING: 'Nothing to save',
   DIARY_VIEW_SAVE_INVALID: 'Incomplete data items marked in red in dairy',
   DIARY_VIEW_SELECT_MULTIPLE_FILES: 'Select Multiple Files',
-
+  DIARY_VIEW_DELETE_SUCCESS: 'You have deleted a row',
   DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family',
+  DIARY_ENTRY_IS_PRIVATE_LABEL: 'Private Entry',
+  DIARY_ADD_PROGRESS: 'Add Diary Progress',
+  DIARY_ADD_ENTRY: 'Add Diary Entry',
+  DIARY_DELETE_ROW: 'Delete Row',
 
 
   ASK_HEADER: '',
@@ -103,5 +107,16 @@ var translationsEN= {
   ASK_COMMENTED_BY: 'comment by',
   ASK_VIEW_RECENT_LINK: 'View recent',
   ASK_TAGS_HEADER: 'All Tags',
-  ASK_VIEW_ALL_TAGS_LINK: 'View all tags'
+  ASK_VIEW_ALL_TAGS_LINK: 'View all tags',
+
+
+
+  GROWL_SAVED_TITLE: 'Save Successful',
+  GROWL_INFO_TITLE: 'Info',
+  GROWL_DELETED_TITLE: 'Deletion Successful',
+
+  CONFIRM_OK: 'ok',
+  CONFIRM_CANCEL: 'cancel',
+  CONFIRM_SURE: 'Are you sure?'
+
 };

@@ -4,7 +4,6 @@
 module.exports = function(DiaryProgressImageDoc){
 
   DiaryProgressImageDoc.getIdsByDiaryProgressId = function(diaryProgressId, cb) {
-    console.log("DiaryProgressImageDoc.getIdsByDiaryProgressId: " + diaryProgressId)
     DiaryProgressImageDoc.find({
         "fields": {"id": true, "extension": true},
         "where": {"diaryProgressId": diaryProgressId},
@@ -23,6 +22,8 @@ module.exports = function(DiaryProgressImageDoc){
     }
   );
 
+
+
   DiaryProgressImageDoc.objectId = function(cb) {
 
     var app = require('../../server/server');
@@ -36,6 +37,54 @@ module.exports = function(DiaryProgressImageDoc){
     'objectId',
     {
       returns: {arg: 'id', type: 'object'}
+    }
+  );
+
+
+  DiaryProgressImageDoc.deleteFiles = function(diaryProgressIds, cb1) {
+    console.log("DiaryProgressImageDoc.deleteFiles: " + diaryProgressIds);
+
+    var dPIModel = DiaryProgressImageDoc.app.models.DiaryProgressImage;
+
+
+    DiaryProgressImageDoc.find({
+        "fields": ['id','extension'],
+        "where": {"diaryProgressId":{inq: diaryProgressIds}},
+        "order": "uploaded DESC"
+      },
+      function(err, cb2) {
+        console.log('DPIM.deleteFiles', cb2);
+        var fileNames = [];
+        cb2.forEach(function(file){
+          fileNames.push(file.id+file.extension);
+        });
+        console.log('DPIM.fileNames', fileNames);
+
+        dPIModel.deleteFiles(fileNames, function(err, cb3){
+
+          console.log('cb3', cb3);
+          console.log('About to DiaryProgressImageDoc.delete', diaryProgressIds);
+
+          DiaryProgressImageDoc.destroyAll({ diaryProgressId: {inq: diaryProgressIds}},
+            function(err, cb4) {
+
+              console.log('DiaryProgressImageDoc.destroyAll', cb4);
+              cb1(null, cb4);
+
+            });
+
+
+        });
+
+
+      });
+  };
+
+  DiaryProgressImageDoc.remoteMethod(
+    'deleteFiles',
+    {
+      accepts: {arg: 'diaryProgressIds', type: 'array'},
+      returns: {arg: 'success', type: 'object'}
     }
   );
 

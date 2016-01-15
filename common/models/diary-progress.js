@@ -19,5 +19,63 @@ module.exports = function(DiaryProgress){
 
 
 
+  DiaryProgress.deleteProgress = function(id, isEntry, cb) {
+    console.log('in deleteProgress isEntry', id, isEntry);
+    var Q = require('q');
+
+    var dPIDModel = DiaryProgress.app.models.DiaryProgressImageDoc;
+
+    var found = [];
+    if (isEntry===true) {
+      var diaryProgressIds = [];
+      var progress = Q.defer();
+      found.push(progress.promise);
+      DiaryProgress.find({ fields: ['id'],  where: {diaryEntryId: id}}, function (err, cb2) {
+        console.log('DiaryProgress.find', cb2);
+        if(cb2.length !==0) {
+          cb2.forEach(function (val) {
+            diaryProgressIds.push(val.id);
+          });
+        }
+        console.log('diaryProgressIds', diaryProgressIds);
+        progress.resolve(diaryProgressIds);
+      });
+
+    }
+    else {
+      var diaryProgressIds = id;
+    }
+
+
+    Q.all(found)
+      .then(function (res) {
+          dPIDModel.deleteFiles(diaryProgressIds, function (err, cb3) {
+
+            console.log('about to DiaryProgress.destroyAll: diaryProgressIds', diaryProgressIds);
+
+
+            DiaryProgress.destroyAll({ id: {inq: diaryProgressIds}},
+              function(err, cb4) {
+
+                console.log('DiaryProgress.destroyAll', cb4);
+                cb(null, cb4);
+              });
+
+          });
+      });
+
+
+
+  };
+
+  DiaryProgress.remoteMethod(
+    'deleteProgress',
+    {
+      accepts: [{arg: 'id', type: 'id'}, {arg: 'isEntry', type: 'boolean'}],
+      returns: {arg: 'diaryProgression', type: 'object'}
+    }
+  );
+
+
 
 }
