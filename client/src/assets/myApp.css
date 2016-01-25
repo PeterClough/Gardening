@@ -72,6 +72,19 @@
   color: #a94442;
 }
 
+
+
+.forgot-password {
+  float:right;
+  font-size: 0.8em;
+
+}
+
+
+
+
+
+
 /** View Diary **/
 treecontrol li {
   padding: 0!important;
@@ -89,7 +102,9 @@ treecontrol li li {
 #ask-container,
 #list-container,
 #tags-container,
-#view-question-container {
+#view-question-container,
+#request-password,
+#reset-password {
   width: 100%;
   height: 100%;
   position: relative;
@@ -107,7 +122,9 @@ treecontrol li li {
 #diary-card,
 #tag-container,
 #form-ask-question,
-#form-answer-question {
+#form-answer-question,
+#email-sent,
+#password-reset{
   width: 100%;
   height: 100%;
   position: absolute;

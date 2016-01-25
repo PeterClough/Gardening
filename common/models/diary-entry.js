@@ -44,30 +44,19 @@ module.exports = function(DiaryEntry){
 
   DiaryEntry.deleteEntry = function(entryId, cb) {
 
-    console.log('setting dPModel');
     var dPModel = DiaryEntry.app.models.DiaryProgress;
     var dEIDModel = DiaryEntry.app.models.DiaryEntryImageDoc;
 
     dPModel.deleteProgress(entryId, true, function(err, cb1){
-      console.log('completed callback', cb1);
-
 
       dEIDModel.deleteFiles(entryId, function (err, cb3) {
 
         DiaryEntry.destroyById(entryId,
           function(err, cb2) {
-
-            console.log(' DiaryEntry.delete', cb2);
             cb(null, cb2);
           });
-
       });
-
-
     });
-    console.log('after dPModel.deleteProgress');
-
-
   };
 
   DiaryEntry.remoteMethod(
@@ -77,8 +66,6 @@ module.exports = function(DiaryEntry){
       returns: {arg: 'diaryEntries', type: 'object'}
     }
   );
-
-
 
 
 

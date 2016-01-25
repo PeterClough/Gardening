@@ -2,7 +2,9 @@ angular.module( 'myApp.users', [
   'ui.router',
   'users.login',
   'users.register',
-  'users.verified'
+  'users.verified',
+  'users.requestPassword',
+  'users.resetPassword'
 ])
 
 .config(function config( $stateProvider ) {
@@ -14,7 +16,7 @@ angular.module( 'myApp.users', [
         templateUrl: 'users/users.tpl.html'
       }
     },
-    data:{ pageTitle: 'What is It?' }
+    data:{ pageTitle: 'Users' }
   });
 })
 

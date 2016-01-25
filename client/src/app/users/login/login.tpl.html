@@ -5,30 +5,25 @@
   <div class="card view-animate" ng-show="showCard">
 
     <div>
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="item item-divider assertive" ng-if="loginError">
-            {{ loginErrorMessage }}
-          </div>
-          <form name="userForm" ng-submit="login()">
-            <div class="form-group" show-errors>
-              <input type="text" class="form-control" name="email" placeholder="Email"
-                     ng-model="credentials.email" required>
-              <p class="help-block" ng-if="userForm.email.$error.required">{{'LOGIN_EMAIL_REQUIRED' | translate}}</p>
-            </div>
-            <div class="form-group" show-errors>
-              <input type="password" class="form-control" name="password" placeholder="Password"
-                     ng-model="credentials.password" required>
-              <p class="help-block" ng-if="userForm.password.$error.required">{{'LOGIN_PASSWORD_REQUIRED' | translate}}</p>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-default">{{'LOGIN_BUTTON' | translate}}</button>
-            </div>
-          </form>
+      <div class="item item-divider assertive" ng-if="loginError">
+        {{ loginErrorMessage }}
+      </div>
+      <form name="userForm" ng-submit="login()">
+        <div class="form-group" show-errors>
+          <input type="text" class="form-control" name="email" placeholder="Email"
+                 ng-model="credentials.email" required>
+          <p class="help-block" ng-if="userForm.email.$error.required">{{'LOGIN_EMAIL_REQUIRED' | translate}}</p>
         </div>
-      </div>
-      <div class="col-xs-6">
-      </div>
+        <div class="form-group" show-errors>
+          <input type="password" class="form-control" name="password" placeholder="Password"
+                 ng-model="credentials.password" required>
+          <p class="help-block" ng-if="userForm.password.$error.required">{{'LOGIN_PASSWORD_REQUIRED' | translate}}</p>
+        </div>
+        <a ui-sref="users.requestPassword" class="forgot-password"> {{ 'LOGIN_FORGOT_PASSWORD' | translate}}</a>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{'LOGIN_BUTTON' | translate}}</button>
+        </div>
+      </form>
     </div>
   </div>
 </content>

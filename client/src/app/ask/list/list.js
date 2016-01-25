@@ -126,7 +126,6 @@ angular.module( 'ask.list', [
     $scope.filteredTagsAutoComplete = function(query) {
       var deferred = $q.defer();
       deferred.resolve( $filter('filter')($scope.allTags, query));
-      console.log('inFilter', deferred.promise);
       return deferred.promise;
     };
 

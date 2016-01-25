@@ -42,8 +42,7 @@ module.exports = function(DiaryProgressImage) {
 
   DiaryProgressImage.deleteFiles = function(fileNames, cb) {
 
-    console.log("DiaryProgressImage.deleteFiles: " + fileNames);
-    var fs = require('fs');
+     var fs = require('fs');
     var Q = require('q');
 
     var ds = DiaryProgressImage.app.datasources.diaryProgressDS.settings;

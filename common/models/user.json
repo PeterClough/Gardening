@@ -28,10 +28,34 @@
   },
   "acls": [
     {
-      "accessType": "READ",
+      "accessType": "*",
+      "permission": "DENY",
       "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
+      "principalId": "$everyone"
+    },
+    {
+      "accessType": "*",
+      "permission": "ALLOW",
+      "principalType": "ROLE",
+      "principalId": "$owner"
+    },
+    {
+      "accessType": "updateAttribute",
+      "permission": "ALLOW",
+      "principalType": "ROLE",
+      "principalId": "$owner"
+    },
+    {
+      "accessType": "updateOrCreate",
+      "permission": "ALLOW",
+      "principalType": "ROLE",
+      "principalId": "$owner"
+    },
+    {
+      "permission": "DENY",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "property": "deleteById"
     }
   ],
   "methods": []

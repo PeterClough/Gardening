@@ -43,7 +43,6 @@ module.exports = function(DiaryEntryImage) {
 
   DiaryEntryImage.deleteFiles = function(fileNames, cb) {
 
-    console.log("DiaryEntryImage.deleteFiles: " + fileNames);
     var fs = require('fs');
     var Q = require('q');
 

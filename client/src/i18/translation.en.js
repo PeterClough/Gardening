@@ -43,6 +43,7 @@ var translationsEN= {
   LOGIN_FAILED_OTHER:'Login Failed please try again later.',
   LOGIN_EMAIL_REQUIRED:'The email field is required.',
   LOGIN_PASSWORD_REQUIRED:'The password field is required.',
+  LOGIN_FORGOT_PASSWORD: 'Forgot Password?',
   LOGIN_BUTTON:'Login',
 
 
@@ -109,7 +110,11 @@ var translationsEN= {
   ASK_TAGS_HEADER: 'All Tags',
   ASK_VIEW_ALL_TAGS_LINK: 'View all tags',
 
-
+  REQUEST_PASSWORD_EMAIL_REQUIRED: 'Email Required',
+  REQUEST_PASSWORD_EMAIL_INVALID: 'Invalid Email',
+  REQUEST_PASSWORD_BUTTON: 'Reset Password',
+  REQUEST_PASSWORD_EMAIL_SENT: 'Please check your email for further instructions.',
+  PASSWORD_RESET: 'Your password has been changed.',
 
   GROWL_SAVED_TITLE: 'Save Successful',
   GROWL_INFO_TITLE: 'Info',
