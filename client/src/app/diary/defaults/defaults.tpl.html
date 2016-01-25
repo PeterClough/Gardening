@@ -10,11 +10,11 @@
     <form name="defaultForm" class="form-horizontal" role="form" ng-submit="save()">
 
       <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+        <div class="col-sm-offset-2 col-sm-10 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate }}</div>
       </div>
 
       <div class="form-group" show-errors>
-        <label class="col-sm-2 control-label">Country *</label>
+        <label class="col-sm-2 control-label">{{ 'DIARY_DEFAULT_COUNTRY_LABEL' | translate }} *</label>
         <div class="col-sm-10">
           <ui-select ng-model="diaryDefault.countryId"
                      theme="bootstrap"
@@ -33,7 +33,7 @@
       </div>
 
       <div class="form-group" show-errors>
-        <label class="col-sm-2 control-label">Hardiness Zone *</label>
+        <label class="col-sm-2 control-label">{{ 'DIARY_DEFAULT_HARDINESS_ZONE_LABEL' | translate }} *</label>
         <div class="col-sm-10">
           <ui-select ng-model="diaryDefault.hardinessZoneId"
                      theme="bootstrap"
@@ -53,7 +53,7 @@
 
 
       <div class="form-group" show-errors>
-        <label class="col-sm-2 control-label">Soil Acidity *</label>
+        <label class="col-sm-2 control-label">{{ 'DIARY_DEFAULT_SOIL_ACIDITY_LABEL' | translate }} *</label>
         <div class="col-sm-10">
           <ui-select ng-model="diaryDefault.soilAcidityId"
                      theme="bootstrap"
@@ -72,7 +72,7 @@
       </div>
 
       <div class="form-group" show-errors>
-        <label class="col-sm-2 control-label">Soil Type *</label>
+        <label class="col-sm-2 control-label">{{ 'DIARY_DEFAULT_SOIL_TYPE_LABEL' | translate }} *</label>
         <div class="col-sm-10">
           <ui-select ng-model="diaryDefault.soilTypeId"
                      theme="bootstrap"
@@ -98,7 +98,7 @@
           <div class="checkbox">
             <label>
               <input type="checkbox"
-                   ng-model="diaryDefault.isPrivate"> Make each diary entry to be private by default?
+                   ng-model="diaryDefault.isPrivate"> {{ 'DIARY_DEFAULT_ENTRY_PRIVATE_LABEL' | translate }}
             </label>
           </div>
         </div>
@@ -111,7 +111,7 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Save</button>
+          <button type="submit" class="btn btn-default">{{ 'SAVE_BUTTON' | translate }}</button>
         </div>
       </div>
 
@@ -125,7 +125,7 @@
 
 
 <div class="card" ng-hide=loggedIn>
-  {{'DIARY_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_LOGIN' | translate}}</a> {{'DIARY_OR' |
+  {{'DIARY_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_LOGIN' | translate }}</a> {{'DIARY_OR' |
   translate}} <a ui-sref="users.register"> {{'DIARY_REGISTER' | translate}}</a>
 
 </div>

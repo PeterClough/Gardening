@@ -6,7 +6,7 @@
 
 <div id="list-container">
 
-  <div class="view-animate" ng-show="!showCard" id="loading-message">Loading Please wait</div>
+  <div class="view-animate" ng-show="!showCard" id="loading-message">{{ 'LOADING_MESSAGE' | translate }}</div>
 
 
 
@@ -31,7 +31,7 @@
     </div>
 
 
-    <div class="view-animate" id="message-saved" ng-show="messageSaved">{{ 'ASK_MESSAGE_SAVED' | translate}}</div>
+    <div class="view-animate" id="message-saved" ng-show="messageSaved">{{ 'ASK_MESSAGE_SAVED' | translate }}</div>
 
 
 

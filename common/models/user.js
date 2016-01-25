@@ -12,7 +12,7 @@ module.exports = function(user) {
       to: user.email,
       from: 'noreply@gardensyjardines.com',
       subject: 'Please verify your email address.',
-      url: 'www.gardensyjardines.com',
+      url: 'www.gardensyjardines.com/#/users/verified',
       user: user
     };
     user.verify(options, function(err, response) {

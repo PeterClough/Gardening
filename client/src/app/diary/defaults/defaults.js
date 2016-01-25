@@ -34,10 +34,6 @@ angular.module( 'diary.defaults', [
 
 
 
-  $translate('DIARY_DEFAULT_COUNTRY_LABEL').then(function (country) {
-    $scope.country = country;
-  });
-
     Country.getList()
       .$promise.then(function(cb) {
         $scope.countries = cb.countries;

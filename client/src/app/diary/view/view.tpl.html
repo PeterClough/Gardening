@@ -10,7 +10,7 @@
 
 
 <div ng-show="loggedIn" id="diary-container">
-  <div class="view-animate" ng-show="!showCard" id="loading-message">Loading Please wait</div>
+  <div class="view-animate" ng-show="!showCard" id="loading-message">{{ 'LOADING_MESSAGE' | translate }}</div>
 
   <div class="card view-animate" ng-show="showCard" id="diary-card">
 
@@ -69,8 +69,7 @@
               </div>
 
               <div class="file-button">
-                <button class="btn btn-default"> {{'DIARY_VIEW_SELECT_MULTIPLE_FILES' |
-                  translate}}
+                <button class="btn btn-default"> {{'DIARY_VIEW_SELECT_MULTIPLE_FILES' | translate}}
                 </button>
                 <input type="file"  nv-file-select="" uploader="uploader" multiple/>
               </div>
@@ -93,17 +92,17 @@
                         ng-click="uploader.uploadAll()"
                         ng-disabled="!uploader.getNotUploadedItems().length"
                         ng-show="images">
-                  <span class="glyphicon glyphicon-upload"></span> Upload all
+                  <span class="glyphicon glyphicon-upload"></span>{{ 'DIARY_UPLOADER_UPLOAD_ALL' | translate }}
                 </button>
                 <button type="button" class="btn btn-warning btn-s"
                         ng-click="uploader.cancelAll()"
                         ng-disabled="!uploader.isUploading">
-                  <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                  <span class="glyphicon glyphicon-ban-circle"></span>{{ 'DIARY_UPLOADER_CANCEL_ALL' | translate }}
                 </button>
                 <button type="button" class="btn btn-danger btn-s"
                         ng-click="uploader.clearQueue()"
                         ng-disabled="!uploader.queue.length">
-                  <span class="glyphicon glyphicon-trash"></span> Remove all
+                  <span class="glyphicon glyphicon-trash"></span>{{ 'DIARY_UPLOADER_REMOVE_ALL' | translate }}
                 </button>
               </div>
             </div>
@@ -111,11 +110,11 @@
             <form class="form-horizontal" role="form" ng-submit="save()" name="$parent.frmDiaryEntry">
 
               <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate}}</div>
+                <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate }}</div>
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Entry Date</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input type="text"
@@ -128,7 +127,7 @@
 
 
               <div class="form-group" show-errors>
-                <label class="col-sm-3 control-label">Plant Family *</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_FAMILY_LABEL' | translate }} *</label>
 
                 <div class="col-sm-9">
                   <input type="text"
@@ -141,7 +140,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Plant Cultivar</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_CULTIVAR_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input type="text" class="form-control" placeholder="Plant Cultivar" ng-model="diaryEntry.plantCultivar">
@@ -149,7 +148,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Notes</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_NOTES_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <textarea class="form-control" rows="6" placeholder="Notes" ng-model="diaryEntry.notes"></textarea>
@@ -157,7 +156,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Country</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_COUNTRY_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.countryId"
@@ -175,7 +174,7 @@
 
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Hardiness Zone</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_HARDINESS_ZONE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.hardinessZoneId"
@@ -192,7 +191,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Soil Acidity</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_SOIL_ACIDITY_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.soilAcidityId"
@@ -209,7 +208,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Soil Type</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_SOIL_TYPE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.soilTypeId"
@@ -226,7 +225,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Maturity Date</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_MATURITY_DATE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input date-directive type="text" class="form-control" placeholder="Maturity Date"
@@ -235,7 +234,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Seed Source</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_SEED_SOURCE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input type="text" class="form-control" placeholder="Seed Source" ng-model="diaryEntry.seedSource">
@@ -244,7 +243,7 @@
 
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Plant Rating</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_RATING_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.plantRatingId"
@@ -261,7 +260,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">{{'DIARY_ENTRY_IS_PRIVATE_LABEL' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'DIARY_ENTRY_VIEW_PRIVATE_ENTRY_LABEL' | translate }}</label>
                 <div class="col-sm-9">
                   <input type="checkbox" class="form-control" ng-model="diaryEntry.isPrivate">
                 </div>
@@ -269,7 +268,7 @@
 
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                  <button type="submit" class="btn btn-default">Save</button>
+                  <button type="submit" class="btn btn-default">{{ 'SAVE_BUTTON' | translate }}</button>
                   <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
                 </div>
               </div>
@@ -295,7 +294,7 @@
               </div>
 
               <div class="file-button">
-                <button class="btn btn-default">{{'DIARY_VIEW_SELECT_MULTIPLE_FILES' | translate}}</button>
+                <button class="btn btn-default">{{ 'DIARY_VIEW_SELECT_MULTIPLE_FILES' | translate }}</button>
                 <input type="file" nv-file-select="" uploader="uploader2" multiple/>
               </div>
 
@@ -317,17 +316,17 @@
                         ng-click="uploader2.uploadAll()"
                         ng-disabled="!uploader2.getNotUploadedItems().length"
                         ng-show="images">
-                  <span class="glyphicon glyphicon-upload"></span> Upload all
+                  <span class="glyphicon glyphicon-upload"></span>{{ 'DIARY_UPLOADER_UPLOAD_ALL' | translate }}
                 </button>
                 <button type="button" class="btn btn-warning btn-s"
                         ng-click="uploader2.cancelAll()"
                         ng-disabled="!uploader2.isUploading">
-                  <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                  <span class="glyphicon glyphicon-ban-circle"></span>{{ 'DIARY_UPLOADER_CANCEL_ALL' | translate }}
                 </button>
                 <button type="button" class="btn btn-danger btn-s"
                         ng-click="uploader2.clearQueue()"
                         ng-disabled="!uploader2.queue.length">
-                  <span class="glyphicon glyphicon-trash"></span> Remove all
+                  <span class="glyphicon glyphicon-trash"></span>{{ 'DIARY_UPLOADER_REMOVE_ALL' | translate }}
                 </button>
               </div>
             </div>
@@ -338,7 +337,7 @@
             <form class="form-horizontal" role="form" ng-submit="save()" name="$parent.frmDiaryProgress">
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Entry Date</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input type="text"
@@ -351,7 +350,7 @@
 
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Notes</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_NOTES_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <textarea class="form-control" rows="6" placeholder="Notes" ng-model="diaryProgress.notes"></textarea>
@@ -360,7 +359,7 @@
 
 
               <div class="form-group">
-                <label class="col-sm-3 control-label">Plant Rating</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_RATING_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryProgress.plantRatingId"
@@ -379,7 +378,7 @@
 
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                  <button type="submit" class="btn btn-default">Save</button>
+                  <button type="submit" class="btn btn-default">{{ 'SAVE_BUTTON' | translate }}</button>
                   <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
                 </div>
               </div>

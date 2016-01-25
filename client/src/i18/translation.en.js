@@ -14,8 +14,12 @@ var translationsEN= {
 
   HOME_HEADER: '',
   HOME_TEXT_P1: 'Welcome to our gardening website. We intend that this site become a social site with a wealth of information about gardening and living healthily. For now we\u0027ve implemented a gardener\u0027s diary where you can store and hopefully share your experience with other gardeners online. There will be a host more facilities and information for gardeners as we expand the site.',
-  HOME_TEXT_P2: 'All feedback is gratefully received, any suggestions are welcome and will be considered. Please feel free to email support@gardensyjardines.com with any suggestions you might have.',
+  HOME_TEXT_P2: 'All feedback is gratefully received, all suggestions are welcome and will be considered. Please feel free to email support@gardensyjardines.com with any suggestions you might have.',
   HOME_TEXT_P3: 'So please feel free to click on the diary link in the menu to get started.',
+
+
+  LOADING_MESSAGE: 'Loading Please Wait',
+
 
   ABOUT_HEADER: '',
   ABOUT_TEXT: 'About text',
@@ -35,6 +39,10 @@ var translationsEN= {
 
 
   REGISTER_BUTTON:'Register',
+
+  VERIFIED_TEXT:'Your user has been verified, you may now',
+  VERIFIED_LOGIN_LINK:'Login',
+
 
 
   LOGIN_FAILED_EMAIL_NOT_VERIFIED:'Please check your inbox for your verification email and click the verification link.',
@@ -59,9 +67,11 @@ var translationsEN= {
 
   DIARY_DEFAULT_HEADER: '',
   DIARY_DEFAULT: 'Diary Defaults',
-  DIARY_DEFAULT_COUNTRY_LABEL: 'Country',
-  DIARY_DEFAULT_IS_PRIVATE_LABEL: 'Make Entry Private',
-  DIARY_DEFAULT_CREATE_BUTTON : 'Save Defaults',
+  DIARY_DEFAULT_COUNTRY_LABEL:'Country',
+  DIARY_DEFAULT_HARDINESS_ZONE_LABEL:'Hardiness Zone',
+  DIARY_DEFAULT_SOIL_ACIDITY_LABEL:'Soil Acidity',
+  DIARY_DEFAULT_SOIL_TYPE_LABEL:'Soil Type',
+  DIARY_DEFAULT_ENTRY_PRIVATE_LABEL:'Make each diary entry to be private by default?',
 
   DIARY_VIEW_HEADER: '',
   DIARY_VIEW_NOT_LOGGED_IN:'You are not logged in, please',
@@ -76,7 +86,26 @@ var translationsEN= {
   DIARY_VIEW_SAVE_INVALID: 'Incomplete data items marked in red in dairy',
   DIARY_VIEW_SELECT_MULTIPLE_FILES: 'Select Multiple Files',
   DIARY_VIEW_DELETE_SUCCESS: 'You have deleted a row',
-  DIARY_ENTRY_VIEW_PLANT_FAMILY:'Plant Family',
+  DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL:'Entry Date',
+  DIARY_ENTRY_VIEW_PLANT_FAMILY_LABEL:'Plant Family',
+  DIARY_ENTRY_VIEW_PLANT_CULTIVAR_LABEL:'Plant Cultivar',
+  DIARY_ENTRY_VIEW_NOTES_LABEL:'Notes',
+  DIARY_ENTRY_VIEW_COUNTRY_LABEL:'Country',
+  DIARY_ENTRY_VIEW_HARDINESS_ZONE_LABEL:'Hardiness Zone',
+  DIARY_ENTRY_VIEW_SOIL_ACIDITY_LABEL:'Soil Acidity',
+  DIARY_ENTRY_VIEW_SOIL_TYPE_LABEL:'Soil Type',
+  DIARY_ENTRY_VIEW_MATURITY_DATE_LABEL:'Maturity Date',
+  DIARY_ENTRY_VIEW_SEED_SOURCE_LABEL:'Seed Source',
+  DIARY_ENTRY_VIEW_PLANT_RATING_LABEL:'Plant Rating',
+  DIARY_ENTRY_VIEW_PRIVATE_ENTRY_LABEL:'Private Entry',
+
+
+
+  DIARY_UPLOADER_UPLOAD_ALL:'Upload All',
+  DIARY_UPLOADER_CANCEL_ALL:'Cancel all',
+  DIARY_UPLOADER_REMOVE_ALL:'Remove all',
+
+
   DIARY_ENTRY_IS_PRIVATE_LABEL: 'Private Entry',
   DIARY_ADD_PROGRESS: 'Add Diary Progress',
   DIARY_ADD_ENTRY: 'Add Diary Entry',
@@ -122,6 +151,7 @@ var translationsEN= {
 
   CONFIRM_OK: 'ok',
   CONFIRM_CANCEL: 'cancel',
-  CONFIRM_SURE: 'Are you sure?'
+  CONFIRM_SURE: 'Are you sure?',
+  SAVE_BUTTON: 'Save'
 
 };
