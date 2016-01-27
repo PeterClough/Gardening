@@ -23,14 +23,18 @@ angular.module( 'users.login', [
 
 .controller('LoginCtrl', function LoginCtrl($scope, $timeout, User, $location, $translate) {
 
-  $scope.showCard = false;
+    $scope.rememberMe = false;
+    $scope.showCard = false;
   $timeout(function(){
     $scope.showCard = true;
   },100);
 
-
   $scope.login = function () {
-    $scope.loginResult = User.login({include: 'user', rememberMe: true}, $scope.credentials,
+
+    console.log('$scope.rememberMe', $scope.rememberMe);
+
+
+    $scope.loginResult = User.login({include: 'user', rememberMe: $scope.rememberMe}, $scope.credentials,
         function () {
           var next = $location.nextAfterLogin || '/';
           $location.nextAfterLogin = null;
@@ -38,7 +42,7 @@ angular.module( 'users.login', [
         },
         function (res) {
           $scope.loginError = res.data.error;
-         switch (res.data.error.message) {
+          switch (res.data.error.message) {
             case "login failed as the email has not been verified" :
               $translate('LOGIN_FAILED_EMAIL_NOT_VERIFIED').then(function (text) {
                 $scope.loginErrorMessage = text;

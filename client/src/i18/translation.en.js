@@ -52,6 +52,7 @@ var translationsEN= {
   LOGIN_EMAIL_REQUIRED:'The email field is required.',
   LOGIN_PASSWORD_REQUIRED:'The password field is required.',
   LOGIN_FORGOT_PASSWORD: 'Forgot Password?',
+  LOGIN_REMEMBER_ME: 'Remember me?',
   LOGIN_BUTTON:'Login',
 
 

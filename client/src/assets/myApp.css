@@ -72,15 +72,13 @@
   color: #a94442;
 }
 
-
+#remember-me {
+  font-size: 0.8em;
+}
 
 .forgot-password {
   float:right;
-  font-size: 0.8em;
-
 }
-
-
 
 
 
