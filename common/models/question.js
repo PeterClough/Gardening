@@ -1,9 +1,10 @@
 module.exports = function(Question){
 
-  Question.recentQuestions = function(cb) {
+  Question.recentQuestions = function(languageId, cb) {
 
     Question.find({
         fields: ['question', 'created', 'userId', 'id'],
+        where: {languageId: languageId},
         order: "created DESC",
         limit: 30,
         include: [
@@ -29,6 +30,7 @@ module.exports = function(Question){
   Question.remoteMethod(
     'recentQuestions',
     {
+      accepts: {arg: 'languageId', type: 'string'},
       returns: {arg: 'recentQuestions', type: 'object'}
     }
   );

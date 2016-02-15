@@ -1,6 +1,5 @@
 [
   {
-    "_id": "1",
     "name": "English",
     "code": "en",
     "created": "1/1/2014",
@@ -8,7 +7,6 @@
     "updatedBy": "1"
   },
   {
-    "_id": "2",
     "name": "Spanish",
     "code": "es",
     "created": "1/1/2014",

@@ -71,6 +71,11 @@
       "type": "hasMany",
       "model": "DiaryProgress",
       "foreignKey": "diaryEntryId"
+    },
+    "diaryEntryImageDocs": {
+      "type": "hasMany",
+      "model": "DiaryEntryImageDoc",
+      "foreignKey": "diaryEntryId"
     }
   },
   "acls": [

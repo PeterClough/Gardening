@@ -55,7 +55,7 @@
     <div class="collapse navbar-collapse" collapse="menuCollapsed">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active">
-          <a href ui-sref="home">
+          <a ui-sref="home">
             <i class="fa fa-home"></i>
             {{'MENU_HOME' | translate}}
           </a>
@@ -70,12 +70,19 @@
         <li ui-sref-active="active">
           <a ui-sref="diary.view">
             <i class="fa fa-book"></i>
-            {{'MENU_DIARY' | translate}}
+            {{'MENU_MY_DIARY' | translate}}
           </a>
         </li>
         <li ui-sref-active="active">
+          <a ui-sref="diary.feed">
+            <i class="fa fa-th-list"></i>
+            {{'MENU_DIARY_FEED' | translate}}
+          </a>
+        </li>
+
+        <li ui-sref-active="active">
           <a ui-sref="ask.list({ tagId: '' })">
-            <i class="fa fa-book"></i>
+            <i class="fa fa-question"></i>
             {{'MENU_ASK' | translate}}
           </a>
         </li>
@@ -89,7 +96,7 @@
           </a>
         </li>
         <li ui-sref-active="active">
-          <a href="#" ng-click="logout()">
+          <a ui-sref="users.logout">
             {{'MENU_LOGOUT' | translate}}
           </a>
         </li>
@@ -99,27 +106,32 @@
           </a>
         </li>
 
-<!--        <li>
+
+
+        <li>
           <ui-select ng-model="language.selected"
                      theme="bootstrap"
                      ng-disabled="disabled"
                      reset-search-input="false"
-                     style="width: 105px;">
+                     style="width: 105px;"
+            >
             <ui-select-match placeholder="Language">{{$select.selected.name}}</ui-select-match>
             <ui-select-choices repeat="language in languages">
               <div ng-bind-html="language.name"></div>
-
             </ui-select-choices>
           </ui-select>
         </li>
--->
+
       </ul>
     </div>
   </div>
 </div>
 
+<div growl></div>
 
-<div class="container" ui-view="main"></div>
+<div class="container" ui-view="main">
+
+</div>
 
 <footer class="footer">
   <div class="container">

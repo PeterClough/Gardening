@@ -2,6 +2,7 @@ angular.module( 'ask.list', [
   'ui.router',
   'pascalprecht.translate',
   'ui.bootstrap.showErrors',
+  'angular-growl',
   'ngTagsInput'
 ])
 
@@ -9,14 +10,14 @@ angular.module( 'ask.list', [
 .config(function config( $stateProvider ) {
 
   $stateProvider.state( 'ask.list', {
-    url: '/list/:tagId',
+    url: '/list/:tag',
     views: {
       "ask": {
         controller: 'AskListCtrl',
         templateUrl: 'ask/list/list.tpl.html'
       },
       params: {
-        tagId  : {
+        tag  : {
           value : ''
         }
       }
@@ -25,63 +26,99 @@ angular.module( 'ask.list', [
   });
 })
 
-.controller( 'AskListCtrl', function AskListCtrl( $scope, $rootScope, $translate, $filter, $timeout, $stateParams, $q, Question, Tag, QuestionTagJunction, User ) {
+.controller( 'AskListCtrl', function AskListCtrl( $scope, $rootScope, $translate, $filter, $timeout, $stateParams, $q, growl,  Question, Tag, QuestionTagJunction, User ) {
 
     $scope.gotQuestion = false;
     $scope.showCard = false;
     $scope.loggedIn = User.isAuthenticated();
     var userId = User.getCurrentId();
-
-    if ($stateParams.tagId === '') {
-      $translate('ASK_RECENT_HEADER').then(function (translation) {
-        $scope.listHeader = translation;
-      });
-    }
-    else
-    {
-    $translate('ASK_BY_TAG_HEADER').then(function (translation) {
-      $scope.listHeader = translation;
-    });
-    Tag.findById({ id: $stateParams.tagId })
-      .$promise.then(function(cb) {
-        $scope.tagHeader = cb.tag;
-      });
-    }
+    var languageId = '';
 
 
-    $rootScope.$on('$translateChangeSuccess', function (tagId) {
-      if (tagId==='') {
+    $rootScope.$on('$translateChangeSuccess', function () {
+      $scope.showCard = false;
+      languageId = $rootScope.languageId;
+       if ( $stateParams.tag === '' ) {
         $translate('ASK_RECENT_HEADER').then(function (translation) {
           $scope.listHeader = translation;
         });
+
+        Question.recentQuestions({languageId: languageId})
+          .$promise.then(function (cb) {
+            $scope.questions = cb.recentQuestions;
+            $timeout(function () {
+              $scope.showCard = true;
+            }, 100);
+
+          });
       }
-      else
-      {
+      else {
         $translate('ASK_BY_TAG_HEADER').then(function (translation) {
           $scope.listHeader = translation;
         });
 
+        Tag.findByTagName({ tag: $stateParams.tag, languageId: languageId})
+          .$promise.then(function(cb) {
+            if (cb.tag.length > 0) {
+              $scope.tagHeader = cb.tag[0].tag;
+              getQuestionsByTag(cb.tag[0].id);
+            }
+            else {
+              $scope.tagHeader = $stateParams.tag;
+              $scope.questions =[];
+              $timeout(function () {
+                $scope.showCard = true;
+              }, 100);
+
+            }
+          });
       }
+
     });
 
-    if ( $stateParams.tagId === '' ){
 
-      Question.recentQuestions()
-        .$promise.then(function (cb) {
-          $scope.questions = cb.recentQuestions;
-          $timeout(function(){
-            $scope.showCard = true;
-          },100);
 
+
+    languageId = $rootScope.languageId;
+    if (languageId !== undefined) {
+      if ($stateParams.tag === '') {
+        $translate('ASK_RECENT_HEADER').then(function (translation) {
+          $scope.listHeader = translation;
         });
+        //check if parent.languageid set if not wait
+        Question.recentQuestions({languageId: languageId})
+          .$promise.then(function (cb) {
+            $scope.questions = cb.recentQuestions;
+            $timeout(function () {
+              $scope.showCard = true;
+            }, 100);
 
+          });
+      }
+      else {
+        $translate('ASK_BY_TAG_HEADER').then(function (translation) {
+          $scope.listHeader = translation;
+        });
+        Tag.findByTagName({tag: $stateParams.tag, languageId: languageId})
+          .$promise.then(function (cb) {
+            if (cb.tag.length > 0) {
+              $scope.tagHeader = cb.tag[0].tag;
+              getQuestionsByTag(cb.tag[0].id);
+            }
+            else {
+              $scope.tagHeader = $stateParams.tag;
+              $scope.questions = [];
+              $timeout(function () {
+                $scope.showCard = true;
+              }, 100);
+
+            }
+          });
+      }
     }
-    else {
-      getQuestionsByTag($stateParams.tagId);
-    }
+
 
     function getQuestionsByTag(tagId) {
-
       Tag.questionsByTag({"tagId":tagId})
         .$promise.then(function (cb) {
           $scope.questions = cb.questionsByTag[0].question;
@@ -91,7 +128,6 @@ angular.module( 'ask.list', [
 
         });
     }
-
 
 
 
@@ -131,11 +167,10 @@ angular.module( 'ask.list', [
 
 
     $scope.submitQuestion = function() {
-
       $scope.question.rating = 0;
       $scope.question.userId = userId;
       $scope.question.created = $scope.question.updated = $filter('date')(new Date(), 'medium');
-      $scope.question.languageId = "1";
+      $scope.question.languageId = $scope.$parent.$parent.language.selected.id;
       Question.upsert($scope.question)
         .$promise.then(function(res) {
           //save tags
@@ -151,10 +186,12 @@ angular.module( 'ask.list', [
             //create saveTag so screen doesn't lose data
             var saveTag={tag:tag.text};
             if (!("id" in tag)){
-               Tag.findByTag({"tag":tag.text})
+               Tag.findByTagName({"tag":tag.text},{languageId:$scope.question.languageId})
                 .$promise.then(function (cb) {
                   if (cb.tag.length===0) {
                     saveTag.created = saveTag.updated = $filter('date')(new Date(), 'medium');
+                    saveTag.languageId = $scope.$parent.$parent.language.selected.id;
+
                     Tag.upsert(saveTag)
                       .$promise.then(function (res) {
                           deferredTag.resolve(res);
@@ -191,7 +228,8 @@ angular.module( 'ask.list', [
           });
 
           $q.all(requests).then(function() {
-             Question.recentQuestions()
+            languageId = $scope.$parent.$parent.language.selected.id;
+            Question.recentQuestions({languageId: languageId})
               .$promise.then(function (res) {
                 $scope.questions = res.recentQuestions;
               });
@@ -199,7 +237,7 @@ angular.module( 'ask.list', [
         });
 
         $scope.gotQuestion = false;
-        $scope.messageSaved = true;
+        growl.success("ASK_MESSAGE_SAVED",{title: "ASK_MESSAGE_SAVED_TITLE"});
         $scope.$broadcast('show-errors-reset');
 
 

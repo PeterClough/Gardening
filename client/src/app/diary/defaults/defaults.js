@@ -70,7 +70,7 @@ angular.module( 'diary.defaults', [
     DiaryDefault.findByDiaryId({"diaryId": $scope.userId})
       .$promise.then(function(cb) {
           if (cb.diaryDefault.length===0){
-            $scope.diaryDefault ={};
+            $scope.diaryDefault ={isPrivate: false};
           }
           else {
             $scope.diaryDefault = cb.diaryDefault[0];
@@ -83,9 +83,12 @@ angular.module( 'diary.defaults', [
     $scope.$broadcast('show-errors-check-validity');
 
     if ($scope.defaultForm.$valid) {
+      if ($scope.diaryDefault.created === undefined) {
+        $scope.diaryDefault.diaryId = $scope.userId;
+        $scope.diaryDefault.id = $scope.userId;
+        $scope.diaryDefault.created = Date.now();
+      }
 
-      $scope.diaryDefault.diaryId = $scope.userId;
-      $scope.diaryDefault.id = $scope.userId;
       $scope.diaryDefault.updated = Date.now();
 
       $scope.defaultsResult = DiaryDefault.upsert($scope.diaryDefault, function () {

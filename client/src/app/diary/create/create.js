@@ -27,14 +27,11 @@ angular.module( 'diary.create', [
   $scope.loggedIn = User.isAuthenticated();
   $scope.userId = User.getCurrentId();
 
-  if ($scope.loggedIn) {
+    if ($scope.loggedIn) {
     Diary.findByUserId({"userId":$scope.userId})
       .$promise.then(function(cb) {
         if (cb.diary.length===0){
           $scope.diary= {
-            "created": Date.now(),
-            "userId": $scope.userId,
-            "id": $scope.userId,
             "isPrivate": false
           };
         }
@@ -48,7 +45,19 @@ angular.module( 'diary.create', [
   }
 
   $scope.save = function() {
+
+    if ($scope.diary.created === undefined) {
+      $scope.diary.created = Date.now();
+      $scope.diary.userId = $scope.userId;
+      $scope.diary.id = $scope.userId;
+      $scope.diary.languageId = $scope.$parent.$parent.language.selected.id;
+    }
+
     $scope.diary.updated= Date.now();
+
+
+
+
 
     $scope.createResult = Diary.upsert($scope.diary, function () {
       var next = $location.nextAfterCreate || '/diary/defaults';

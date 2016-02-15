@@ -6,7 +6,7 @@
 
 <div id="list-container">
 
-  <div class="view-animate" ng-show="!showCard" id="loading-message">{{ 'LOADING_MESSAGE' | translate }}</div>
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
 
 
 
@@ -24,16 +24,11 @@
           </div>
         </div>
         <div class="phaedra-colors tags">
-          <a ui-sref="ask.list({ tagId: '{{tag.id}}' })"  class="label label-info tag" ng-repeat="tag in question.tag" ng-bind-html="tag.tag"></a>
+          <a ui-sref="ask.list({ tag: '{{tag.tag}}' })"  class="label label-info tag" ng-repeat="tag in question.tag" ng-bind-html="tag.tag"></a>
         </div>
 
       </div>
     </div>
-
-
-    <div class="view-animate" id="message-saved" ng-show="messageSaved">{{ 'ASK_MESSAGE_SAVED' | translate }}</div>
-
-
 
     <div id="ask-container">
 
@@ -105,7 +100,7 @@
 
     </div>
 
-    <a ui-sref="ask.list({ tagId: '' })" ng-show="tagHeader.length > 0">{{ 'ASK_VIEW_RECENT_LINK' | translate}}</a>
+    <a ui-sref="ask.list({ tag: '' })" ng-show="tagHeader.length > 0">{{ 'ASK_VIEW_RECENT_LINK' | translate}}</a>
     <a ui-sref="ask.tags"> {{ 'ASK_VIEW_ALL_TAGS_LINK' | translate}}</a>
 
   </div>

@@ -4,7 +4,8 @@ var translationsEN= {
 // The Branding Title in the application navigation bar.
   NAVBAR_BRAND: 'Gardening',
   MENU_HOME: 'Home',
-  MENU_DIARY: 'Diary',
+  MENU_MY_DIARY: 'My Diary',
+  MENU_DIARY_FEED: 'Diary Feed',
   MENU_ASK: 'Ask',
   MENU_ABOUT:'About us',
   MENU_LOGIN: 'Login',
@@ -53,14 +54,15 @@ var translationsEN= {
   LOGIN_PASSWORD_REQUIRED:'The password field is required.',
   LOGIN_FORGOT_PASSWORD: 'Forgot Password?',
   LOGIN_REMEMBER_ME: 'Remember me?',
-  LOGIN_BUTTON:'Login',
-
+  LOGIN_BUTTON: 'Login',
+  LOGOUT_ALREADY: 'Already logged out.',
+  LOGOUT_SUCCESS: 'You have been logged out.',
 
   DIARY_HEADER: '',
 
   DIARY_CREATE: 'Create Diary',
-  DIARY_CREATE_IS_PRIVATE_LABEL: 'Private Diary',
-  DIARY_CREATE_IS_PRIVATE_HELP_BLOCK: 'You can share your diary with the community or keep it private.',
+  DIARY_CREATE_IS_PRIVATE_LABEL: 'Make diary private?',
+  DIARY_CREATE_IS_PRIVATE_HELP_BLOCK: 'You can share your diary with the community or choose to keep it private.',
   DIARY_CREATE_BUTTON: 'Save Diary',
   DIARY_CREATE_TO_CREATE:'Would you like to',
   DIARY_CREATE_TO_CREATE_LINK:'create ',
@@ -100,20 +102,29 @@ var translationsEN= {
   DIARY_ENTRY_VIEW_PLANT_RATING_LABEL:'Plant Rating',
   DIARY_ENTRY_VIEW_PRIVATE_ENTRY_LABEL:'Private Entry',
 
-
-
   DIARY_UPLOADER_UPLOAD_ALL:'Upload All',
   DIARY_UPLOADER_CANCEL_ALL:'Cancel all',
   DIARY_UPLOADER_REMOVE_ALL:'Remove all',
-
 
   DIARY_ENTRY_IS_PRIVATE_LABEL: 'Private Entry',
   DIARY_ADD_PROGRESS: 'Add Diary Progress',
   DIARY_ADD_ENTRY: 'Add Diary Entry',
   DIARY_DELETE_ROW: 'Delete Row',
 
+  DIARY_FEED: 'Diary Feed',
+  DIARY_FEED_DIARY_CREATED: 'created new diary',
+  DIARY_FEED_DIARY_ENTRY: 'made a diary entry',
+  DIARY_FEED_DIARY_PROGRESS: 'updated their diary progress',
+  DIARY_FEED_PLANT_FAMILY: 'Plant Family',
+  DIARY_FEED_PLANT_CULTIVAR: 'Plant Cultivar',
+  DIARY_FEED_SEED_SOURCE: 'Seed Source',
+  DIARY_FEED_DIARY_ENTRY_IMAGE_DOC: 'added a photo to his diary entry.',
+  DIARY_FEED_DIARY_PROGRESS_IMAGE_DOC: 'added a photo to his diary progress.',
 
-  ASK_HEADER: '',
+
+
+
+ASK_HEADER: '',
 
   ASK_RECENT_HEADER: 'Recent Questions',
   ASK_BY_TAG_HEADER: 'Questions With Tag: ',
@@ -124,7 +135,8 @@ var translationsEN= {
   ASK_QUESTION: 'Question',
   ASK_TAGS: 'Add a tag',
   ASK_SUBMIT_QUESTION_BUTTON: 'Submit Question',
-  ASK_MESSAGE_SAVED: 'Your message has been submitted successfully.',
+  ASK_MESSAGE_SAVED_TITLE: 'Your Message',
+  ASK_MESSAGE_SAVED: 'Has been submitted successfully.',
   ASK_ASKED_BY: 'asked by',
   ASK_ANSWERED_BY: 'answered by',
   ANSWER_QUESTION_TEXT: 'Answer question',
@@ -149,6 +161,7 @@ var translationsEN= {
   GROWL_SAVED_TITLE: 'Save Successful',
   GROWL_INFO_TITLE: 'Info',
   GROWL_DELETED_TITLE: 'Deletion Successful',
+  GROWL_LOGOUT_TITLE: 'Logout',
 
   CONFIRM_OK: 'ok',
   CONFIRM_CANCEL: 'cancel',

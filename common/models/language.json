@@ -1,6 +1,6 @@
 {
   "name": "Language",
-  "plural": "languages",
+  "plural": "Languages",
   "base": "PersistedModel",
   "properties": {
     "created": {
@@ -18,18 +18,14 @@
     "code": {
       "type": "string",
       "required": true
-    },
-    "iconUrl": {
-      "type": "string",
-      "required": true
     }
   },
   "validations": [],
   "relations": {
     "updatedBy": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "userId"
+    "type": "belongsTo",
+    "model": "user",
+    "foreignKey": "userId"
     }
   },
   "acls": [
@@ -37,6 +33,13 @@
       "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": ""
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
       "permission": "ALLOW",
       "property": ""
     }

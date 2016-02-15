@@ -2,6 +2,8 @@ angular.module( 'myApp', [
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
+  'angular-growl',
+  'ngCookies',
   'lbServices',
   'ui.router',
   'ui.bootstrap',
@@ -14,68 +16,81 @@ angular.module( 'myApp', [
   'myApp.ask'
 ])
 
-  .config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider ) {
-    $translateProvider.translations('en', translationsEN);
-    $translateProvider.translations('es', translationsES);
-    $translateProvider.preferredLanguage('en');
-    $translateProvider.fallbackLanguage('en');
-    $translateProvider.useSanitizeValueStrategy('sanitize');
-    $urlRouterProvider.otherwise( '/home' );
-  })
+.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, growlProvider ) {
+  $translateProvider.translations('en', translationsEN);
+  $translateProvider.translations('es', translationsES);
+  $translateProvider.preferredLanguage('en');
+  $translateProvider.fallbackLanguage('en');
+  $translateProvider.useSanitizeValueStrategy('escape');
+  $translateProvider.useLocalStorage();
+  $urlRouterProvider.otherwise( '/home' );
+  growlProvider.globalTimeToLive(5000);
+})
 
-  .run( function run () {
-  })
+.run( function run () {
+})
 
-  .controller( 'AppCtrl', function( $scope, $location, $translate, $window, User, changeLanguage, SystemLanguage) {
-
-
-    $scope.loggedIn = User.isAuthenticated();
+.controller( 'AppCtrl', function( $rootScope, $scope, $translate, User, changeLanguage, Language) {
 
 
-    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-      if ( angular.isDefined( toState.data.pageTitle ) ) {
-        $scope.pageTitle = toState.data.pageTitle + ' | myApp' ;
-        $scope.loggedIn = User.isAuthenticated();
-      }
-    });
+  $scope.loggedIn = User.isAuthenticated();
 
-    SystemLanguage.getList()
-      .$promise.then(function(cb) {
-        $scope.languages = cb.systemLanguages;
-        $scope.language = {};
-        $scope.$watch('language.selected', function(newVal) {
-          if (newVal && newVal.name) {
-            var langKey = newVal.code;
-            changeLanguage(langKey);
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+    if ( angular.isDefined( toState.data.pageTitle ) ) {
+      $scope.pageTitle = toState.data.pageTitle + ' | myApp' ;
+      $scope.loggedIn = User.isAuthenticated();
+    }
+  });
+
+  Language.getList()
+    .$promise.then(function(cb) {
+      $scope.languages = cb.languages;
+      $scope.language={};
+
+      function langId(langKey) {
+        var lanIdx = -1;
+        for (var i = 0, len = $scope.languages.length; i < len; i++) {
+          if ($scope.languages[i].code === langKey) {
+            lanIdx = i;
+            return lanIdx;
           }
-        }, true);
-      });
-
-    $scope.logout = function(){
-      var accessToken =null;
-
-      if ($window.localStorage) {
-        accessToken=$window.localStorage.getItem("$LoopBack$accessTokenId");
+        }
       }
-      var lo = {"sid":accessToken};
-      User.logout(lo, function(cb) {
-        $scope.loggedIn=false;
-        var next = $location.nextAfterLogout || '/';
-        $location.nextAfterLogout = null;
-        $location.path(next);
-      }, function(err){
-        var next = $location.nextAfterLogout || '/';
-        $location.nextAfterLogout = null;
-        $location.path(next);
-      });
-    };
-  })
 
 
-  .factory('changeLanguage', [ '$translate', function changeLanguage ($translate) {
-    return function(langKey) {
-      $translate.use(langKey);
-    };
-  }])
+
+
+      var lanCode = $translate.proposedLanguage() || $translate.use();
+
+      var languageIndex = langId(lanCode);
+
+      $scope.language.selected =  $scope.languages[languageIndex];
+      $rootScope.languageId = $scope.language.selected.id;
+
+
+      $scope.$watch('language.selected', function(newVal) {
+      if (newVal && newVal.name) {
+        var langKey = newVal.code;
+        var lanId = langId(langKey);
+        $rootScope.languageId = $scope.languages[lanId].id;
+        changeLanguage(langKey);
+      }
+    }, true);
+
+
+
+  });
+
+
+
+})
+
+
+.factory('changeLanguage', function changeLanguage ($translate) {
+  return function(langKey) {
+    $translate.use(langKey);
+  };
+})
 
 ;

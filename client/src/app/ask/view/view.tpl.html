@@ -3,8 +3,7 @@
 
 <div id="view-question-container">
 
-  <div class="view-animate" ng-show="!showCard" id="loading-message">{{ 'LOADING_MESSAGE' | translate }}</div>
-
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
 
   <div class="card view-animate" ng-show="showCard" id="view-question-card">
 
@@ -31,7 +30,7 @@
 
       <div class="row">
         <div class="phaedra-colors tags col-xs-9">
-          <a ui-sref="ask.list({ tagId: '{{tag.id}}' })" class="label label-info tag" ng-repeat="tag in question[0].tag" ng-bind-html="tag.tag" ></a>
+          <a ui-sref="ask.list({ tag: '{{tag.tag}}' })" class="label label-info tag" ng-repeat="tag in question[0].tag" ng-bind-html="tag.tag" ></a>
         </div>
         <div class="asked-by col-xs-3">
           {{'ASK_ASKED_BY' | translate}} {{question[0].user.firstName}} {{question[0].user.lastName }}<br>

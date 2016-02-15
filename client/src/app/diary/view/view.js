@@ -29,7 +29,7 @@ angular.module( 'diary.view', [
 })
 
 
-.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, $confirm, growl, User, Diary, DiaryDefault, DiaryEntry, DiaryProgress, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox) {
+.controller('DiaryViewCtrl', function DiaryViewCtrl( $scope, $filter, $translate, $location, $q, $window, $confirm, $timeout, growl, User, Diary, DiaryDefault, DiaryEntry, DiaryProgress, DiaryEntryImageDoc, DiaryProgressImageDoc, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox) {
   'use strict';
 
 
@@ -186,6 +186,8 @@ angular.module( 'diary.view', [
 
 
   $scope.addDiaryEntry = function() {
+    $scope.$broadcast('show-errors-reset');
+
     var newNode = angular.copy($scope.diaryDefault);
     newNode[0].entryDate = $filter('date')(new Date(), 'medium');
     newNode[0].children = [];
@@ -208,6 +210,7 @@ angular.module( 'diary.view', [
 
 
   $scope.addDiaryProgress = function($event, node) {
+    $scope.$broadcast('show-errors-reset');
 
     var newNode = {
       "entryDate": $filter('date')(new Date(), 'medium'),
@@ -273,6 +276,7 @@ angular.module( 'diary.view', [
 
       $q.all(promises).then(function(){
         if ($scope.isDirty===true) {
+          $scope.isDirty=false;
           $scope.frmDiaryEntry.$setPristine();
           $scope.frmDiaryProgress.$setPristine();
           growl.success("DIARY_VIEW_SAVE_SUCCESS",{title: "GROWL_SAVED_TITLE"});
@@ -588,7 +592,7 @@ angular.module( 'diary.view', [
 
     var deferred = $q.defer();
     if (node.isDirty) {
-      node.updated = $filter('date')(new Date(), 'medium');
+      node.updated = Date.now();
       if (node.created === undefined) {
         node.created = node.updated;
       }
@@ -628,7 +632,7 @@ angular.module( 'diary.view', [
 
     children.forEach(function (node) {
       if (node.isDirty) {
-        node.updated = $filter('date')(new Date(), 'medium');
+        node.updated = Date.now();
         if (node.created === undefined) {
           node.created = node.updated;
         }

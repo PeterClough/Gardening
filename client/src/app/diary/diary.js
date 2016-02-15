@@ -3,7 +3,8 @@ angular.module( 'myApp.diary', [
   'pascalprecht.translate',
   'diary.view',
   'diary.create',
-  'diary.defaults'
+  'diary.defaults',
+  'diary.feed'
 ])
 
 

@@ -28,6 +28,11 @@
       "model": "Question",
       "foreignKey": "tagId",
       "through": "QuestionTagJunction"
+    },
+    "language": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": "languageId"
     }
   },
   "acls": [

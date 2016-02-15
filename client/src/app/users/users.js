@@ -1,6 +1,7 @@
 angular.module( 'myApp.users', [
   'ui.router',
   'users.login',
+  'users.logout',
   'users.register',
   'users.verified',
   'users.requestPassword',

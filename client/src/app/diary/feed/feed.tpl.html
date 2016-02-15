@@ -1,0 +1,82 @@
+<h3>{{'DIARY_FEED' | translate}}</h3>
+
+
+<div id="diary-feed-container">
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
+
+  <div class="card view-animate" ng-show="showCard" id="diary-feed-card">
+    <div class="row">
+      <div class="col-sm-6">
+
+        <div ng-repeat="diary in diaryFeed">
+
+          <!--DIARY-->
+          <div class="diary-feed-item" ng-if="diary.userId.length > 0">
+            {{diary.user.firstName + ' '+ diary.user.lastName}} {{'DIARY_FEED_DIARY_CREATED' | translate}} <span am-time-ago="diary.updated"></span>
+          </div>
+
+          <!--DIARY ENTRY-->
+          <div class="diary-feed-item" ng-if="diary.diaryId.length > 0">
+            {{diary.diary.user.firstName + ' '+ diary.diary.user.lastName}} {{'DIARY_FEED_DIARY_ENTRY' | translate}} <span am-time-ago="diary.updated"></span> <br/>
+            <div class="photos" ng-show="diary.diaryEntryImageDocs.length >0">
+              <div class="photobox">
+                <ul>
+                  <li ng-repeat="image in diary.diaryEntryImageDocs | limitTo : 31 : 0">
+                    <a ng-click="openLightboxModal($index, diary.diaryEntryImageDocs)">
+                      <img ng-src="{{ image.thumbUrl }}">
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div ng-if="diary.plantFamily.length > 0">{{ 'DIARY_FEED_PLANT_FAMILY' | translate }}: {{diary.plantFamily}}</div>
+            <div ng-if="diary.plantCultivar.length > 0">{{ 'DIARY_FEED_PLANT_CULTIVAR' | translate }}: {{diary.plantCultivar}}</div>
+            <div ng-if="diary.seedSource.length > 0">{{ 'DIARY_FEED_SEED_SOURCE' | translate }}: {{diary.seedSource}}</div>
+            <div ng-if="diary.notes.length > 0">{{diary.notes}}</div>
+          </div>
+
+
+          <!--DIARY PROGRESS-->
+          <div class="diary-feed-item" ng-if="diary.diaryEntryId.length > 0 && diary.diaryProgressImageDocs!==undefined">
+            {{diary.diaryEntry.diary.user.firstName + ' '+ diary.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_PROGRESS' | translate}} <span am-time-ago="diary.updated"></span>
+            <br/>
+            <div class="photos" ng-show="diary.diaryProgressImageDocs.length >0">
+              <div class="photobox">
+                <ul>
+                  <li ng-repeat="image in diary.diaryProgressImageDocs | limitTo : 31 : 0">
+                    <a ng-click="openLightboxModal($index, diary.diaryProgressImageDocs)">
+                      <img ng-src="{{ image.thumbUrl }}">
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div ng-if="diary.notes.length > 0">{{diary.notes}}</div>
+          </div>
+
+
+          <!--DIARY ENTRY IMAGE DOC-->
+          <div class="diary-feed-item" ng-if="diary.diaryEntryId.length > 0 && diary.extension.length > 0">
+            {{diary.diaryEntry.diary.user.firstName + ' '+ diary.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_ENTRY_IMAGE_DOC' | translate}} <span am-time-ago="diary.updated"></span> <br/>
+            <div class="single-photo">
+              <img ng-src="{{ diary.url }}">
+            </div>
+          </div>
+
+
+
+          <!--DIARY PROCESS IMAGE DOC-->
+          <div class="diary-feed-item" ng-if="diary.diaryProcessId.length > 0 && diary.extension.length > 0">
+            {{diary.diaryProgress.diary.user.firstName + ' '+ diary.diaryProgress.diary.user.lastName}} {{'DIARY_FEED_DIARY_PROGRESS_IMAGE_DOC' | translate}} <span am-time-ago="diary.updated"></span> <br/>
+            <img ng-src="{{ diary.url }}">
+          </div>
+
+
+
+        </div>
+      </div>
+      <div class="col-sm-6"></div>
+    </div>
+  </div>
+</div>

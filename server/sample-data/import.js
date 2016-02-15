@@ -10,23 +10,9 @@ var app = require('../server');
 var ds = app.dataSources.db;
 
 // sample data
-console.log('Assigning file: users.json');
-var users = require('./users.json');
+console.log('Assigning file: languages.json');
+var languages = require('./languages.json');
 
-console.log('Assigning file: system-languages.json');
-var systemLanguages = require('./system-languages.json');
-
-console.log('Assigning file: diaries.json');
-var diaries = require('./diaries.json');
-
-console.log('Assigning file: diary-defaults.json');
-var diaryDefaults = require('./diary-defaults.json');
-
-console.log('Assigning file: diary-entries.json');
-var diaryEntries = require('./diary-entries.json');
-
-console.log('Assigning file: diary-progression.json');
-var diaryProgression = require('./diary-progression.json');
 
 console.log('Assigning file: countries.json');
 var countries = require('./countries.json');
@@ -43,8 +29,6 @@ var soilAcidities = require('./soil-acidities.json');
 console.log('Assigning file: soil-types.json');
 var soilTypes = require('./soil-types.json');
 
-console.log('Assigning file: diary-entry-image-docs.json');
-var diaryEntryImageDocs = require('./diary-entry-image-docs.json');
 
 
 
@@ -53,23 +37,8 @@ module.exports = function(app, cb) {
 
 
 
-  console.log('Assigning model: User');
-  var user = app.models.user;
-
-  console.log('Assigning model: systemLanguage');
-  var systemLanguage = app.models.SystemLanguage;
-
-  console.log('Assigning model: diary');
-  var diary = app.models.Diary;
-
-  console.log('Assigning model: diaryDefault');
-  var diaryDefault = app.models.DiaryDefault;
-
-  console.log('Assigning model: diaryProgress');
-  var diaryProgress = app.models.DiaryProgress;
-
-  console.log('Assigning model: diaryEntry');
-  var diaryEntry = app.models.DiaryEntry;
+  console.log('Assigning model: language');
+  var language = app.models.Language;
 
   console.log('Assigning model: country');
   var country = app.models.Country;
@@ -85,9 +54,6 @@ module.exports = function(app, cb) {
 
   console.log('Assigning model: soilType');
   var soilType = app.models.SoilType;
-
-  console.log('Assigning model: diaryEntryImageDoc');
-  var diaryEntryImageDoc = app.models.DiaryEntryImageDoc;
 
 
 
@@ -129,19 +95,12 @@ module.exports = function(app, cb) {
       console.log('db.autoupdate');
 
     },
-    importData.bind(null, user, users),
-    importData.bind(null, systemLanguage, systemLanguages),
-    importData.bind(null, diary, diaries),
-    importData.bind(null, diaryDefault, diaryDefaults),
-    importData.bind(null, diaryEntry, diaryEntries),
-    importData.bind(null, diaryProgress, diaryProgression),
+    importData.bind(null, language, languages),
     importData.bind(null, country, countries),
     importData.bind(null, hardinessZone, hardinessZones),
     importData.bind(null, plantRating, plantRatings),
     importData.bind(null, soilAcidity, soilAcidities),
-    importData.bind(null, soilType, soilTypes),
-  //  importData.bind(null, diaryEntryImageDoc, diaryEntryImageDocs)
-
+    importData.bind(null, soilType, soilTypes)
 
 
 

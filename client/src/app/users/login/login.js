@@ -31,9 +31,6 @@ angular.module( 'users.login', [
 
   $scope.login = function () {
 
-    console.log('$scope.rememberMe', $scope.rememberMe);
-
-
     $scope.loginResult = User.login({include: 'user', rememberMe: $scope.rememberMe}, $scope.credentials,
         function () {
           var next = $location.nextAfterLogin || '/';

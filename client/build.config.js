@@ -71,6 +71,9 @@ module.exports = {
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-resource/angular-resource.js',
       'vendor/angular-translate/angular-translate.js',
+      'vendor/angular-translate-storage-local/angular-translate-storage-local.min.js',
+      'vendor/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
+      'vendor/angular-cookies/angular-cookies.min.js',
       'vendor/angular-tree-control/angular-tree-control.js',
       'vendor/angular-ui-select/dist/select.js',
       'vendor/angular-sanitize/angular-sanitize.js',
@@ -82,6 +85,7 @@ module.exports = {
       'vendor/ng-tags-input/ng-tags-input.js',
       'vendor/ng-context-menu/dist/ng-context-menu.js',
       'vendor/moment/min/moment.min.js',
+      'vendor/angular-moment/angular-moment.min.js',
       'vendor/angular-growl-v2/build/angular-growl.min.js',
       'vendor/angular-confirm-modal/angular-confirm.min.js'
     ],
@@ -94,12 +98,15 @@ module.exports = {
       'vendor/ng-tags-input/ng-tags-input.bootstrap.css',
       'vendor/angular-growl-v2/build/angular-growl.min.css',
       'vendor/angular-file-upload/dist/angular-file-upload.js.map',
-      'vendor/jquery/dist/jquery.min.map'
+      'vendor/jquery/dist/jquery.min.map',
+      'vendor/angular-cookies/angular-cookies.min.js.map',
+      'vendor/angular-moment/angular-moment.min.js.map'
     ],
     assets: [
     ],
     images:[
-      'src/images/*.*'
+      'src/images/*.*',
+      'vendor/angular-tree-control/images/*.*'
     ],
     fonts:[
       'vendor/bootstrap/dist/fonts/*.*'

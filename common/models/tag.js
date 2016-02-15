@@ -1,10 +1,11 @@
 module.exports = function(Tag){
 
 
-  Tag.getAllTags = function(cb) {
+  Tag.getAllTags = function(languageId, cb) {
 
     Tag.find({
         order: 'tag ASC',
+        where: {languageId: languageId},
         fields: ['tag', 'id']
       },
       function(err, cb2) {
@@ -15,22 +16,29 @@ module.exports = function(Tag){
   Tag.remoteMethod(
     'getAllTags',
     {
+      accepts: {arg: 'languageId', type: 'string'},
       returns: {arg: 'allTags', type: 'object'}
     }
   );
 
 
-  Tag.findByTag = function(tag, cb) {
+  Tag.findByTagName = function(tag, languageId, cb) {
+    console.log('looking for tag tag:', tag, ' languageId', languageId);
 
-    Tag.find({ "where": {"tag": tag} }, function(err, cb2) {
+
+    Tag.find({ "where": {and:[{"tag": tag}, {"languageId": languageId}]} }, function(err, cb2) {
       cb(null, cb2);
     });
   };
 
   Tag.remoteMethod(
-    'findByTag',
+    'findByTagName',
     {
-      accepts: {arg: 'tag', type: 'string'},
+      accepts: [
+        {arg: 'tag', type: 'string'},
+        {arg: 'languageId', type: 'string'},
+
+      ],
       returns: {arg: 'tag', type: 'object'}
     }
   );

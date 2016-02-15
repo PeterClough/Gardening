@@ -18,19 +18,44 @@ angular.module( 'ask.tags', [
   });
 })
 
-.controller( 'AskTagsCtrl', function AskTagsCtrl( $scope, $translate, $filter, $timeout, Tag ) {
+.controller( 'AskTagsCtrl', function AskTagsCtrl( $rootScope, $scope, $translate, $filter, $timeout, Tag ) {
 
     $scope.showCard = false;
 
-    Tag.getAllTags()
+
+
+
+    $rootScope.$on('$translateChangeSuccess', function () {
+
+      languageId = $rootScope.languageId;
+
+      Tag.getAllTags({languageId: languageId})
         .$promise.then(function (cb) {
           $scope.allTags = cb.allTags;
 
-          $timeout(function(){
+          $timeout(function () {
             $scope.showCard = true;
-          },100);
+          }, 100);
 
         });
+    });
+
+
+
+    languageId = $rootScope.languageId;
+
+    Tag.getAllTags({languageId: languageId})
+    .$promise.then(function (cb) {
+      $scope.allTags = cb.allTags;
+
+      $timeout(function () {
+        $scope.showCard = true;
+      }, 100);
+
+    });
+
+
+
 })
 
 ;

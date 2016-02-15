@@ -23,6 +23,11 @@
       "model": "user",
       "foreignKey": "userId"
     },
+    "diaryEntry": {
+      "type": "hasMany",
+      "model": "DiaryEntry",
+      "foreignKey": "diaryId"
+    },
     "language": {
       "type": "belongsTo",
       "model": "Language",
@@ -31,11 +36,23 @@
   },
   "acls": [
     {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getDiaryFeed"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
       "accessType": "WRITE",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "permission": "ALLOW",
-      "property": ""
+      "permission": "ALLOW"
     }
   ],
   "methods": []

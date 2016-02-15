@@ -44,10 +44,6 @@
       "emailVerificationRequired": true
     }
   },
-  "SystemLanguage": {
-    "dataSource": "db",
-    "public": true
-  },
   "Language": {
     "dataSource": "db",
     "public": true

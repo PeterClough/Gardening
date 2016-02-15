@@ -29,6 +29,11 @@
       "type": "belongsTo",
       "model": "DiaryEntry",
       "foreignKey": "diaryEntryId"
+    },
+    "diaryProgressImageDocs": {
+      "type": "hasMany",
+      "model": "DiaryProgressImageDoc",
+      "foreignKey": "diaryProgressId"
     }
   },
   "acls": [
