@@ -63,6 +63,14 @@
   text-align:left;
 }
 
+.navbar .divider-vertical {
+  height: 40px;
+  margin: 5px 9px;
+  border-left: 1px solid #b8c39c;
+  border-right: 1px solid #b8c39c;
+}
+
+
 .form-requirements {
   color: #a94442;
   font-size: small;
@@ -81,7 +89,9 @@
 }
 
 
-
+.confirm-password {
+  font-size:.8em;
+}
 
 /** View Diary **/
 treecontrol li {

@@ -12,6 +12,7 @@ module.exports = function(user) {
       from: 'noreply@gardensyjardines.com',
       subject: 'Please verify your email address.',
       url: 'www.gardensyjardines.com',
+      redirect: '/#/users/verified',
       user: user
     };
     verify2(options, user, function(err, response) {
@@ -50,9 +51,7 @@ module.exports = function(user) {
       userModel.http.path +
       userModel.sharedClass.find('confirm', true).http.path +
       '?uid=' +
-      options.user.id +
-      '&redirect=' +
-      options.redirect;
+      options.user.id ;
     console.log('finished options');
 
     // Email model
@@ -68,7 +67,7 @@ module.exports = function(user) {
           if (err) {
             fn(err);
           } else {
-            sendEmail(user);
+            sendEmail(user, options.redirect);
           }
         });
       }
@@ -76,8 +75,8 @@ module.exports = function(user) {
 
 
     // TODO - support more verification types
-    function sendEmail(user) {
-      options.verifyHref += '&token=' + user.verificationToken;
+    function sendEmail(user, redirect) {
+      options.verifyHref += '&token=' + user.verificationToken + '&redirect=' + redirect;
 
       options.text = options.text || 'Please verify your email by opening this link in a web browser:\n\t{href}';
 

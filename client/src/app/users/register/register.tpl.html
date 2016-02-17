@@ -10,49 +10,75 @@
 
   <div class=" view-animate" ng-show="showCard">
     <div class="row">
-      <div class="col-xs-6">
 
         <div class="card">
 
           <div class="item item-divider assertive" ng-if="registerError">
             An error has occured.
           </div>
-          <form name="userForm" ng-submit="register()">
+          <form class="form-horizontal" role="form" name="registerForm" ng-submit="register()">
+            <fieldset class="form-group">
+              <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate }}</div>
+            </fieldset>
 
-            <div class="form-group" show-errors>
-              <input type="text" class="form-control" name="firstName" placeholder="First Name"
-                     ng-model="registration.firstName" required>
-              <p class="help-block" ng-if="userForm.firstName.$error.required">{{ 'REGISTER_FIRST_NAME_REQUIRED' | translate }}</p>
-            </div>
+            <fieldset class="form-group" show-errors>
+              <label class="col-sm-3 control-label">{{ 'REGISTER_FIRST_NAME' | translate }} *</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="firstName" placeholder="First Name"
+                     ng-model="registration.firstName" ng-required="true">
+              </div>
+              <div class="col-sm-5">
+              </div>
+            </fieldset>
 
-            <div class="form-group" show-errors>
-              <input type="text" class="form-control" name="lastName" placeholder="Last Name"
-                     ng-model="registration.lastName" required>
-              <p class="help-block" ng-if="userForm.lastName.$error.required">{{ 'REGISTER_LAST_NAME_REQUIRED' | translate }}</p>
-            </div>
+            <fieldset class="form-group" show-errors>
+              <label class="col-sm-3 control-label">{{ 'REGISTER_LAST_NAME' | translate }} *</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="lastName" placeholder="Last Name"
+                     ng-model="registration.lastName" ng-required="true">
+              </div>
+              <div class="col-sm-5">
+              </div>
+            </fieldset>
 
-            <div class="form-group" show-errors>
-              <input type="email" class="form-control" name="email" placeholder="Email" ng-model="registration.email" required>
-              <p class="help-block" ng-if="userForm.email.$error.required">{{ 'REGISTER_EMAIL_REQUIRED' | translate }}</p>
-              <p class="help-block" ng-if="userForm.email.$error.email">{{ 'REGISTER_EMAIL_INVALID' | translate }}</p>
-            </div>
+            <fieldset class="form-group" show-errors>
+              <label class="col-sm-3 control-label">{{ 'REGISTER_EMAIL' | translate }} *</label>
+              <div class="col-sm-4">
+                <input type="email" class="form-control" name="email" placeholder="Email" ng-model="registration.email" ng-blur="emailValidate=true" ng-required="true">
+              </div>
+              <div class="col-sm-5">
+                <div ng-if="registerForm.email.$error.email && emailValidate"><p class="help-block">{{ 'REGISTER_EMAIL_INVALID' | translate }}</p></div>
+              </div>
+            </fieldset>
 
-            <div class="form-group" show-errors>
-              <input type="password" class="form-control" name="password" placeholder="Password"
-                     ng-model="registration.password" required>
-              <p class="help-block" ng-if="userForm.password.$error.required">{{ 'REGISTER_PASSWORD_REQUIRED' | translate }}</p>
-            </div>
+            <fieldset class="form-group" show-errors>
+              <label class="col-sm-3 control-label">{{ 'REGISTER_PASSWORD' | translate }} *</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="password" placeholder="Password"
+                     ng-model="registration.password" ng-required="true" data-ng-class="{'ng-invalid':registerForm.confirmPassword.$error.match}" >
+              </div>
+              <div class="col-sm-5">
+              </div>
+            </fieldset>
 
-            <div class="form-group" show-errors>
-              <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password"
-                     ng-model="registration.confirmPassword" required data-password-verify="registration.password">
-              <p class="help-block" ng-if="userForm.confirmPassword.$error.required">{{ 'REGISTER_CONFIRM_PASSWORD_REQUIRED' | translate }}</p>
-              <div ng-show="userForm.confirmPassword.$error.passwordVerify"><p class="help-block">{{
-                'REGISTER_CONFIRM_PASSWORD_EQUAL' | translate }}</p></div>
-            </div>
+            <fieldset class="form-group" show-errors>
+              <label class="col-sm-3 control-label">{{ 'REGISTER_CONFIRM_PASSWORD' | translate }} *</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password"
+                     ng-model="confirmPassword" ng-required="true" data-match="registration.password" ng-blur="confirmValidate=true">
+              </div>
+              <div class="col-sm-5 confirm-password">
+                <div ng-if="registerForm.confirmPassword.$error.match && !registerForm.confirmPassword.$error.pwd && confirmValidate"><p class="help-block">{{ 'REGISTER_CONFIRM_PASSWORD_EQUAL' | translate }}</p></div>
+                <div ng-if="registerForm.confirmPassword.$error.pwd && confirmValidate"><p class="help-block">{{ 'REGISTER_PASSWORD_REQUIREMENTS' | translate }}</p></div>
+              </div>
+            </fieldset>
 
             <div class="form-group">
-              <button type="submit" class="btn btn-default">{{ 'REGISTER_BUTTON' | translate }}</button>
+              <div class="col-sm-offset-3 col-sm-4">
+                <button type="submit" class="btn btn-default">{{ 'REGISTER_BUTTON' | translate }}</button>
+              </div>
+              <div class="col-sm-5">
+              </div>
             </div>
 
           </form>

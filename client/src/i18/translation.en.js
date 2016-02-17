@@ -29,15 +29,15 @@ var translationsEN= {
 
 
 
-  REGISTER_FIRST_NAME_REQUIRED: 'First name is required.',
-  REGISTER_LAST_NAME_REQUIRED: 'Last name is required.',
-  REGISTER_EMAIL_REQUIRED: 'Email is required.',
-  REGISTER_EMAIL_INVALID: 'Invalid Email.',
-  REGISTER_PASSWORD_REQUIRED: 'Password is required.',
-  REGISTER_CONFIRM_PASSWORD_REQUIRED: 'Confirm password is required.',
+  REGISTER_FIRST_NAME: 'First Name',
+  REGISTER_LAST_NAME: 'Last Name',
+  REGISTER_EMAIL: 'Email',
+  REGISTER_PASSWORD: 'Password',
+  REGISTER_CONFIRM_PASSWORD: 'Confirm password',
   REGISTER_CONFIRM_PASSWORD_EQUAL: 'Confirmation password must match.',
+  REGISTER_EMAIL_INVALID: 'Invalid Email.',
   REGISTER_VERIFY: 'You have successfully registered, please check your email and verify the account.',
-
+  REGISTER_PASSWORD_REQUIREMENTS: 'Password must contain at least 1 number, a capital letter and be at least 8 characters.',
 
   REGISTER_BUTTON:'Register',
 
@@ -162,6 +162,8 @@ ASK_HEADER: '',
   GROWL_INFO_TITLE: 'Info',
   GROWL_DELETED_TITLE: 'Deletion Successful',
   GROWL_LOGOUT_TITLE: 'Logout',
+  GROWL_REGISTER_EMAIL_TITLE:'Email',
+  GROWL_REGISTER_EMAIL:'Is already in use.',
 
   CONFIRM_OK: 'ok',
   CONFIRM_CANCEL: 'cancel',

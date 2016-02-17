@@ -28,14 +28,15 @@ var translationsES= {
 
 
 
-  REGISTER_FIRST_NAME_REQUIRED: 'El nombre es necesario.',
-  REGISTER_LAST_NAME_REQUIRED: 'El apellido es necesario.',
-  REGISTER_EMAIL_REQUIRED: 'El email es necesario.',
-  REGISTER_EMAIL_INVALID: 'El email no es válido.',
-  REGISTER_PASSWORD_REQUIRED: 'La contraseña es necesaria.',
-  REGISTER_CONFIRM_PASSWORD_REQUIRED: 'La confirmación de contraseña es necesaria.',
+  REGISTER_FIRST_NAME: 'Nombre',
+  REGISTER_LAST_NAME: 'Apellido',
+  REGISTER_EMAIL: 'Email',
+  REGISTER_PASSWORD: 'Contraseña',
+  REGISTER_CONFIRM_PASSWORD: 'Confirmación de contraseña ',
   REGISTER_CONFIRM_PASSWORD_EQUAL: 'La confirmación de la contraseña debe coincidir.',
+  REGISTER_EMAIL_INVALID: 'El email no es válido.',
   REGISTER_VERIFY: 'Te has registrado con éxito, por favor comprueba tu email y verifica la cuenta.',
+  REGISTER_PASSWORD_REQUIREMENTS: 'Password must contain at least 1 number, a capital letter and be at least 8 characters.',
 
 
   REGISTER_BUTTON:'Registrarse',
@@ -155,6 +156,8 @@ var translationsES= {
   GROWL_INFO_TITLE: 'Info',
   GROWL_DELETED_TITLE: 'Eliminado correctamente',
   GROWL_LOGOUT_TITLE: 'Salir',
+  GROWL_REGISTER_EMAIL_TITLE:'Email',
+  GROWL_REGISTER_EMAIL:'Is already in use.',
 
   CONFIRM_OK: 'ok',
   CONFIRM_CANCEL: 'cancelar',

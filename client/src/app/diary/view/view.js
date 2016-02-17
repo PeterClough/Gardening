@@ -137,10 +137,10 @@ angular.module( 'diary.view', [
     });
   }
 
-  $scope.$watch('frmDiaryEntry.$valid', function(newVal) {
+  $scope.$watch('frmDiaryEntry.$valid', function(newValue) {
     //$scope.valid = newVal;
     if (typeof $scope.diaryEntry!='undefined'){
-      $scope.diaryEntry.valid = newVal;
+      $scope.diaryEntry.valid = newValue;
     }
   });
 
