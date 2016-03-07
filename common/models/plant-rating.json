@@ -15,10 +15,10 @@
   "validations": [],
   "relations": {
     "updatedBy": {
-    "type": "belongsTo",
-    "model": "user",
-    "foreignKey": "userId"
-  },
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
     "language": {
       "type": "belongsTo",
       "model": "Language",
@@ -34,5 +34,5 @@
       "property": ""
     }
   ],
-  "methods": []
+  "methods": {}
 }

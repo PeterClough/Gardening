@@ -44,12 +44,16 @@ var translationsES= {
   VERIFIED_TEXT:'Your user has been verified, you may now',
   VERIFIED_LOGIN_LINK:'Iniciar sesión',
 
+  UPDATE_PASSWORD: 'Contraseña',
+  UPDATE_CONFIRM_PASSWORD: 'Confirmación de contraseña ',
 
 
   LOGIN_FAILED_EMAIL_NOT_VERIFIED:'Por favor, comprueba tu correo para verificar tu email y clica el enlace de verificación.',
   LOGIN_FAILED:'Usuario o contraseña incorrecto.',
   USERNAME_EMAIL_REQUIRED:'El email y la contraseña son necesarios.',
   LOGIN_FAILED_OTHER:'No se pudo iniciar sesión. Inténtelo más tarde.',
+  LOGIN_EMAIL:'Email',
+  LOGIN_PASSWORD:'Contraseña',
   LOGIN_EMAIL_REQUIRED:'El campo del email es necesario.',
   LOGIN_PASSWORD_REQUIRED:'La contraseña es necesaria.',
   LOGIN_FORGOT_PASSWORD: 'Has olvidado tu contraseña?',
@@ -57,6 +61,7 @@ var translationsES= {
   LOGIN_BUTTON: 'Iniciar sesión',
   LOGOUT_ALREADY: 'Ya has cerrado la sesión.',
   LOGOUT_SUCCESS: 'Has cerrado sesión correctamente.',
+  LOGIN_SUCCESS: 'You have been logged in.',
 
   DIARY_HEADER: '',
 
@@ -156,13 +161,16 @@ var translationsES= {
   GROWL_INFO_TITLE: 'Info',
   GROWL_DELETED_TITLE: 'Eliminado correctamente',
   GROWL_LOGOUT_TITLE: 'Salir',
+  GROWL_LOGIN_TITLE: 'Login',
   GROWL_REGISTER_EMAIL_TITLE:'Email',
   GROWL_REGISTER_EMAIL:'Is already in use.',
 
   CONFIRM_OK: 'ok',
   CONFIRM_CANCEL: 'cancelar',
   CONFIRM_SURE: 'Estás seguro?',
-  SAVE_BUTTON: 'Guardar'
+  SAVE_BUTTON: 'Guardar',
+
+  UNSAVED_DATA_LEAVE_PAGE: 'You have unsaved data do you wish to leave the page?'
 
 };
 

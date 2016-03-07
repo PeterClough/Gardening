@@ -44,12 +44,16 @@ var translationsEN= {
   VERIFIED_TEXT:'Your user has been verified, you may now',
   VERIFIED_LOGIN_LINK:'Login',
 
+  UPDATE_PASSWORD: 'Password',
+  UPDATE_CONFIRM_PASSWORD: 'Confirm password',
 
 
   LOGIN_FAILED_EMAIL_NOT_VERIFIED:'Please check your inbox for your verification email and click the verification link.',
   LOGIN_FAILED:'Username or password incorrect.',
   USERNAME_EMAIL_REQUIRED:'The email and password are required.',
   LOGIN_FAILED_OTHER:'Login Failed please try again later.',
+  LOGIN_EMAIL:'Email',
+  LOGIN_PASSWORD:'Password',
   LOGIN_EMAIL_REQUIRED:'The email field is required.',
   LOGIN_PASSWORD_REQUIRED:'The password field is required.',
   LOGIN_FORGOT_PASSWORD: 'Forgot Password?',
@@ -57,6 +61,7 @@ var translationsEN= {
   LOGIN_BUTTON: 'Login',
   LOGOUT_ALREADY: 'Already logged out.',
   LOGOUT_SUCCESS: 'You have been logged out.',
+  LOGIN_SUCCESS: 'You have been logged in.',
 
   DIARY_HEADER: '',
 
@@ -162,6 +167,7 @@ ASK_HEADER: '',
   GROWL_INFO_TITLE: 'Info',
   GROWL_DELETED_TITLE: 'Deletion Successful',
   GROWL_LOGOUT_TITLE: 'Logout',
+  GROWL_LOGIN_TITLE: 'Login',
   GROWL_REGISTER_EMAIL_TITLE:'Email',
   GROWL_REGISTER_EMAIL:'Is already in use.',
 

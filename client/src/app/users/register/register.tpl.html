@@ -5,7 +5,6 @@
 
   <div class=" view-animate" ng-show="showVerify">
     {{ 'REGISTER_VERIFY' | translate }}
-
   </div>
 
   <div class=" view-animate" ng-show="showCard">
@@ -18,73 +17,72 @@
           </div>
           <form class="form-horizontal" role="form" name="registerForm" ng-submit="register()">
             <fieldset class="form-group">
-              <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate }}</div>
+              <div class="col-sm-offset-4 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate }}</div>
             </fieldset>
 
             <fieldset class="form-group" show-errors>
-              <label class="col-sm-3 control-label">{{ 'REGISTER_FIRST_NAME' | translate }} *</label>
+              <label class="col-sm-4 control-label">{{ 'REGISTER_FIRST_NAME' | translate }} *</label>
               <div class="col-sm-4">
                 <input type="text" class="form-control" name="firstName" placeholder="First Name"
                      ng-model="registration.firstName" ng-required="true">
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-4">
               </div>
             </fieldset>
 
             <fieldset class="form-group" show-errors>
-              <label class="col-sm-3 control-label">{{ 'REGISTER_LAST_NAME' | translate }} *</label>
+              <label class="col-sm-4 control-label">{{ 'REGISTER_LAST_NAME' | translate }} *</label>
               <div class="col-sm-4">
                 <input type="text" class="form-control" name="lastName" placeholder="Last Name"
                      ng-model="registration.lastName" ng-required="true">
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-4">
               </div>
             </fieldset>
 
             <fieldset class="form-group" show-errors>
-              <label class="col-sm-3 control-label">{{ 'REGISTER_EMAIL' | translate }} *</label>
+              <label class="col-sm-4 control-label">{{ 'REGISTER_EMAIL' | translate }} *</label>
               <div class="col-sm-4">
                 <input type="email" class="form-control" name="email" placeholder="Email" ng-model="registration.email" ng-blur="emailValidate=true" ng-required="true">
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-4">
                 <div ng-if="registerForm.email.$error.email && emailValidate"><p class="help-block">{{ 'REGISTER_EMAIL_INVALID' | translate }}</p></div>
               </div>
             </fieldset>
 
             <fieldset class="form-group" show-errors>
-              <label class="col-sm-3 control-label">{{ 'REGISTER_PASSWORD' | translate }} *</label>
+              <label class="col-sm-4 control-label">{{ 'REGISTER_PASSWORD' | translate }} *</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" name="password" placeholder="Password"
-                     ng-model="registration.password" ng-required="true" data-ng-class="{'ng-invalid':registerForm.confirmPassword.$error.match}" >
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password"
+                     ng-model="registration.password" ng-required="true" ng-blur="passwordValidate=true" complex-password >
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-4 password">
+                <div ng-if="registerForm.password.$error.complexity && passwordValidate"><p class="help-block">{{ 'REGISTER_PASSWORD_REQUIREMENTS' | translate }}</p></div>
+
               </div>
             </fieldset>
 
             <fieldset class="form-group" show-errors>
-              <label class="col-sm-3 control-label">{{ 'REGISTER_CONFIRM_PASSWORD' | translate }} *</label>
+              <label class="col-sm-4 control-label">{{ 'REGISTER_CONFIRM_PASSWORD' | translate }} *</label>
               <div class="col-sm-4">
                 <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password"
-                     ng-model="confirmPassword" ng-required="true" data-match="registration.password" ng-blur="confirmValidate=true">
+                     ng-model="confirmPassword" ng-required="true" ng-blur="confirmValidate=true" pw-check="password">
               </div>
-              <div class="col-sm-5 confirm-password">
-                <div ng-if="registerForm.confirmPassword.$error.match && !registerForm.confirmPassword.$error.pwd && confirmValidate"><p class="help-block">{{ 'REGISTER_CONFIRM_PASSWORD_EQUAL' | translate }}</p></div>
-                <div ng-if="registerForm.confirmPassword.$error.pwd && confirmValidate"><p class="help-block">{{ 'REGISTER_PASSWORD_REQUIREMENTS' | translate }}</p></div>
+              <div class="col-sm-4 confirm-password">
+                <div ng-if="registerForm.confirmPassword.$error.pwmatch && confirmValidate"><p class="help-block">{{ 'REGISTER_CONFIRM_PASSWORD_EQUAL' | translate }}</p></div>
               </div>
             </fieldset>
 
             <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-4">
+              <div class="col-sm-offset-4 col-sm-4">
                 <button type="submit" class="btn btn-default">{{ 'REGISTER_BUTTON' | translate }}</button>
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-4">
               </div>
             </div>
 
           </form>
         </div>
-      </div>
-      <div class="col-xs-6">
       </div>
     </div>
   </div>

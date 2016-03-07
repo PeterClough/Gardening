@@ -11,6 +11,18 @@
     "lastName": {
       "type": "string",
       "required": true
+    },
+    "facebookId": {
+      "type": "string",
+      "required": false
+    },
+    "twitterId": {
+      "type": "string",
+      "required": false
+    },
+    "profilePicture": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],
@@ -28,35 +40,11 @@
   },
   "acls": [
     {
-      "accessType": "*",
-      "permission": "DENY",
+      "accessType": "WRITE",
       "principalType": "ROLE",
-      "principalId": "$everyone"
-    },
-    {
-      "accessType": "*",
-      "permission": "ALLOW",
-      "principalType": "ROLE",
-      "principalId": "$owner"
-    },
-    {
-      "accessType": "updateAttribute",
-      "permission": "ALLOW",
-      "principalType": "ROLE",
-      "principalId": "$owner"
-    },
-    {
-      "accessType": "updateOrCreate",
-      "permission": "ALLOW",
-      "principalType": "ROLE",
-      "principalId": "$owner"
-    },
-    {
-      "permission": "DENY",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "property": "deleteById"
+      "principalId": "$everyone",
+      "permission": "ALLOW"
     }
   ],
-  "methods": []
+  "methods": {}
 }

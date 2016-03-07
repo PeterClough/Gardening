@@ -22,20 +22,29 @@ angular.module( 'users.logout', [
 
 })
 
-.controller('LogoutCtrl', function LogoutCtrl($scope, $timeout, User, $translate, growl) {
+.controller('LogoutCtrl', function LogoutCtrl($scope, $timeout, User, LoopBackAuth, $translate, growl) {
 
   $scope.showCard = false;
 
 
 
   if (User.isAuthenticated()) {
-    User.logout( function(cb) {
-      $timeout(function(){
-        $scope.showCard = true;
-      },100);
-      $scope.loggedIn=false;
-    }, function(err){
-    });
+    User.logout()
+      .$promise
+      .then(function(res) {
+        $timeout(function(){
+          $scope.showCard = true;
+        },100);
+      })
+      .catch(function (err) {
+        console.log('err', err);
+        LoopBackAuth.clearUser();
+        LoopBackAuth.save();
+        localStorage.clear();
+        $timeout(function(){
+          $scope.showCard = true;
+        },100);
+      });
   }
   else {
     growl.info("LOGOUT_ALREADY", {title: "GROWL_LOGOUT_TITLE"});

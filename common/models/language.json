@@ -23,9 +23,9 @@
   "validations": [],
   "relations": {
     "updatedBy": {
-    "type": "belongsTo",
-    "model": "user",
-    "foreignKey": "userId"
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
     }
   },
   "acls": [
@@ -44,5 +44,5 @@
       "property": ""
     }
   ],
-  "methods": []
+  "methods": {}
 }

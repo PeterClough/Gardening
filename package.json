@@ -1,26 +1,31 @@
 {
-  "name": "loopback-app",
-  "version": "0.0.0",
+  "name": "myApp",
+  "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "slc run"
+    "start": "node .",
+    "pretest": "jshint .",
+    "posttest": "nsp check"
   },
   "dependencies": {
-    "async": "~1.0.0",
-    "compression": "~1.6.0",
-    "errorhandler": "~1.4.2",
-    "loopback": "~2.22.2",
-    "loopback-boot": "~2.13.0",
-    "loopback-connector-mongodb": "~1.13.0",
-    "loopback-datasource-juggler": "~2.41.0",
-    "loopback-component-storage": "~1.5.1",
+    "async": "~1.5.2",
+    "compression": "~1.6.1",
     "cors": "~2.7.1",
-    "serve-favicon": "~2.3.0",
-    "uuid": "~2.0.1",
-    "lwip": "~0.0.6",
-    "q":"~2.0.3"
+    "helmet": "^0.14.0",
+    "jwt-simple": "^0.4.1",
+    "loopback": "2.26.2",
+    "loopback-boot": "~2.16.0",
+    "loopback-component-storage": "~1.6.1",
+    "loopback-connector-mongodb": "~1.13.3",
+    "loopback-datasource-juggler": "~2.45.1",
+    "lwip": "~0.0.8",
+    "moment": "^2.11.2",
+    "q": "~2.0.3",
+    "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "loopback-explorer": "~1.8.0"
+    "loopback-component-explorer": "~2.3.0",
+    "jshint": "^2.5.6",
+    "nsp": "^2.1.0"
   }
 }

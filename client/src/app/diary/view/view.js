@@ -137,6 +137,24 @@ angular.module( 'diary.view', [
     });
   }
 
+    $scope.$on('$stateChangeStart', function( event ) {
+      console.log('$scope.diaryTreeData', $scope.diaryTreeData);
+
+      if ($scope.isDirty === true ){
+        //TRANSLATE!!!!!
+        $translate('UNSAVED_DATA_LEAVE_PAGE').then(function (translation) {
+          var answer = confirm(translation);
+          if (!answer) {
+            event.preventDefault();
+          }
+        });
+
+      }
+    });
+
+
+
+
   $scope.$watch('frmDiaryEntry.$valid', function(newValue) {
     //$scope.valid = newVal;
     if (typeof $scope.diaryEntry!='undefined'){
@@ -149,6 +167,7 @@ angular.module( 'diary.view', [
     if (typeof newValue!='undefined') {
       if (typeof $scope.diaryEntry!='undefined') {
         $scope.diaryEntry.isDirty = newValue;
+        console.log('$scope.diaryEntry.isDirty', $scope.diaryEntry.isDirty);
       }
     }
   });
@@ -157,6 +176,7 @@ angular.module( 'diary.view', [
     if (typeof newValue!='undefined') {
       if (typeof $scope.diaryProgress!='undefined') {
         $scope.diaryProgress.isDirty = newValue;
+        console.log('$scope.diaryEntry.isDirty', $scope.diaryEntry.isDirty);
       }
     }
   });

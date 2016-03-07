@@ -2,8 +2,7 @@
   "name": "QuestionTagJunction",
   "plural": "questionTagJunctions",
   "base": "PersistedModel",
-  "properties": {
-   },
+  "properties": {},
   "validations": [],
   "relations": {
     "questions": {
@@ -26,5 +25,5 @@
       "property": ""
     }
   ],
-  "methods": []
+  "methods": {}
 }

@@ -2,13 +2,13 @@ angular.module( 'myApp', [
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
-  'angular-growl',
   'ngCookies',
   'lbServices',
   'ui.router',
   'ui.bootstrap',
   'ngSanitize',
   'ui.select',
+  'satellizer',
   'myApp.home',
   'myApp.about',
   'myApp.diary',
@@ -16,18 +16,35 @@ angular.module( 'myApp', [
   'myApp.ask'
 ])
 
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, growlProvider ) {
+.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, $authProvider, growlProvider ) {
   $translateProvider.translations('en', translationsEN);
   $translateProvider.translations('es', translationsES);
   $translateProvider.preferredLanguage('en');
   $translateProvider.fallbackLanguage('en');
-  $translateProvider.useSanitizeValueStrategy('escape');
+  $translateProvider.useSanitizeValueStrategy('sanitize');
   $translateProvider.useLocalStorage();
   $urlRouterProvider.otherwise( '/home' );
+
+
+
+  $authProvider.httpInterceptor = false;
+
+
+  $authProvider.facebook({
+    clientId: '1744981842400276'
+  });
+
+  $authProvider.google({
+    clientId: '989154659952-r3lfvshi4s0fcbesie408bm5iip1occg.apps.googleusercontent.com'
+  });
+
   growlProvider.globalTimeToLive(5000);
+
 })
 
-.run( function run () {
+
+
+  .run( function run () {
 })
 
 .controller( 'AppCtrl', function( $rootScope, $scope, $translate, User, changeLanguage, Language) {
@@ -85,6 +102,7 @@ angular.module( 'myApp', [
 
 
 })
+
 
 
 .factory('changeLanguage', function changeLanguage ($translate) {

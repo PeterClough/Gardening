@@ -1,10 +1,14 @@
 {
   "db": {
+    "name": "db"
   },
   "emailDs": {
+    "name": "emailDs"
   },
   "diaryProgressDS": {
+    "name": "diaryProgressDS"
   },
   "diaryEntryDS": {
+    "name": "diaryEntryDS"
   }
 }

@@ -32,7 +32,7 @@ angular.module( 'users.resetPassword', [
 
 .controller('ResetPasswordCtrl', function ResetPasswordCtrl($scope, $timeout, $stateParams, User, LoopBackAuth, AccessToken) {
 
-  $scope.showCard = $scope.passwordReset = false;
+  $scope.showCard = $scope.passwordReset = $scope.confirmValidate = $scope.passwordValidate = false;
   $timeout(function(){
     $scope.showCard = true;
   },100);
@@ -49,32 +49,72 @@ angular.module( 'users.resetPassword', [
     LoopBackAuth.save();
   }
 
+    console.log('User.isAuthenticated()',User.isAuthenticated());
+    console.log('User.getCurrentId()',User.getCurrentId());
 
-  $scope.resetPassword = function() {
 
-    //verify passwords match
-    if (!$scope.update.password ||
-      !$scope.update.confirmPassword ||
-      $scope.update.password !== $scope.update.confirmPassword) {
-       //throw some error front end won't let it happen
+    $scope.resetPassword = function() {
+
+    $scope.$broadcast('show-errors-check-validity');
+    if ($scope.resetPasswordForm.$invalid) {
+      return;
     }
-    else {
-      User.updateOrCreate({
-        id: $stateParams.uid,
-        password: $scope.update.password
-      }).$promise
-        .then(function () {
-          LoopBackAuth.currentUserId = null;
-          LoopBackAuth.accessTokenId = null;
-          LoopBackAuth.save();
 
-          $scope.passwordReset = true;
-        });
-    }
+      console.log('{id: '+$stateParams.uid+', password: '+$scope.update.password+'}');
+
+    User.updateOrCreate({
+      id: $stateParams.uid,
+      password: $scope.update.password
+    }).$promise
+      .then(function () {
+        LoopBackAuth.currentUserId = null;
+        LoopBackAuth.accessTokenId = null;
+        LoopBackAuth.save();
+
+        $scope.passwordReset = true;
+      });
 
   };
 
 
+})
+
+.directive('pwCheck', [function () {
+  return {
+    require: 'ngModel',
+    link: function (scope, elem, attrs, ctrl) {
+      var firstPassword = '#' + attrs.pwCheck;
+      elem.add(firstPassword).on('keyup', function () {
+        scope.$apply(function () {
+          var v = elem.val()===$(firstPassword).val();
+          ctrl.$setValidity('pwmatch', v);
+        });
+      });
+    }
+  };
+}])
+
+
+.directive('complexPassword', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, elm, attrs, ctrl) {
+      ctrl.$parsers.unshift(function(password) {
+        var hasUpperCase = /[A-Z]/.test(password);
+        var hasNumbers = /\d/.test(password);
+
+        if ((password.length >= 8) && hasUpperCase && hasNumbers){
+          ctrl.$setValidity('complexity', true);
+          return password;
+        }
+        else {
+          ctrl.$setValidity('complexity', false);
+          return undefined;
+        }
+
+      });
+    }
+  };
 })
 
 

@@ -6,7 +6,8 @@
     "created": {
       "type": "date",
       "required": true
-    },"updated": {
+    },
+    "updated": {
       "type": "date",
       "required": true
     },
@@ -45,5 +46,5 @@
       "property": ""
     }
   ],
-  "methods": []
+  "methods": {}
 }

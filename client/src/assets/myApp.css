@@ -89,7 +89,7 @@
 }
 
 
-.confirm-password {
+.confirm-password, .password {
   font-size:.8em;
 }
 
@@ -105,6 +105,15 @@ treecontrol li li {
 .addButtons{
   margin-bottom: 15px;
 }
+
+.btn-social:hover, .btn-social:focus {
+  color: #fff!important;
+}
+
+.social-buttons {
+  margin-bottom:40px;
+}
+
 
 #diary-container,
 #diary-feed-container,

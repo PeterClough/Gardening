@@ -25,7 +25,7 @@ angular.module( 'users.register', [
 .controller('RegisterCtrl', function RegisterCtrl($scope, $timeout, growl, User) {
 
 
-    $scope.showCard = $scope.emailValidate = $scope.confirmValidate = false;
+    $scope.showCard = $scope.emailValidate = $scope.confirmValidate = $scope.passwordValidate = false;
     $timeout(function(){
       $scope.showCard = true;
     },100);
@@ -59,35 +59,44 @@ angular.module( 'users.register', [
 
 
 
-.directive('match', function ($parse) {
+.directive('pwCheck', [function () {
   return {
     require: 'ngModel',
-    restrict: 'A',
-    link: function(scope, elem, attrs, ctrl) {
-//This part does the matching
-      scope.$watch(function() {
-        return (ctrl.$pristine && angular.isUndefined(ctrl.$modelValue)) || $parse(attrs.match)(scope) === ctrl.$modelValue;
-      }, function(currentValue) {
-        ctrl.$setValidity('match', currentValue);
+    link: function (scope, elem, attrs, ctrl) {
+      var firstPassword = '#' + attrs.pwCheck;
+      elem.add(firstPassword).on('keyup', function () {
+        scope.$apply(function () {
+          var v = elem.val()===$(firstPassword).val();
+          ctrl.$setValidity('pwmatch', v);
+        });
       });
+    }
+  };
+}])
 
-//This part is supposed to check the strength
-      ctrl.$parsers.unshift(function(viewValue) {
-        var pwdValidLength, pwdHasLetter, pwdHasNumber;
 
-        pwdValidLength = (viewValue && viewValue.length >= 8 ? true : false);
-        pwdHasLetter = (viewValue && /[A-z]/.test(viewValue)) ? true : false;
-        pwdHasNumber = (viewValue && /\d/.test(viewValue)) ? true : false;
+.directive('complexPassword', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, elm, attrs, ctrl) {
+      ctrl.$parsers.unshift(function(password) {
+        var hasUpperCase = /[A-Z]/.test(password);
+        var hasNumbers = /\d/.test(password);
 
-        if( pwdValidLength && pwdHasLetter && pwdHasNumber ) {
-          ctrl.$setValidity('pwd', true);
-        } else {
-          ctrl.$setValidity('pwd', false);
+        if ((password.length >= 8) && hasUpperCase && hasNumbers){
+          ctrl.$setValidity('complexity', true);
+          return password;
         }
-        return viewValue;
+        else {
+          ctrl.$setValidity('complexity', false);
+          return undefined;
+        }
+
       });
-    },
+    }
   };
 })
+
+
 
 ;

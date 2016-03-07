@@ -87,7 +87,8 @@ module.exports = {
       'vendor/moment/min/moment.min.js',
       'vendor/angular-moment/angular-moment.min.js',
       'vendor/angular-growl-v2/build/angular-growl.min.js',
-      'vendor/angular-confirm-modal/angular-confirm.min.js'
+      'vendor/angular-confirm-modal/angular-confirm.min.js',
+      'vendor/satellizer/satellizer.min.js'
     ],
     css: [
       'vendor/angular-tree-control/css/tree-control.css',
@@ -97,6 +98,7 @@ module.exports = {
       'vendor/ng-tags-input/ng-tags-input.css',
       'vendor/ng-tags-input/ng-tags-input.bootstrap.css',
       'vendor/angular-growl-v2/build/angular-growl.min.css',
+      'vendor/bootstrap-social/bootstrap-social.css',
       'vendor/angular-file-upload/dist/angular-file-upload.js.map',
       'vendor/jquery/dist/jquery.min.map',
       'vendor/angular-cookies/angular-cookies.min.js.map',

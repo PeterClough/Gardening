@@ -2,7 +2,8 @@ angular.module( 'users.login', [
   'ui.router',
   'lbServices',
   'ui.bootstrap.showErrors',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'satellizer'
 ])
 
 .config(function config( $stateProvider, showErrorsConfigProvider ) {
@@ -21,45 +22,58 @@ angular.module( 'users.login', [
 
 })
 
-.controller('LoginCtrl', function LoginCtrl($scope, $timeout, User, $location, $translate) {
+.controller('LoginCtrl', function LoginCtrl($scope, $timeout, User, $location, $translate, $auth, growl, LoopBackAuth) {
 
-    $scope.rememberMe = false;
-    $scope.showCard = false;
-  $timeout(function(){
+    $scope.showCard = $scope.rememberMe = false;
+   $timeout(function(){
     $scope.showCard = true;
   },100);
 
-  $scope.login = function () {
 
-    $scope.loginResult = User.login({include: 'user', rememberMe: $scope.rememberMe}, $scope.credentials,
+
+
+    $scope.authenticate = function (provider) {
+      $auth.authenticate(provider)
+        .then(function (response) {
+          var accessToken = response.data;
+            LoopBackAuth.setUser(accessToken.id, accessToken.userId, {id:accessToken.name});
+          LoopBackAuth.rememberMe = true;
+          LoopBackAuth.save();
+          $location.path('/');
+          growl.success('LOGIN_SUCCESS', {title: "GROWL_LOGIN_TITLE"});
+          return response.resource;
+        });
+    };
+
+
+
+
+    $scope.login = function () {
+
+    $scope.$broadcast('show-errors-check-validity');
+
+    if ($scope.loginForm.$invalid) {
+      return;
+    }
+
+    User.login({include: 'user', rememberMe: $scope.rememberMe}, $scope.credentials,
         function () {
-          var next = $location.nextAfterLogin || '/';
-          $location.nextAfterLogin = null;
-          $location.path(next);
+          $location.path('/');
+          growl.success('LOGIN_SUCCESS', {title: "GROWL_LOGIN_TITLE"});
         },
         function (res) {
-          $scope.loginError = res.data.error;
           switch (res.data.error.message) {
             case "login failed as the email has not been verified" :
-              $translate('LOGIN_FAILED_EMAIL_NOT_VERIFIED').then(function (text) {
-                $scope.loginErrorMessage = text;
-              });
+              growl.error('LOGIN_FAILED_EMAIL_NOT_VERIFIED');
               break;
             case "login failed" :
-              $translate('LOGIN_FAILED').then(function (text) {
-                $scope.loginErrorMessage = text;
-              });
+              growl.error('LOGIN_FAILED');
               break;
             case "USERNAME_EMAIL_REQUIRED" :
-            $translate('USERNAME_EMAIL_REQUIRED').then(function (text) {
-              $scope.loginErrorMessage = text;
-            });
-            break;
-
+              growl.error('USERNAME_EMAIL_REQUIRED');
+              break;
             default:
-              $translate('LOGIN_FAILED_OTHER').then(function (text) {
-                $scope.loginErrorMessage = text;
-              });
+              growl.error('LOGIN_FAILED_OTHER');
           }
 
 

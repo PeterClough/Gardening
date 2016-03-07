@@ -103,10 +103,19 @@ module.exports = function(user) {
 
   //send password reset link when requested
   user.on('resetPasswordRequest', function(info) {
-//hard coded openshift don't use host: port:
-    var url = 'http://www.gardensyjardines.com/#/users/reset-password';
+
+    var app = user.app;
+    //dodgy should really use node_env
+    var env = app.get('env');
+    var url = env==='development' ?  'http://localhost:3001/#/users/reset-password' :'http://www.gardensyjardines.com/#/users/reset-password';
+    console.log('env', env);
+    console.log('url', url);
+
     var html = 'Click <a href="' + url + '/' + info.accessToken.id + '/' + info.accessToken.userId
       + '">here</a> to reset your password';
+
+
+    console.log('html', html);
 
     user.app.models.Email.send({
       to: info.email,
@@ -118,28 +127,6 @@ module.exports = function(user) {
     });
   });
 
-
-
-
-
-  user.updatePassword = function(userId, password, cb) {
-    user.findById(userId, function(err, usr) {
-      usr.updateAttribute('password', password, function(err, cb2) {
-        cb(null, cb2);
-      });
-    });
-  };
-
-  user.remoteMethod(
-    'updatePassword',
-    {
-      accepts: [
-        {arg: 'userId', type: 'string'},
-        {arg: 'password', type: 'string'},
-        ],
-      returns: {arg: 'user', type: 'object'}
-    }
-  );
 
 
 };
