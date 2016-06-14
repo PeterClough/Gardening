@@ -3,14 +3,6 @@
   "plural": "Languages",
   "base": "PersistedModel",
   "properties": {
-    "created": {
-      "type": "date",
-      "required": true
-    },
-    "updated": {
-      "type": "date",
-      "required": true
-    },
     "name": {
       "type": "string",
       "required": true
@@ -22,11 +14,6 @@
   },
   "validations": [],
   "relations": {
-    "updatedBy": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "userId"
-    }
   },
   "acls": [
     {

@@ -8,7 +8,8 @@ module.exports = {
     "password": "P-DPtwUznTTY",
     "name": "gardening",
     "connector": "mongodb",
-    "debug":true
+    "debug":true,
+    "timezone": "UTC"
   },
     "emailDs": {
     "name": "emailDs",

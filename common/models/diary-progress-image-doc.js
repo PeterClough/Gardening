@@ -79,4 +79,35 @@ module.exports = function(DiaryProgressImageDoc){
     }
   );
 
+
+
+
+  DiaryProgressImageDoc.deleteImage = function(id, cb) {
+
+
+    var dPIModel = DiaryProgressImageDoc.app.models.DiaryProgressImage;
+
+
+    DiaryProgressImageDoc.findById(id, function(err, cb2) {
+      var fileName = [cb2.id+cb2.extension];
+      dPIModel.deleteFiles(fileName, function(err, cb3){
+        DiaryProgressImageDoc.destroyById(id, function(err, cb4) {
+
+          cb(null, cb4);
+        });
+      });
+    });
+
+  };
+
+  DiaryProgressImageDoc.remoteMethod(
+    'deleteImage',
+    {
+      accepts: {arg: 'id', type: 'string'},
+      returns: {arg: 'success', type: 'object'}
+    }
+  );
+
+
+
 }

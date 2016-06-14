@@ -4,7 +4,7 @@ module.exports = {
   AUTH_HEADER: process.env.AUTH_HEADER || 'universal',
   TOKEN_SECRET: process.env.TOKEN_SECRET || 'BKUHAVUX123YSKUHB3IU4GVTobhoshcausvciy%&SVDXKHW',
   FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || '7497ed934715ab9c823c185bbb93889c',
-  GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'Google Client Secret',
+  GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'UigBGhQw2xi4rcc-eoYr8fjn',
   FOURSQUARE_SECRET: process.env.FOURSQUARE_SECRET || 'Foursquare Client Secret',
   GITHUB_SECRET: process.env.GITHUB_SECRET || 'GitHub Client Secret',
   LINKEDIN_SECRET: process.env.LINKEDIN_SECRET || 'LinkedIn Client Secret',

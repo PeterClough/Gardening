@@ -3,10 +3,10 @@ module.exports = {
     connector: 'mongodb',
     host: "127.0.0.1",
     port: 27017,
-    database: 'myApp',
+    database: 'gardening',
     username: "systemUser",
     password: "idunno",
-    name: "myApp"
+    name: "gardening"
   },
   "emailDs": {
     "name": "emailDs",

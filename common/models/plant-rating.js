@@ -4,9 +4,11 @@
 module.exports = function(PlantRating){
 
   PlantRating.getList = function(cb) {
-      PlantRating.find({ fields: ['name', 'id'] }, function(err, cb2) {
-         cb(null, cb2);
-    });
+      PlantRating.find({ order: "name ASC",
+                         fields: ['name', 'id'] },
+                         function(err, cb2) {
+                           cb(null, cb2);
+                        });
   };
 
   PlantRating.remoteMethod(

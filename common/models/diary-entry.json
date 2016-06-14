@@ -11,29 +11,9 @@
       "type": "date",
       "required": true
     },
-    "countryId": {
-      "type": "string",
-      "required": true
-    },
-    "hardinessZoneId": {
-      "type": "string",
-      "required": true
-    },
-    "soilAcidityId": {
-      "type": "string",
-      "required": true
-    },
-    "soilTypeId": {
-      "type": "string",
-      "required": true
-    },
     "isPrivate": {
       "type": "boolean",
       "required": true
-    },
-    "plantRatingId": {
-      "type": "number",
-      "required": false
     },
     "maturityDate": {
       "type": "date",
@@ -76,6 +56,31 @@
       "type": "hasMany",
       "model": "DiaryEntryImageDoc",
       "foreignKey": "diaryEntryId"
+    },
+    "country": {
+      "type": "belongsTo",
+      "model": "Country",
+      "foreignKey": "countryId"
+    },
+    "hardinessZone": {
+      "type": "belongsTo",
+      "model": "HardinessZone",
+      "foreignKey": "hardinessZoneId"
+    },
+    "soilAcidity": {
+      "type": "belongsTo",
+      "model": "SoilAcidity",
+      "foreignKey": "soilAcidityId"
+    },
+    "soilType": {
+      "type": "belongsTo",
+      "model": "SoilType",
+      "foreignKey": "soilTypeId"
+    },
+    "plantRating": {
+      "type": "belongsTo",
+      "model": "PlantRating",
+      "foreignKey": "plantRatingId"
     }
   },
   "acls": [

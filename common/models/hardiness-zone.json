@@ -3,10 +3,6 @@
   "plural": "hardinessZones",
   "base": "PersistedModel",
   "properties": {
-    "updated": {
-      "type": "date",
-      "required": true
-    },
     "name": {
       "type": "string",
       "required": true
@@ -14,16 +10,6 @@
   },
   "validations": [],
   "relations": {
-    "updatedBy": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "userId"
-    },
-    "language": {
-      "type": "belongsTo",
-      "model": "Language",
-      "foreignKey": "languageId"
-    }
   },
   "acls": [
     {

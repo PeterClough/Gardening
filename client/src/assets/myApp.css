@@ -89,7 +89,7 @@
 }
 
 
-.confirm-password, .password {
+.confirm-password, .password, .timelink  {
   font-size:.8em;
 }
 
@@ -111,9 +111,25 @@ treecontrol li li {
 }
 
 .social-buttons {
-  margin-bottom:40px;
+  margin-bottom: 40px;
+  padding: 0 10px!important;
 }
 
+
+.user-profile img {
+  height: 32px;
+  width: 32px;
+}
+
+#diary-view-card .user-profile {
+  margin-bottom: 30px;
+}
+
+
+
+.user-profile, #social-sharing {
+  margin-bottom: 15px;
+}
 
 #diary-container,
 #diary-feed-container,
@@ -136,6 +152,7 @@ treecontrol li li {
   position: relative;
 }
 #loading-message,
+#diary-view-card,
 #diary-card,
 #diary-feed-card,
 #tag-container,
@@ -167,6 +184,25 @@ treecontrol li li {
   border-top: solid thin #cad6aa;
   padding: 10px 0 20px 0;
 }
+
+
+.diary-feed-item .user-profile {
+  position: relative;
+  padding: 5px;
+
+}
+
+.diary-feed-item .user-profile img {
+  position: absolute;
+  top: 50%;
+  margin-top: -16px;  /* = image height div 2 */
+}
+
+.diary-feed-item .user-profile span {
+  margin-left: 40px; /* = image width + 8 */
+  display: block;
+}
+
 
 #view-question-card {
   margin-bottom: 15px;
@@ -245,7 +281,6 @@ input[type="checkbox"] {
 }
 
 .single-photo {
-  height:300px;
   border: 1px solid #cccccc;
   border-radius: 4px;
   overflow: hidden;
@@ -264,12 +299,19 @@ input[type="checkbox"] {
   position:relative;
   overflow: hidden;
 }
+
+.diary-feed-item .photobox {
+  margin: 15px 0 0 0;
+
+}
+
+
 .photo-upload {
   margin-bottom: 15px;
 }
 
 
-.photobox img, .photo-upload-box img, {
+.photobox img, .photo-upload-box img {
   height: 34px;
   width: 34px;
 }
@@ -445,7 +487,7 @@ input[type="checkbox"] {
 
 
 .lightbox-modal .modal-dialog {
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 

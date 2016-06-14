@@ -7,18 +7,35 @@
   <div class="card view-animate" ng-show="showCard" id="diary-feed-card">
     <div class="row">
       <div class="col-sm-6">
-
         <div ng-repeat="diary in diaryFeed">
 
           <!--DIARY-->
           <div class="diary-feed-item" ng-if="diary.userId.length > 0">
-            {{diary.user.firstName + ' '+ diary.user.lastName}} {{'DIARY_FEED_DIARY_CREATED' | translate}} <span am-time-ago="diary.updated"></span>
+            <div class="user-profile">
+              <img ng-src="{{diary.user.profilePicture}}" ng-if="!!diary.user.profilePicture"/>
+              <img ng-src="/images/default-profile-picture.png" ng-if="!diary.user.profilePicture"/>
+              <span>{{diary.user.firstName}} {{diary.user.lastName}} {{'DIARY_FEED_DIARY_CREATED' | translate}} <br>
+                <a class="timelink" ui-sref="diary.view({ diaryId: '{{diary.userId}}'})" am-time-ago="diary.updated"></a>
+              </span>
+            </div>
           </div>
 
           <!--DIARY ENTRY-->
           <div class="diary-feed-item" ng-if="diary.diaryId.length > 0">
-            {{diary.diary.user.firstName + ' '+ diary.diary.user.lastName}} {{'DIARY_FEED_DIARY_ENTRY' | translate}} <span am-time-ago="diary.updated"></span> <br/>
-            <div class="photos" ng-show="diary.diaryEntryImageDocs.length >0">
+            <div class="user-profile">
+              <img ng-src="{{diary.diary.user.profilePicture}}" ng-if="!!diary.diary.user.profilePicture"/>
+              <img ng-src="/images/default-profile-picture.png" ng-if="!diary.diary.user.profilePicture"/>
+              <span>{{diary.diary.user.firstName}} {{diary.diary.user.lastName}} {{'DIARY_FEED_DIARY_ENTRY' | translate}} <br>
+                <a class="timelink" ui-sref="diary.view({diaryId: '{{diary.diary.userId}}', type: 'entry', id: '{{diary.id}}'})" am-time-ago="diary.updated"></a>
+              </span>
+            </div>
+            <div class="diary-feed-details">
+              <div ng-if="diary.plantFamily.length > 0">{{ 'DIARY_FEED_PLANT_FAMILY' | translate }}: {{diary.plantFamily}}</div>
+              <div ng-if="diary.plantCultivar.length > 0">{{ 'DIARY_FEED_PLANT_CULTIVAR' | translate }}: {{diary.plantCultivar}}</div>
+              <div ng-if="diary.seedSource.length > 0">{{ 'DIARY_FEED_SEED_SOURCE' | translate }}: {{diary.seedSource}}</div>
+              <div ng-if="diary.notes.length > 0">{{diary.notes}}</div>
+            </div>
+            <div class="photos" ng-if="diary.diaryEntryImageDocs.length >0">
               <div class="photobox">
                 <ul>
                   <li ng-repeat="image in diary.diaryEntryImageDocs | limitTo : 31 : 0">
@@ -29,19 +46,23 @@
                 </ul>
               </div>
             </div>
-
-            <div ng-if="diary.plantFamily.length > 0">{{ 'DIARY_FEED_PLANT_FAMILY' | translate }}: {{diary.plantFamily}}</div>
-            <div ng-if="diary.plantCultivar.length > 0">{{ 'DIARY_FEED_PLANT_CULTIVAR' | translate }}: {{diary.plantCultivar}}</div>
-            <div ng-if="diary.seedSource.length > 0">{{ 'DIARY_FEED_SEED_SOURCE' | translate }}: {{diary.seedSource}}</div>
-            <div ng-if="diary.notes.length > 0">{{diary.notes}}</div>
-          </div>
-
+         </div>
 
           <!--DIARY PROGRESS-->
           <div class="diary-feed-item" ng-if="diary.diaryEntryId.length > 0 && diary.diaryProgressImageDocs!==undefined">
-            {{diary.diaryEntry.diary.user.firstName + ' '+ diary.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_PROGRESS' | translate}} <span am-time-ago="diary.updated"></span>
-            <br/>
-            <div class="photos" ng-show="diary.diaryProgressImageDocs.length >0">
+            <div class="user-profile">
+              <img ng-src="{{diary.diaryEntry.diary.user.profilePicture}}" ng-if="!!diary.diaryEntry.diary.user.profilePicture"/>
+              <img ng-src="/images/default-profile-picture.png" ng-if="!diary.diaryEntry.diary.user.profilePicture"/>
+              <span>{{diary.diaryEntry.diary.user.firstName}} {{diary.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_PROGRESS' | translate}} <br>
+                <a class="timelink" ui-sref="diary.view({diaryId: '{{diary.diaryEntry.diary.userId}}', type: 'progress', id: '{{diary.id}}'})" am-time-ago="diary.updated"></a>
+              </span>
+            </div>
+
+            <div class="diary-feed-details">
+              <div ng-if="diary.notes.length > 0">{{diary.notes}}</div>
+            </div>
+
+            <div class="photos" ng-if="diary.diaryProgressImageDocs.length >0">
               <div class="photobox">
                 <ul>
                   <li ng-repeat="image in diary.diaryProgressImageDocs | limitTo : 31 : 0">
@@ -52,13 +73,18 @@
                 </ul>
               </div>
             </div>
-            <div ng-if="diary.notes.length > 0">{{diary.notes}}</div>
-          </div>
-
+         </div>
 
           <!--DIARY ENTRY IMAGE DOC-->
           <div class="diary-feed-item" ng-if="diary.diaryEntryId.length > 0 && diary.extension.length > 0">
-            {{diary.diaryEntry.diary.user.firstName + ' '+ diary.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_ENTRY_IMAGE_DOC' | translate}} <span am-time-ago="diary.updated"></span> <br/>
+            <div class="user-profile">
+              <img ng-src="{{diary.diaryEntry.diary.user.profilePicture}}" ng-if="!!diary.diaryEntry.diary.user.profilePicture"/>
+              <img ng-src="/images/default-profile-picture.png" ng-if="!diary.diaryEntry.diary.user.profilePicture"/>
+              <span>{{diary.diaryEntry.diary.user.firstName}} {{diary.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_ENTRY_IMAGE_DOC' | translate}} <br>
+                <a class="timelink" ui-sref="diary.view({diaryId: '{{diary.diaryEntry.diary.userId}}', type: 'entry', id: '{{diary.diaryEntryId}}'})" am-time-ago="diary.updated"></a>
+              </span>
+            </div>
+
             <div class="single-photo">
               <img ng-src="{{ diary.url }}">
             </div>
@@ -66,17 +92,33 @@
 
 
 
-          <!--DIARY PROCESS IMAGE DOC-->
-          <div class="diary-feed-item" ng-if="diary.diaryProcessId.length > 0 && diary.extension.length > 0">
-            {{diary.diaryProgress.diary.user.firstName + ' '+ diary.diaryProgress.diary.user.lastName}} {{'DIARY_FEED_DIARY_PROGRESS_IMAGE_DOC' | translate}} <span am-time-ago="diary.updated"></span> <br/>
-            <img ng-src="{{ diary.url }}">
+          <!--DIARY PROGRESS IMAGE DOC-->
+          <div class="diary-feed-item" ng-if="diary.diaryProgressId.length > 0 && diary.extension.length > 0">
+            <div class="user-profile">
+              <img ng-src="{{diary.diaryProgress.diaryEntry.diary.user.profilePicture}}" ng-if="!!diary.diaryProgress.diaryEntry.diary.user.profilePicture"/>
+              <img ng-src="/images/default-profile-picture.png" ng-if="!diary.diaryProgress.diaryEntry.diary.user.profilePicture"/>
+              <span>{{diary.diaryProgress.diaryEntry.diary.user.firstName}} {{diary.diaryProgress.diaryEntry.diary.user.lastName}} {{'DIARY_FEED_DIARY_PROGRESS_IMAGE_DOC' | translate}} <br>
+                <a class="timelink" ui-sref="diary.view({diaryId: '{{diary.diaryProgress.diaryEntry.diary.userId}}', type: 'progress', id: '{{diary.diaryProgressId}}'})" am-time-ago="diary.updated"></a>
+              </span>
+            </div>
+
+            <div class="single-photo">
+              <img ng-src="{{ diary.url }}">
+            </div>
           </div>
 
+        </div>
 
-
+      </div>
+      <div class="col-sm-6">
+        <div class="fb-like"
+           data-href="http://www.gardensyjardines.com/#/diary/feed"
+           data-layout="standard"
+           data-action="like"
+           data-show-faces="false"
+           data-share="true">
         </div>
       </div>
-      <div class="col-sm-6"></div>
     </div>
   </div>
 </div>

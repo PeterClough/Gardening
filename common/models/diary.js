@@ -3,19 +3,136 @@
  */
 module.exports = function(Diary){
 
+
   Diary.findByUserId = function(userId, cb) {
 
     Diary.find({ "where": {"userId": userId} }, function(err, cb2) {
-        cb(null, cb2);
+      cb(null, cb2);
     });
   };
 
   Diary.remoteMethod(
-      'findByUserId',
-      {
-        accepts: {arg: 'userId', type: 'string'},
-        returns: {arg: 'diary', type: 'object'}
-      }
+    'findByUserId',
+    {
+      accepts: {arg: 'userId', type: 'string'},
+      returns: {arg: 'diary', type: 'object'}
+    }
+  );
+
+
+
+  Diary.getDiary = function(userId, cb) {
+
+    Diary.find({
+      where: {id: userId},
+      order: "entryDate ASC",
+      include: [
+        {
+          relation: 'diaryDefault',
+          scope: {
+            fields: ['diaryId', 'countryId', 'hardinessZoneId', 'soilAcidityId', 'soilTypeId']
+          }
+        },
+        {
+          relation: 'diaryEntries',
+          scope: {
+            include: [
+              {
+                relation: 'diaryProgression'
+              }
+            ]
+          }
+        }
+      ]
+    }, function(err, cb2) {
+      cb(null, cb2);
+    });
+  };
+
+
+  Diary.remoteMethod(
+    'getDiary',
+    {
+      accepts: {arg: 'userId', type: 'string'},
+      returns: {arg: 'diary', type: 'object'}
+    }
+  );
+
+
+  Diary.findByDiaryId = function(diaryId, cb) {
+
+    Diary.find({
+        where: {id: diaryId},
+        order: "entryDate ASC",
+        include: [
+          {
+            relation: 'user',
+            scope: {
+              fields: ['firstName', 'lastName', 'profilePicture']
+            }
+          },
+          {
+            relation: 'diaryEntries',
+            scope: {
+              include: [
+                {
+                  relation: 'country',
+                  scope: {
+                    fields: ['translateKey']
+                  }
+                },
+                {
+                  relation: 'hardinessZone',
+                  scope: {
+                    fields: ['name']
+                  }
+                },
+                {
+                  relation: 'soilAcidity',
+                  scope: {
+                    fields: ['translateKey']
+                  }
+                },
+                {
+                  relation: 'soilType',
+                  scope: {
+                    fields: ['translateKey']
+                  }
+                },
+                {
+                  relation: 'plantRating',
+                  scope: {
+                    fields: ['name']
+                  }
+                },
+                {
+                  relation: 'diaryProgression',
+                  scope: {
+                    include: [
+                      {
+                        relation: 'plantRating',
+                        scope: {
+                          fields: ['name']
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }, function(err, cb2) {
+      cb(null, cb2);
+    });
+  };
+
+  Diary.remoteMethod(
+    'findByDiaryId',
+    {
+      accepts: {arg: 'diaryId', type: 'string'},
+      returns: {arg: 'diary', type: 'object'}
+    }
   );
 
 
@@ -33,7 +150,7 @@ module.exports = function(Diary){
           {
             relation: 'user',
             scope: {
-              fields: ['firstName', 'lastName']
+              fields: ['firstName', 'lastName', 'profilePicture']
             }
           }
         ]
@@ -64,7 +181,7 @@ module.exports = function(Diary){
                     {
                       relation: 'user',
                       scope: {
-                        fields: ['firstName', 'lastName']
+                        fields: ['firstName', 'lastName', 'profilePicture']
                       }
                     }
                   ]
@@ -82,7 +199,7 @@ module.exports = function(Diary){
                 where: {updated: {gt: Date.now()-ONE_MONTH}},
                 limit: 20,
                 order: 'updated DESC',
-                fields: ['extension', 'id', 'diaryEntryId'],
+                fields: ['updated', 'extension', 'id', 'diaryEntryId'],
                 include: [
                   {
                     relation: 'diaryEntry',
@@ -97,7 +214,7 @@ module.exports = function(Diary){
                               {
                                 relation: 'user',
                                 scope: {
-                                  fields: ['firstName', 'lastName']
+                                  fields: ['firstName', 'lastName', 'profilePicture']
                                 }
                               }
                             ]
@@ -139,7 +256,7 @@ module.exports = function(Diary){
                                   {
                                     relation: 'user',
                                     scope: {
-                                      fields: ['firstName', 'lastName']
+                                      fields: ['firstName', 'lastName', 'profilePicture']
                                     }
                                   }
                                 ]
@@ -180,7 +297,7 @@ module.exports = function(Diary){
                                             {
                                               relation: 'user',
                                               scope: {
-                                                fields: ['firstName', 'lastName']
+                                                fields: ['firstName', 'lastName', 'profilePicture']
                                               }
                                             }
                                           ]
@@ -197,7 +314,7 @@ module.exports = function(Diary){
 
                       },
                       function(err, dPIDCb) {
-
+/** remove when parents edited - leave until later when more busy
                       //really needed not inq to stop this mess have to remove photo objects where parent edited.
                         for( var i = dEIDCb.length - 1; i >= 0; i--){
                           for( var j = 0; j < dECb.length; j++){
@@ -207,6 +324,7 @@ module.exports = function(Diary){
                           }
                         }
 
+
                         for( var i=dPIDCb.length - 1; i>=0; i--){
                           for( var j=0; j<dPCb.length; j++){
                             if(dPIDCb[i] && ( String(dPIDCb[i].diaryProgressId).valueOf() ===  String(dPCb[j].id).valueOf())){
@@ -215,7 +333,7 @@ module.exports = function(Diary){
                           }
                         }
 
-
+**/
 
 
                         //check isPrivate status on records.
@@ -294,10 +412,4 @@ module.exports = function(Diary){
 
 
 
-
-
-
-
-
-
-}
+};

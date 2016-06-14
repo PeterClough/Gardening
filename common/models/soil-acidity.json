@@ -3,27 +3,17 @@
   "plural": "soilAcidities",
   "base": "PersistedModel",
   "properties": {
-    "updated": {
-      "type": "date",
+    "translateKey": {
+      "type": "string",
       "required": true
     },
-    "name": {
-      "type": "string",
+    "order": {
+      "type": "number",
       "required": true
     }
   },
   "validations": [],
   "relations": {
-    "updatedBy": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "userId"
-    },
-    "language": {
-      "type": "belongsTo",
-      "model": "Language",
-      "foreignKey": "languageId"
-    }
   },
   "acls": [
     {

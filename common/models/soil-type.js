@@ -4,9 +4,11 @@
 module.exports = function(SoilType){
 
   SoilType.getList = function(cb) {
-    SoilType.find({ fields: ['name', 'id'] }, function(err, cb2) {
-         cb(null, cb2);
-    });
+    SoilType.find({ order: "order ASC",
+                    fields: ['translateKey', 'id'] },
+                    function(err, cb2) {
+                       cb(null, cb2);
+                      });
   };
 
   SoilType.remoteMethod(

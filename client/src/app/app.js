@@ -9,6 +9,7 @@ angular.module( 'myApp', [
   'ngSanitize',
   'ui.select',
   'satellizer',
+  'ezfb',
   'myApp.home',
   'myApp.about',
   'myApp.diary',
@@ -16,7 +17,7 @@ angular.module( 'myApp', [
   'myApp.ask'
 ])
 
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, $authProvider, growlProvider ) {
+.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, $authProvider, growlProvider, ezfbProvider ) {
   $translateProvider.translations('en', translationsEN);
   $translateProvider.translations('es', translationsES);
   $translateProvider.preferredLanguage('en');
@@ -31,14 +32,24 @@ angular.module( 'myApp', [
 
 
   $authProvider.facebook({
-    clientId: '1744981842400276'
+    clientId: '353106324898119'
   });
 
   $authProvider.google({
-    clientId: '989154659952-r3lfvshi4s0fcbesie408bm5iip1occg.apps.googleusercontent.com'
+    clientId: '692504536355-a66nmnpbut2eamfled7lahl5fm0b9pjh.apps.googleusercontent.com'
   });
 
   growlProvider.globalTimeToLive(5000);
+
+  ezfbProvider.setLocale('en_UK');
+
+
+  ezfbProvider.setInitParams({
+    appId: '353106324898119',
+    version: 'v2.4'
+  });
+
+
 
 })
 
@@ -47,17 +58,35 @@ angular.module( 'myApp', [
   .run( function run () {
 })
 
-.controller( 'AppCtrl', function( $rootScope, $scope, $translate, User, changeLanguage, Language) {
+.controller( 'AppCtrl', function( $rootScope, $scope, $translate, $location, $state, User, changeLanguage, Language) {
 
 
   $scope.loggedIn = User.isAuthenticated();
 
 
+
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-    if ( angular.isDefined( toState.data.pageTitle ) ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | myApp' ;
-      $scope.loggedIn = User.isAuthenticated();
+    var thisUrl = $state.href($state.current.name, $state.params, {absolute: true});
+
+    //well dodgy needs sorting
+    if (thisUrl.indexOf('diary/view/') >0) {
+      thisUrl = thisUrl.split('/progress/')[0];
+      thisUrl = thisUrl.split('/entry/')[0];
     }
+
+
+    $scope.pageTitle = 'Gardening | ' + toState.data.pageTitle;
+    $scope.ogUrl = toState.data.ogUrl || thisUrl;
+    $scope.ogType = toState.data.ogType || 'website';
+    $scope.ogTitle = toState.data.ogTitle ||  'Gardens y Jardines';
+    $scope.ogDescription = toState.data.ogDescription ||  'A website all about gardening.';
+    $scope.ogImage = toState.data.ogImage || 'http://www.gardensyjardines.com/images/gardensyjardines.png';
+
+
+
+    $scope.loggedIn = User.isAuthenticated();
+
+
   });
 
   Language.getList()

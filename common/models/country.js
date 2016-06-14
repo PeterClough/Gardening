@@ -4,10 +4,13 @@
 module.exports = function(Country){
 
   Country.getList = function(cb) {
-      Country.find({ fields: ['name', 'id'] }, function(err, cb2) {
-        cb(null, cb2);
-    });
+      Country.find({ order: "translateKey ASC",
+                     fields: ['translateKey', 'id'] },
+                     function(err, cb2) {
+                       cb(null, cb2);
+                     });
   };
+
 
   Country.remoteMethod(
       'getList',

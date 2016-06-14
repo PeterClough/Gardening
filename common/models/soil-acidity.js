@@ -4,9 +4,11 @@
 module.exports = function(SoilAcidity){
 
   SoilAcidity.getList = function(cb) {
-      SoilAcidity.find({ fields: ['name', 'id'] }, function(err, cb2) {
-         cb(null, cb2);
-    });
+      SoilAcidity.find({ order: "order ASC",
+                         fields: ['translateKey', 'id'] },
+                         function(err, cb2) {
+                           cb(null, cb2);
+                         });
   };
 
   SoilAcidity.remoteMethod(

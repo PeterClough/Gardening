@@ -4,9 +4,11 @@
 module.exports = function(HardinessZone){
 
   HardinessZone.getList = function(cb) {
-      HardinessZone.find({ fields: ['name', 'id'] }, function(err, cb2) {
-         cb(null, cb2);
-    });
+      HardinessZone.find({ order: "+(name) ASC",
+                           fields: ['name', 'id'] },
+                           function(err, cb2) {
+                             cb(null, cb2);
+                           });
   };
 
   HardinessZone.remoteMethod(

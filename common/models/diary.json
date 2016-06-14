@@ -23,9 +23,14 @@
       "model": "user",
       "foreignKey": "userId"
     },
-    "diaryEntry": {
+    "diaryEntries": {
       "type": "hasMany",
       "model": "DiaryEntry",
+      "foreignKey": "diaryId"
+    },
+    "diaryDefault": {
+      "type": "hasOne",
+      "model": "DiaryDefault",
       "foreignKey": "diaryId"
     },
     "language": {

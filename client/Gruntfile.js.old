@@ -16,10 +16,11 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-coffeelint');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-loopback-sdk-angular');
   grunt.loadNpmTasks('grunt-docular');
+
 
   /**
    * Load in our build configuration file.
@@ -31,7 +32,6 @@ module.exports = function ( grunt ) {
    * instructions.
    */
   var taskConfig = {
-
     loopback_sdk_angular: {
       services: {
         options: {
@@ -55,7 +55,6 @@ module.exports = function ( grunt ) {
         }
       ]
     },
-
     /**
      * We read in our `package.json` file so we can access the package name and
      * version. It's already there, so we don't repeat ourselves here.
@@ -69,13 +68,13 @@ module.exports = function ( grunt ) {
      */
     meta: {
       banner:
-        '/**\n' +
-        ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        ' * <%= pkg.homepage %>\n' +
-        ' *\n' +
-        ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-        ' * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n' +
-        ' */\n'
+      '/**\n' +
+      ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+      ' * <%= pkg.homepage %>\n' +
+      ' *\n' +
+      ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+      ' * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n' +
+      ' */\n'
     },
 
     /**
@@ -133,7 +132,7 @@ module.exports = function ( grunt ) {
             cwd: 'src/assets',
             expand: true
           }
-       ]
+        ]
       },
       build_vendor_assets: {
         files: [
@@ -144,7 +143,7 @@ module.exports = function ( grunt ) {
             expand: true,
             flatten: true
           }
-       ]
+        ]
       },
       build_appjs: {
         files: [
@@ -272,10 +271,10 @@ module.exports = function ( grunt ) {
     },
 
     /**
-     * `ng-min` annotates the sources before minifying. That is, it allows us
+     * `ngAnnotate` annotates the sources before minifying. That is, it allows us
      * to code without the array syntax.
      */
-    ngmin: {
+    ngAnnotate: {
       compile: {
         files: [
           {
@@ -336,6 +335,7 @@ module.exports = function ( grunt ) {
       src: [
         '<%= app_files.js %>',
         '!src/app/lb-services.js'
+
       ],
       test: [
         '<%= app_files.jsunit %>'
@@ -411,10 +411,11 @@ module.exports = function ( grunt ) {
         configFile: '<%= build_dir %>/karma-unit.js'
       },
       unit: {
-        port: 9876,
-        background: true
+        background: true,
+        port: 9877
       },
       continuous: {
+        background: false,
         singleRun: true
       }
     },
@@ -629,7 +630,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
   /**
@@ -637,6 +638,7 @@ module.exports = function ( grunt ) {
    * the relevant angular services and documentation
    */
   grunt.registerTask( 'loopback', ['loopback_sdk_angular', 'docular']);
+
 
 
 

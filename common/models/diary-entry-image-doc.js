@@ -84,7 +84,31 @@ module.exports = function(DiaryEntryImageDoc){
   );
 
 
+  DiaryEntryImageDoc.deleteImage = function(id, cb) {
 
+
+    var dEIModel = DiaryEntryImageDoc.app.models.DiaryEntryImage;
+
+
+    DiaryEntryImageDoc.findById(id, function(err, cb2) {
+         var fileName = [cb2.id+cb2.extension];
+        dEIModel.deleteFiles(fileName, function(err, cb3){
+          DiaryEntryImageDoc.destroyById(id, function(err, cb4) {
+
+              cb(null, cb4);
+          });
+        });
+      });
+
+  };
+
+  DiaryEntryImageDoc.remoteMethod(
+    'deleteImage',
+    {
+      accepts: {arg: 'id', type: 'string'},
+      returns: {arg: 'success', type: 'object'}
+    }
+  );
 
 
 

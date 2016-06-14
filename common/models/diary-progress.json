@@ -11,10 +11,6 @@
       "type": "date",
       "required": true
     },
-    "plantRatingId": {
-      "type": "number",
-      "required": false
-    },
     "notes": {
       "type": "string",
       "required": false
@@ -35,6 +31,11 @@
       "type": "hasMany",
       "model": "DiaryProgressImageDoc",
       "foreignKey": "diaryProgressId"
+    },
+    "plantRating": {
+      "type": "belongsTo",
+      "model": "PlantRating",
+      "foreignKey": "plantRatingId"
     }
   },
   "acls": [

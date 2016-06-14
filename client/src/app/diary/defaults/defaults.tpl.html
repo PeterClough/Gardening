@@ -24,9 +24,9 @@
                      ng-required="true"
                      name="countryId"
                      class="form-control">
-            <ui-select-match placeholder="Country">{{$select.selected.name}}</ui-select-match>
+            <ui-select-match placeholder="Country">{{ $select.selected.translateKey | translate }}</ui-select-match>
             <ui-select-choices repeat="country.id as country in countries | filter: $select.search">
-              <div ng-bind-html="country.name | highlight: $select.search"></div>
+              <div ng-bind-html="country.translateKey | translate | highlight: $select.search"></div>
             </ui-select-choices>
           </ui-select>
         </div>
@@ -63,9 +63,9 @@
                      ng-required="true"
                      name="soilAcidityId"
                      class="form-control">
-            <ui-select-match placeholder="Soil Acidity">{{$select.selected.name}}</ui-select-match>
+            <ui-select-match placeholder="Soil Acidity">{{ $select.selected.translateKey | translate }}</ui-select-match>
             <ui-select-choices repeat="soilAcidity.id as soilAcidity in soilAcidities | filter: $select.search">
-              <div ng-bind-html="soilAcidity.name | highlight: $select.search"></div>
+              <div ng-bind-html="soilAcidity.translateKey | translate | highlight: $select.search"></div>
             </ui-select-choices>
           </ui-select>
         </div>
@@ -82,9 +82,9 @@
                      ng-required="true"
                      name="soilTypeId"
                      class="form-control">
-            <ui-select-match placeholder="Soil Type">{{$select.selected.name}}</ui-select-match>
+            <ui-select-match placeholder="Soil Type">{{ $select.selected.translateKey | translate }}</ui-select-match>
             <ui-select-choices repeat="soilType.id as soilType in soilTypes | filter: $select.search">
-              <div ng-bind-html="soilType.name | highlight: $select.search"></div>
+              <div ng-bind-html="soilType.translateKey | translate | highlight: $select.search"></div>
             </ui-select-choices>
           </ui-select>
         </div>
