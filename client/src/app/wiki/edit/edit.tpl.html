@@ -1,0 +1,110 @@
+<h3 id="edit-wiki-heading">{{wikiHeader}}</h3>
+
+
+
+
+<div id="wiki-container" ng-show="loggedIn">
+
+  <div class="view-animate" ng-show="!showCard && !saveSuccess" id="loading-message"><div class="loader"></div></div>
+
+
+  <h4 ng-if="showCard && !canEdit">{{ 'WIKI_CAN_NOT_EDIT' | translate }}</h4>
+
+  <div class="view-animate" ng-show="saveSuccess">{{ 'WIKI_SAVE_SUCCESS_MESSAGE' | translate }}</div>
+
+  <div id="wiki-card" class="view-animate" ng-show="showCard && canEdit">
+
+
+
+    <form class="form-horizontal" role="form" ng-submit="savePlantFamily()" name="">
+
+      <fieldset class="form-group" ng-if="editMode===false">
+        <div class="col-sm-offset-3 col-sm-9 form-requirements">{{ 'FORM_REQUIRED_ITEMS' | translate }}</div>
+      </fieldset>
+
+      <fieldset class="form-group" show-errors ng-if="editMode===false">
+        <label class="col-sm-3 control-label">{{ 'WIKI_PLANT_FAMILY_NAME_LABEL' | translate }} *</label>
+
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Plant Family Name"
+                 ng-model="plantFamily.name"
+                 ng-required="true"
+                 name="plantFamilyName">
+        </div>
+      </fieldset>
+
+      <h3 ng-if="editMode===true">{{plantFamily.name}}</h3>
+
+
+      <uib-tabset active="active">
+        <uib-tab index="0" heading="{{'WIKI_PLANT_FAMILY_PLANTING_ADVICE' | translate}}">
+
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <textarea class="form-control" rows="6" placeholder="Planting Advice" ng-model="plantFamilyVersion.plantingAdvice"></textarea>
+            </div>
+          </fieldset>
+        </uib-tab>
+
+        <uib-tab index="1" heading="{{'WIKI_PLANT_FAMILY_HELPS' | translate}}">
+
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label ng-repeat="plantFamily in plantFamilies">
+                <input type="checkbox" data-checklist-model="pFPFVHelps" data-checklist-value="plantFamily.id"> {{plantFamily.name}}
+              </label>
+            </div>
+          </fieldset>
+
+        </uib-tab>
+
+        <uib-tab index="2" heading="{{'WIKI_PLANT_FAMILY_HELPED_BY' | translate}}">
+
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label ng-repeat="plantFamily in plantFamilies">
+                <input type="checkbox" data-checklist-model="pFPFVHelpedBy" data-checklist-value="plantFamily.id"> {{plantFamily.name}}
+              </label>
+            </div>
+          </fieldset>
+
+        </uib-tab>
+
+        <uib-tab index="3" heading="{{'WIKI_PLANT_FAMILY_BAD_FOR' | translate}}">
+
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label ng-repeat="plantFamily in plantFamilies">
+                <input type="checkbox" data-checklist-model="pFPFVBadFor" data-checklist-value="plantFamily.id"> {{plantFamily.name}}
+              </label>
+            </div>
+          </fieldset>
+
+        </uib-tab>
+      </uib-tabset>
+
+
+
+
+
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-default">{{ 'SAVE_BUTTON' | translate }}</button>
+          <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+<div ng-hide=loggedIn>
+  {{'WIKI_EDIT_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'WIKI_EDIT_LOGIN' | translate}}</a> {{'WIKI_EDIT_OR' |
+  translate}} <a ui-sref="users.register"> {{'WIKI_EDIT_REGISTER' | translate}}</a>
+
+</div>

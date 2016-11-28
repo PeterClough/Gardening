@@ -3,6 +3,7 @@
   "plural": "users",
   "base": "User",
   "idInjection": true,
+  "strict": true,
   "properties": {
     "firstName": {
       "type": "string",
@@ -36,11 +37,23 @@
       "type": "hasMany",
       "model": "Answer",
       "foreignKey": "userId"
+    },
+    "role": {
+      "type": "hasMany",
+      "model": "Role",
+      "foreignKey": "principalId",
+      "through": "RoleMapping"
     }
   },
   "acls": [
     {
       "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW"

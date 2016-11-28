@@ -15,6 +15,14 @@
       "type": "string",
       "required": true
     },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "thumbUrl": {
+      "type": "string",
+      "required": true
+    },
     "comments": {
       "type": "string",
       "required": false

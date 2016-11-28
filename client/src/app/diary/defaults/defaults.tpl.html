@@ -3,7 +3,7 @@
 
 <fieldset ng-show="loggedIn">
 
-  <fieldset class="card view-animate" ng-show="showCard">
+  <fieldset class="view-animate" ng-show="showCard">
     <div class="item item-divider">
     </div>
 
@@ -124,7 +124,7 @@
 
 
 
-<div class="card" ng-hide=loggedIn>
+<div ng-hide=loggedIn>
   {{'DIARY_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_LOGIN' | translate }}</a> {{'DIARY_OR' |
   translate}} <a ui-sref="users.register"> {{'DIARY_REGISTER' | translate}}</a>
 

@@ -1,0 +1,24 @@
+<h3 id="admin-review-list-heading">{{ 'ADMIN_WIKI_LIST_HEADER' | translate }}</h3>
+
+<div id="review-list-container">
+
+  <h4 ng-if="showCard && !canReview" class="view-animate">{{ 'ADMIN_WIKI_CAN_NOT_REVIEW' | translate }}</h4>
+  <h4 ng-if="showCard && nothingToReview" class="view-animate">{{ 'ADMIN_WIKI_NOTHING_TO_REVIEW' | translate }}</h4>
+
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
+
+  <div id="review-list-card" class="view-animate" ng-show="showCard">
+    <div ng-repeat="plantFamily in plantFamilyReviews">
+      <div ng-if="plantFamily.plantFamilyVersion.length>0">
+        <h4>{{plantFamily.name}}</h4>
+        <div ng-repeat="plantFamilyVersion in plantFamily.plantFamilyVersion">
+          <div>
+            <img class="user-picture" ng-src="{{plantFamilyVersion.author.profilePicture}}" ng-if="!!plantFamilyVersion.author.profilePicture"/>
+            <a ui-sref="admin.wiki.review({ id: '{{plantFamilyVersion.id}}' })"> {{' ' + plantFamilyVersion.author.firstName + ' ' + plantFamilyVersion.author.lastName + ' '}}{{plantFamilyVersion.created | date: 'medium'}}</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

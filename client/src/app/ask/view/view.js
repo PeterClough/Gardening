@@ -31,7 +31,7 @@ angular.module( 'ask.view', [
 
 .controller( 'AskViewCtrl', function AskViewCtrl( $scope, $translate, $filter, $timeout, $stateParams, Question, QuestionRating, QuestionComment, Answer, AnswerRating, AnswerComment, User ) {
 
-   $scope.showCard = false;
+    $scope.showCard = false;
     $scope.gotAnswer = false;
     $scope.gotQuestionComment = false;
     $scope.gotAnswerComment = [];
@@ -326,7 +326,7 @@ angular.module( 'ask.view', [
     },
     removeClass: function(element, className, done) {
       if(className === NG_HIDE_CLASS) {
-        element.hide().slideDown(done);
+        element.hide().slideDown(1000,done);
       }
     }
   };

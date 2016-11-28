@@ -7,6 +7,7 @@ var translationsES= {
   MENU_MY_DIARY: 'Mi Calendario',
   MENU_DIARY_FEED: 'Noticias',
   MENU_ASK: 'Consulta',
+  MENU_WIKI: 'Wiki',
   MENU_ABOUT:'Sobre nosotros',
   MENU_LOGIN: 'Iniciar sesión',
   MENU_LOGOUT: 'Cerrar sesión',

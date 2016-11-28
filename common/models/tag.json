@@ -2,6 +2,7 @@
   "name": "Tag",
   "plural": "tags",
   "base": "PersistedModel",
+  "strict": true,
   "properties": {
     "created": {
       "type": "date",

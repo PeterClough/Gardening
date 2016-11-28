@@ -5,12 +5,17 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var bodyParser = require('body-parser');
 
-module.exports = function (app, config) {
+module.exports = function (app) {
 
 
-  var User = app.models[config.USER_MODEL];
 
-  var authHeader = config.AUTH_HEADER;
+  var userModel = app.get('USER_MODEL');
+  var User = app.models[userModel];
+  var authHeader = app.get('AUTH_HEADER');
+  var facebookSecret= app.get('FACEBOOK_SECRET');
+  var googleSecret= app.get('GOOGLE_SECRET');
+  var tokenSecret= app.get('TOKEN_SECRET');
+
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +33,7 @@ module.exports = function (app, config) {
       iat: moment().unix(),
       exp: moment().add(14, 'days').unix()
     };
-    return jwt.encode(payload, config.TOKEN_SECRET);
+    return jwt.encode(payload, tokenSecret);
   }
 
 
@@ -85,12 +90,17 @@ module.exports = function (app, config) {
   // FACEBOOK
   app.post('/auth/facebook',
   // Step 1. Exchange authorization code for access token.
+
   function (req, res, next) {
+
+    console.log('Exchange authorization code for access token', facebookSecret);
+
+
     var accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
     var params = {
       code: req.body.code,
       client_id: req.body.clientId,
-      client_secret: config.FACEBOOK_SECRET,
+      client_secret: facebookSecret,
       redirect_uri: req.body.redirectUri
     };
 
@@ -101,6 +111,7 @@ module.exports = function (app, config) {
         return;
       }
       req.accessToken = qs.parse(accessToken);
+       console.log('req.accessToken', req.accessToken);
       next();
     });
   },
@@ -117,6 +128,7 @@ module.exports = function (app, config) {
         return;
       }
       req.profile = profile;
+      console.log('req.profile', req.profile);
       next();
     });
   },
@@ -133,11 +145,15 @@ module.exports = function (app, config) {
       var user = users[0];
       if (user) {
         res.status(409).send({ message: 'There is already a Facebook account that belongs to you' });
+        console.log('There is already a Facebook account that belongs to you');
+
         return;
       }
       var token = req.headers[authHeader].split(' ')[1];
-      var payload = jwt.decode(token, config.TOKEN_SECRET);
+      var payload = jwt.decode(token, tokenSecret);
       User.findById(payload.sub, function(err, user) {
+        console.log('User.findById', user);
+
         if (!user) {
           res.status(400).send({ message: 'User not found' });
           return;
@@ -167,6 +183,8 @@ module.exports = function (app, config) {
           user.facebookId = profile.id;
           user.profilePicture = profile.picture.data.url;
           user.save(function () {
+            console.log('user.save', user);
+
             req.user = user;
             next();
           });
@@ -190,6 +208,7 @@ module.exports = function (app, config) {
           res.send(err);
           return;
         }
+        console.log('User.create', user);
         req.user = user;
         next();
       });
@@ -207,7 +226,7 @@ module.exports = function (app, config) {
       var params = {
         code: req.body.code,
         client_id: req.body.clientId,
-        client_secret: config.GOOGLE_SECRET,
+        client_secret: googleSecret,
         redirect_uri: req.body.redirectUri,
         grant_type: 'authorization_code'
       };
@@ -254,7 +273,7 @@ module.exports = function (app, config) {
         }
 
         var token = req.headers[authHeader].split(' ')[1];
-        var payload = jwt.decode(token, config.TOKEN_SECRET);
+        var payload = jwt.decode(token, tokenSecret);
         User.findById(payload.sub, function(err, user) {
           if (!user) {
             res.status(400).send({ message: 'User not found' });

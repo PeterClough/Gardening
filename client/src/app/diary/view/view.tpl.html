@@ -4,7 +4,7 @@
 <div id="diary-container">
   <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
 
-  <div class="card view-animate" ng-show="showCard" id="diary-view-card">
+  <div class="view-animate" ng-show="showCard" id="diary-view-card">
     <div class="row">
       <div class="col-sm-6">
         <div class="user-profile">
@@ -49,10 +49,13 @@
         <div class="col-sm-6">
           <div id="diary-entry" ng-show="isDiaryEntry">
 
-            <div class="photos" ng-if="images.length>0">
-              <div class="photobox">
+            <div class="photos panel panel-default" ng-if="images.length>0">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{'DIARY_EDIT_PHOTOS' | translate}}</h3>
+              </div>
+              <div class="panel-body">
                 <ul>
-                  <li ng-repeat="image in images | limitTo : 31 : 0">
+                  <li class="img-frame" ng-repeat="image in images | limitTo : 14 : 0">
                     <a ng-click="openLightboxModal($index)">
                       <img ng-src="{{ image.thumbUrl }}">
                     </a>
@@ -61,15 +64,17 @@
               </div>
             </div>
 
+
+
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_ENTRY_DATE_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.entryDate | date: 'dd-MMM-yyyy'}}
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_FAMILY_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_PLANT_FAMILY_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.plantFamily}}
@@ -77,14 +82,14 @@
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_CULTIVAR_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_PLANT_CULTIVAR_LABEL' | translate }}</label>
               <div class="col-sm-8">
                 {{diaryEntry.plantCultivar}}
               </div>
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_NOTES_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_NOTES_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.notes}}
@@ -92,7 +97,7 @@
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_COUNTRY_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_COUNTRY_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.country.translateKey | translate}}
@@ -100,7 +105,7 @@
             </div>
 
             <div class="row">
-               <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_HARDINESS_ZONE_LABEL' | translate }}</label>
+               <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_HARDINESS_ZONE_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.hardinessZone.name}}
@@ -108,28 +113,28 @@
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_SOIL_ACIDITY_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_SOIL_ACIDITY_LABEL' | translate }}</label>
               <div class="col-sm-8">
                {{diaryEntry.soilAcidity.translateKey | translate}}
               </div>
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_SOIL_TYPE_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_SOIL_TYPE_LABEL' | translate }}</label>
               <div class="col-sm-8">
                 {{diaryEntry.soilType.translateKey | translate}}
               </div>
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_MATURITY_DATE_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_MATURITY_DATE_LABEL' | translate }}</label>
               <div class="col-sm-8">
                 {{diaryEntry.maturityDate}}
               </div>
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_SEED_SOURCE_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_SEED_SOURCE_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.seedSource}}
@@ -137,7 +142,7 @@
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_RATING_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_PLANT_RATING_LABEL' | translate }}</label>
 
               <div class="col-sm-8">
                 {{diaryEntry.plantRating.name}}
@@ -150,10 +155,13 @@
 
           <div id="diary-progress" ng-show="isDiaryProgress">
 
-            <div class="photos" ng-if="images.length>0">
-              <div class="photobox">
+            <div class="photos panel panel-default" ng-if="images.length>0">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{'DIARY_EDIT_PHOTOS' | translate}}</h3>
+              </div>
+              <div class="panel-body">
                 <ul>
-                  <li ng-repeat="image in images | limitTo : 31 : 0">
+                  <li class="img-frame" ng-repeat="image in images | limitTo : 14 : 0">
                     <a ng-click="openLightboxModal($index)">
                       <img ng-src="{{ image.thumbUrl }}">
                     </a>
@@ -162,22 +170,23 @@
               </div>
             </div>
 
+
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_ENTRY_DATE_LABEL' | translate }}</label>
               <div class="col-sm-8">
                 {{diaryProgress.entryDate | date: 'dd-MMM-yyyy'}}
               </div>
             </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_NOTES_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_NOTES_LABEL' | translate }}</label>
               <div class="col-sm-8">
                 {{diaryProgress.notes}}
               </div>
               </div>
 
             <div class="row">
-              <label class="col-sm-4 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_RATING_LABEL' | translate }}</label>
+              <label class="col-sm-4 control-label">{{ 'DIARY_EDIT_PLANT_RATING_LABEL' | translate }}</label>
               <div class="col-sm-8">
                 {{diaryProgress.plantRating.name}}
               </div>

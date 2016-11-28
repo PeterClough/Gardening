@@ -2,6 +2,7 @@
   "name": "QuestionComment",
   "plural": "questionComments",
   "base": "PersistedModel",
+  "strict": true,
   "properties": {
     "created": {
       "type": "date",

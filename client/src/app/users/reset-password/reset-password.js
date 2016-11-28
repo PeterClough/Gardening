@@ -49,10 +49,6 @@ angular.module( 'users.resetPassword', [
     LoopBackAuth.save();
   }
 
-    console.log('User.isAuthenticated()',User.isAuthenticated());
-    console.log('User.getCurrentId()',User.getCurrentId());
-
-
     $scope.resetPassword = function() {
 
     $scope.$broadcast('show-errors-check-validity');
@@ -60,7 +56,6 @@ angular.module( 'users.resetPassword', [
       return;
     }
 
-      console.log('{id: '+$stateParams.uid+', password: '+$scope.update.password+'}');
 
     User.updateOrCreate({
       id: $stateParams.uid,

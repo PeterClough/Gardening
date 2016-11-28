@@ -170,7 +170,7 @@ module.exports = function(Diary){
               {
                 relation: 'diaryEntryImageDocs',
                 scope: {
-                  fields: ['extension', 'id']
+                  fields: ['id', 'url', 'thumbUrl']
                 }
               },
               {
@@ -199,7 +199,7 @@ module.exports = function(Diary){
                 where: {updated: {gt: Date.now()-ONE_MONTH}},
                 limit: 20,
                 order: 'updated DESC',
-                fields: ['updated', 'extension', 'id', 'diaryEntryId'],
+                fields: ['updated', 'url', 'thumbUrl', 'id', 'diaryEntryId'],
                 include: [
                   {
                     relation: 'diaryEntry',
@@ -240,7 +240,7 @@ module.exports = function(Diary){
                       {
                         relation: 'diaryProgressImageDocs',
                         scope: {
-                          fields: ['extension', 'diaryEntryId', 'id']
+                          fields: ['diaryEntryId', 'id', 'url', 'thumbUrl']
                         }
                       },
                       {
@@ -277,7 +277,7 @@ module.exports = function(Diary){
                         where: {updated: {gt: Date.now()-ONE_MONTH}},
                         limit: 20,
                         order: 'updated DESC',
-                        fields: ['updated', 'diaryProgressId','extension', 'id'],
+                        fields: ['updated', 'url', 'thumbUrl', 'diaryProgressId', 'id'],
                         include: [
                           {
                             relation: 'diaryProgress',
@@ -356,9 +356,11 @@ module.exports = function(Diary){
                           }
                         }
 
-
+                        var dECbObject = {};
                         for (var i = dECb.length - 1; i >= 0; i -= 1) {
-                          if (dECb[i].toObject().diary.isPrivate === true || String(dECb[i].toObject().diary.languageId).valueOf() !== languageId) {
+                          console.log('dECb[i]', dECb[i]);
+                          dECbObject = dECb[i].toObject().diary;
+                          if (dECb[i].toObject().diary.isPrivate === true || String(dECbObject.languageId).valueOf() !== languageId) {
                               dECb.splice(i, 1);
                           }
                         }
@@ -367,15 +369,12 @@ module.exports = function(Diary){
                         for (var i = dPCb.length - 1; i >= 0; i -= 1) {
                           dPCbObject = dPCb[i].toObject().diaryEntry;
                           if (dPCbObject.isPrivate === true || dPCbObject.diary.isPrivate === true || String(dPCbObject.diary.languageId).valueOf() !== languageId) {
-
                             dPCb.splice(i, 1);
                           }
                         }
 
 
-
-
-                        var cb5 =  dCb.concat(dECb).concat(dEIDCb).concat(dPCb).concat(dPIDCb);
+                       var cb5 =  dCb.concat(dECb).concat(dEIDCb).concat(dPCb).concat(dPIDCb);
 
                         cb5.sort(compare);
 
@@ -387,11 +386,7 @@ module.exports = function(Diary){
                           else
                             return 0;
                         }
-
-
                         cb(null, cb5);
-
-
                       })
                   })
               })

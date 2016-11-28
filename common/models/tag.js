@@ -23,8 +23,6 @@ module.exports = function(Tag){
 
 
   Tag.findByTagName = function(tag, languageId, cb) {
-    console.log('looking for tag tag:', tag, ' languageId', languageId);
-
 
     Tag.find({ "where": {and:[{"tag": tag}, {"languageId": languageId}]} }, function(err, cb2) {
       cb(null, cb2);

@@ -1,43 +1,170 @@
 module.exports = function(DiaryEntryImage) {
 
-  DiaryEntryImage.afterRemote('upload', function(ctx, res, next) {
+  var app;
 
-    var ds = DiaryEntryImage.app.datasources.diaryEntryDS.settings;
-    var file = res.result.files.file[0];
-    var fp = ds.root;
+  var async = require('async');
+  var fs = require('fs');
+  var AWS = require('aws-sdk');
+  var path = require('path');
 
-    var filePath = fp + "/" + file.container + "/" + file.name;
-    var fileThumbPath = fp + "/"  + "thumbs/" + file.name;
-    var fileLightboxPath = fp + "/"  + "lightbox/" + file.name;
+  DiaryEntryImage.disableRemoteMethod('download', true);
+  DiaryEntryImage.disableRemoteMethod('removeFile', true);
+  DiaryEntryImage.disableRemoteMethod('getFiles', true);
+  DiaryEntryImage.disableRemoteMethod('getFile', true);
 
+  DiaryEntryImage.on('attached', function () {
+      app = DiaryEntryImage.app;
 
-      // obtain an image object:
-    require('lwip').open(filePath, function(err, image){
-
-      var fileHeight = image.height();
-      var fileWidth = image.width();
-
-      fileHeight = fileHeight*400/fileWidth;
-      fileWidth = 400;
-
-      image.clone(function(err, thumb) {
-        thumb.batch()
-          .resize(34, 34)
-          .writeFile(fileThumbPath, function (err) {
-          });
+      AWS.config.update({
+        accessKeyId: app.get('AWS_S3_ACCESS_KEY_ID'),
+        secretAccessKey: app.get('AWS_S3_SECRET_ACCESS_KEY')
       });
 
-      image.clone(function(err, lightbox) {
-        lightbox.batch()
-          .resize(fileWidth, fileHeight)
-          .writeFile(fileLightboxPath, function (err) {
-            next(err);
-          });
-      });
-
-     });
+      AWS.config.region = app.get('AWS_S3_REGION');
 
   });
+
+
+
+  DiaryEntryImage.afterRemote('upload', function (ctx, res, next) {
+      //var header = ctx.req.headers['image-type'];
+
+    var file = res.result.files.file[0];
+    var ds = DiaryEntryImage.app.datasources.diaryEntryDS.settings;
+    var fp = ds.root;
+    var filePath = app.get('DiaryEntryImage').originalPath;
+    var fileThumbPath = app.get('DiaryEntryImage').thumbPath;
+    var fileLightboxPath = app.get('DiaryEntryImage').lightboxPath;
+    var amazonDir = app.get('DiaryEntryImage').amazonDir;
+    var originalFile = fp + "/"  + filePath + "/" + file.name;
+    var smallWidth = app.get('DiaryEntryImage').smallWidth;
+    var largeWidth = app.get('DiaryEntryImage').largeWidth;
+
+
+
+    require('lwip').open(originalFile, function(err, image) {
+      var fileThumbHeight = '';
+      var fileThumbWidth = '';
+      if (image.width() > image.height()) {
+        fileThumbHeight = image.height()*smallWidth/image.width();
+        fileThumbWidth = smallWidth;
+      }
+      else {
+        fileThumbHeight = smallWidth; // square
+        fileThumbWidth = image.width()*smallWidth/image.height();
+
+      }
+      var fileLightboxHeight = image.height()*largeWidth/image.width();
+      var fileLightboxWidth = largeWidth;
+
+
+      var fileExt = path.extname(file.name).replace(/^./, '');
+      // can't use path.parse
+      var fileName = file.name.substr(0, file.name.lastIndexOf('.'));
+
+
+
+      var resize = [
+        {fileWidth: 0, filePath: filePath, fileName: fileName, fileExt: fileExt, compression: ''},
+        {fileWidth: fileThumbWidth, fileHeight: fileThumbHeight, filePath: fileThumbPath, fileName: fileName, fileExt: 'png', params:{compression: 'high'}},
+        {fileWidth: fileLightboxWidth, fileHeight: fileLightboxHeight, filePath: fileLightboxPath, fileName: fileName, fileExt: 'png', params: {compression: 'high'}}
+        ];
+
+
+
+
+
+
+        var s3obj;
+
+        async.eachSeries(resize, function (spec, cb) {
+            if (spec.fileWidth === 0) {
+              return cb();
+            }
+
+
+            image.clone(function(err, lightbox) {
+              lightbox.batch()
+                .resize(spec.fileWidth, spec.fileHeight)
+                .writeFile(fp + "/"  + spec.filePath + "/" +spec.fileName + '.' + spec.fileExt, spec.fileExt, spec.params, function (err) {
+                  cb();
+                });
+            });
+
+          },
+          function (err) {
+            if (err) {
+              return next(err);
+            }
+
+            async.eachSeries(resize, function (spec, cb) {
+
+                if (spec.fileWidth === 0) {
+                  return cb();
+                }
+
+                //Read the file
+                fs.readFile(fp + "/"  + spec.filePath + "/" + spec.fileName + '.' + spec.fileExt, function (err, buffer) {
+
+                  s3obj = new AWS.S3(
+                    {
+                      params: {
+                        Bucket: app.get('AWS_S3_BUCKET'),
+                        Key: amazonDir + spec.filePath + '/' + spec.fileName + '.' + spec.fileExt,
+                        ContentType: app.get('DiaryEntryImage').contentType,
+                        ACL: 'public-read'
+                      }
+                    });
+                  // Upload the file to S3
+                  s3obj.upload({Body: buffer})
+                    .on('httpUploadProgress', function (evt) {
+                    }).send(function (err, data) {
+                    if (err) {
+                      return cb(err);
+                    }
+
+                    spec.aws = data;
+
+                    cb();
+                  });
+                });
+              },
+              function (err) {
+                if (err) {
+                  return next(err);
+                }
+
+                // Return the files we've uploaded
+                res.result.files.file[0].path = filePath;
+                res.result.files.file[0].resize = resize;
+
+
+                //Return success to the client.  No need to wait for the files to be deleted.
+                next();
+
+                // Delete the local storage
+                async.eachSeries(resize, function (spec, cb) {
+                    fs.unlink(fp + "/"  + spec.filePath + "/" + spec.fileName + '.' + spec.fileExt, function (err) {
+                      if (err) {
+                        return cb(err);
+                      }
+
+                      cb();
+                    })
+                  },
+                  function (err) {
+                    if (err) {
+                    }
+                  });
+              });
+          });
+      });
+
+
+    });
+
+
+
 
 
 

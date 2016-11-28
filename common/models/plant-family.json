@@ -1,0 +1,50 @@
+{
+  "name": "PlantFamily",
+  "plural": "plantFamilies",
+  "base": "PersistedModel",
+  "strict": true,
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "index": true,
+      "unique": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "language": {
+      "type": "belongsTo",
+      "model": "Language",
+      "foreignKey": "languageId"
+    },
+    "plantFamilyVersion": {
+      "type": "hasMany",
+      "model": "PlantFamilyVersion",
+      "foreignKey": "plantFamilyId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "everyone",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": {}
+}

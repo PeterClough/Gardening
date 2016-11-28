@@ -4,6 +4,35 @@
 module.exports = function(user) {
 
 
+  user.getRoles = function(userId, cb) {
+
+    user.find({
+      where: {id: userId},
+      fields: ['id'],
+      include: [
+        {
+          relation: 'role',
+          scope: {
+            fields: ['name']
+          }
+        }
+      ]
+    }, function(err, cb2) {
+      cb(null, cb2);
+    });
+  };
+
+
+  user.remoteMethod(
+    'getRoles',
+    {
+      accepts: {arg: 'userId', type: 'string'},
+      returns: {arg: 'roles', type: 'object'}
+    }
+  );
+
+
+
   user.afterRemote('create', function(context, user, next) {
 
     var options = {
@@ -52,7 +81,6 @@ module.exports = function(user) {
       userModel.sharedClass.find('confirm', true).http.path +
       '?uid=' +
       options.user.id ;
-    console.log('finished options');
 
     // Email model
     var Email = options.mailer || this.constructor.email || loopback.getModelByType(loopback.Email);
@@ -108,14 +136,10 @@ module.exports = function(user) {
     //dodgy should really use node_env
     var env = app.get('env');
     var url = env==='development' ?  'http://localhost:3001/#/users/reset-password' :'http://www.gardensyjardines.com/#/users/reset-password';
-    console.log('env', env);
-    console.log('url', url);
 
     var html = 'Click <a href="' + url + '/' + info.accessToken.id + '/' + info.accessToken.userId
       + '">here</a> to reset your password';
 
-
-    console.log('html', html);
 
     user.app.models.Email.send({
       to: info.email,

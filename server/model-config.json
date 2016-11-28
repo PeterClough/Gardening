@@ -126,5 +126,25 @@
   "QuestionTagJunction": {
     "dataSource": "db",
     "public": true
+  },
+  "PlantFamily": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PlantFamilyVersion": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PFPFVHelpsJunction": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PFPFVHelpedByJunction": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PFPFVBadForJunction": {
+    "dataSource": "db",
+    "public": true
   }
 }

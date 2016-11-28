@@ -2,6 +2,7 @@
   "name": "SoilAcidity",
   "plural": "soilAcidities",
   "base": "PersistedModel",
+  "strict": true,
   "properties": {
     "translateKey": {
       "type": "string",

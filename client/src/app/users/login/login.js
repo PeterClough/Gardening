@@ -22,7 +22,7 @@ angular.module( 'users.login', [
 
 })
 
-.controller('LoginCtrl', function LoginCtrl($scope, $timeout, User, $location, $translate, $auth, growl, LoopBackAuth) {
+.controller('LoginCtrl', function LoginCtrl($scope, $rootScope, $timeout, User, $location, $translate, $auth, growl, LoopBackAuth, UserService) {
 
     $scope.showCard = $scope.rememberMe = false;
    $timeout(function(){
@@ -36,11 +36,15 @@ angular.module( 'users.login', [
       $auth.authenticate(provider)
         .then(function (response) {
           var accessToken = response.data;
-            LoopBackAuth.setUser(accessToken.id, accessToken.userId, {id:accessToken.name});
+          LoopBackAuth.setUser(accessToken.id, accessToken.userId, {id:accessToken.name});
           LoopBackAuth.rememberMe = true;
           LoopBackAuth.save();
           $location.path('/');
           growl.success('LOGIN_SUCCESS', {title: "GROWL_LOGIN_TITLE"});
+
+
+
+
           return response.resource;
         });
     };
@@ -60,6 +64,17 @@ angular.module( 'users.login', [
         function () {
           $location.path('/');
           growl.success('LOGIN_SUCCESS', {title: "GROWL_LOGIN_TITLE"});
+
+          $scope.userId = User.getCurrentId();
+          UserService.checkRoles($scope.userId, ['admin'])
+            .then(function(cb) {
+
+
+
+              $rootScope.isAdmin = cb.length > 0 ? true : false;
+
+            });
+
         },
         function (res) {
           switch (res.data.error.message) {

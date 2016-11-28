@@ -77,6 +77,11 @@
       "model": "SoilType",
       "foreignKey": "soilTypeId"
     },
+    "plantFamily": {
+      "type": "belongsTo",
+      "model": "PlantFamily",
+      "foreignKey": "plantFamilyId"
+    },
     "plantRating": {
       "type": "belongsTo",
       "model": "PlantRating",

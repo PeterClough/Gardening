@@ -1,17 +1,17 @@
 module.exports = {
 
   "db": {
-    "host":"127.10.45.2",
-    "port":27017,
+    "host": process.env.OPENSHIFT_MONGODB_DB_HOST,
+    "port":process.env.OPENSHIFT_MONGODB_DB_PORT,
     "database": "gardening",
     "username": "admin",
-    "password": "P-DPtwUznTTY",
+    "password": "leDxL_MY3Jyt",
     "name": "gardening",
     "connector": "mongodb",
     "debug":true,
     "timezone": "UTC"
   },
-    "emailDs": {
+  "emailDs": {
     "name": "emailDs",
       "connector": "mail",
       "transports": [
@@ -30,18 +30,16 @@ module.exports = {
       }
     ]
   },
-    "diaryProgressDS": {
+  "diaryProgressDS": {
     "name": "diaryProgressDS",
       "connector": "loopback-component-storage",
       "provider": "filesystem",
-      "root":  "../../data/storage/assets/images/diary_progress"
+      "root":  process.env.OPENSHIFT_DATA_DIR + "/storage/assets/images/diary_progress"
   },
-    "diaryEntryDS": {
+  "diaryEntryDS": {
     "name": "diaryEntryDS",
       "connector": "loopback-component-storage",
       "provider": "filesystem",
-      "root": "../../data/storage/assets/images/diary_entry"
+      "root": process.env.OPENSHIFT_DATA_DIR + "/storage/assets/images/diary_entry"
   }
-
-
-}
+};

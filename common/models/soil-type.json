@@ -2,6 +2,7 @@
   "name": "SoilType",
   "plural": "soilTypes",
   "base": "PersistedModel",
+  "strict": true,
   "properties": {
     "translateKey": {
       "type": "string",

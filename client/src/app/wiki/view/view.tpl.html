@@ -1,0 +1,42 @@
+<h3 id="view-wiki-heading">{{'WIKI_VIEW_HEADER' | translate}}</h3>
+
+
+<div id="wiki-container">
+
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
+
+  <div id="view-wiki-container" class="view-animate" ng-show="showCard">
+
+    <h3>{{ plantFamily.name }}</h3>
+
+
+    <h4 ng-if="!acceptedVersions">{{'WIKI_VIEW_NO_ACCEPTED_VERSIONS' | translate}}</h4>
+
+    <div id="view-wiki-version-container" ng-if="acceptedVersions">
+
+
+      <p>{{'WIKI_VIEW_CURRENT_VERSION' | translate}} {{plantFamilyVersion.author.firstName + ' ' + plantFamilyVersion.author.lastName + ' '}}{{plantFamilyVersion.created | date: 'medium'}} </p>
+
+
+      <h4>{{'WIKI_PLANT_FAMILY_PLANTING_ADVICE' | translate}}</h4>
+
+      <p>{{plantFamilyVersion.plantingAdvice}}</p>
+
+      <h4>{{'WIKI_PLANT_FAMILY_HELPS' | translate}}</h4>
+
+      <div ng-repeat="helps in plantFamilyVersion.helps">{{helps.name}}</div>
+
+      <h4>{{'WIKI_PLANT_FAMILY_HELPED_BY' | translate}}</h4>
+
+      <div ng-repeat="helpedBy in plantFamilyVersion.helpedBy">{{helpedBy.name}}</div>
+
+      <h4>{{'WIKI_PLANT_FAMILY_BAD_FOR' | translate}}</h4>
+
+      <div ng-repeat="badFor in plantFamilyVersion.badFor">{{badFor.name}}</div>
+
+      <div class="top-margin-10">
+        <a ng-if="canEdit" ui-sref="wiki.edit({ name: '{{plantFamily.name  | lowercase}}' })">{{'WIKI_VIEW_EDIT_LINK' | translate}}</div>
+      </div>
+    </div>
+  </div>
+</div>

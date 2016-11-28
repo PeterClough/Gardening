@@ -29,7 +29,7 @@ angular.module( 'myApp.diary', [
 
 })
 
-.service('DiaryService', function DiaryService( $q,  Diary, Country, HardinessZone, SoilAcidity, SoilType, PlantRating ) {
+.service('DiaryService', function DiaryService( $q,  Diary, Country, HardinessZone, SoilAcidity, SoilType, PlantRating, PlantFamily, PlantFamilyVersion ) {
 
   this.getDiary = function(userId) {
 
@@ -53,7 +53,7 @@ angular.module( 'myApp.diary', [
   };
 
 
-  this.getDiaryData = function() {
+  this.getDiaryData = function(languageId) {
 
 
 
@@ -63,11 +63,14 @@ angular.module( 'myApp.diary', [
     var soilAcidities = $q.defer();
     var soilTypes = $q.defer();
     var plantRatings = $q.defer();
+    var plantFamilies = $q.defer();
+
     deferred.push(countries);
     deferred.push(hardinessZones);
     deferred.push(soilAcidities);
     deferred.push(soilTypes);
     deferred.push(plantRatings);
+    deferred.push(plantFamilies);
 
     Country.getList()
       .$promise.then(function (cb) {
@@ -94,15 +97,39 @@ angular.module( 'myApp.diary', [
       plantRatings.resolve(cb.plantRatings);
     });
 
+    PlantFamily.getList({"languageId": languageId})
+      .$promise.then(function (cb) {
+      plantFamilies.resolve(cb.plantFamilies);
+    });
+
     return $q.all(deferred);
 
 
   };
 
 
+  this.getPlantFamilyVersion = function(plantFamilyId) {
+
+
+    var deferred = $q.defer();
+
+   PlantFamilyVersion.getPlantFamilyVersion({"plantFamilyId": plantFamilyId})
+      .$promise.then(function(cb){
+        deferred.resolve(cb.plantFamilyVersion[0]);
+    });
+
+    return deferred.promise;
+
+  };
+
+
+
+
+
   return {
     getDiary: this.getDiary,
-    getDiaryData: this.getDiaryData
+    getDiaryData: this.getDiaryData,
+    getPlantFamilyVersion: this.getPlantFamilyVersion
   };
 
 

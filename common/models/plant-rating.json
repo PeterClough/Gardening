@@ -2,6 +2,7 @@
   "name": "PlantRating",
   "plural": "plantRatings",
   "base": "PersistedModel",
+  "strict": true,
   "properties": {
 
     "name": {

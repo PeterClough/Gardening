@@ -4,7 +4,7 @@
 
 
 <div ng-show="loggedIn">
-  <div class="card view-animate" ng-show="showCard">
+  <div class="view-animate" ng-show="showCard">
     <form role="form" ng-submit="save()">
 
       {{ 'DIARY_CREATE_IS_PRIVATE_HELP_BLOCK' | translate }}
@@ -31,7 +31,7 @@
 
 
 
-<div class="card" ng-hide=loggedIn>
+<div ng-hide=loggedIn>
   {{'DIARY_CREATE_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_CREATE_LOGIN' | translate}}</a> {{'DIARY_CREATE_OR' |
   translate}} <a ui-sref="users.register"> {{'DIARY_CREATE_REGISTER' | translate}}</a>
 

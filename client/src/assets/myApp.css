@@ -1,5 +1,35 @@
-/** Bootstrap fixes for Dropdowns **/
 
+/** Bootstrap fixes for tabs **/
+
+.tab-content {
+  padding-top: 10px;
+}
+/** fix for check-model labels **/
+label {
+  display: block;
+}
+
+.top-margin-10 {
+  margin-top: 10px;
+}
+
+.bottom-margin-30 {
+  margin-bottom: 30px;
+}
+
+.bottom-margin-20 {
+  margin-bottom: 20px;
+}
+
+
+
+/** Bootstrap fixes for Dropdowns **/
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: #cad6aa;
+  color: #555555;
+}
 
 .navbar-default .navbar-nav > li > div > a {
   color: #777;
@@ -116,7 +146,7 @@ treecontrol li li {
 }
 
 
-.user-profile img {
+.user-profile img, .user-picture {
   height: 32px;
   width: 32px;
 }
@@ -131,6 +161,10 @@ treecontrol li li {
   margin-bottom: 15px;
 }
 
+
+#admin-wiki-review-container,
+#review-list-container,
+#wiki-container,
 #diary-container,
 #diary-feed-container,
 #ask-container,
@@ -151,6 +185,14 @@ treecontrol li li {
   height: 200px;
   position: relative;
 }
+
+
+#already-reviewed,
+#review-accepted,
+#review-rejected,
+#admin-wiki-review-card,
+#review-list-card,
+#wiki-card,
 #loading-message,
 #diary-view-card,
 #diary-card,
@@ -213,10 +255,13 @@ treecontrol li li {
 
 .footer .footer-inner {
   border-top:0!important;
+  height:0px;
 }
 
-/** Animations **/
 
+
+
+/** Animations **/
 
 .view-animate {
   -webkit-transition: 1s linear all;
@@ -243,6 +288,7 @@ treecontrol li li {
 .gj-header {
   padding: 60px 0 60px 0;
   background-color: #b8c39c;
+  border-radius: 4px;
 }
 .gj-header h1, .gj-header p {
   color: white;
@@ -291,51 +337,55 @@ input[type="checkbox"] {
   max-height:100%;
 }
 
-.photobox, .photo-upload-box {
-  height: 70px;
-  border: 1px solid #cccccc;
-  margin-bottom: 15px;
-  border-radius: 4px;
+.photos .panel-body, .photo-upload-box {
+  height: 142px;
   position:relative;
   overflow: hidden;
+  padding:0;
 }
 
 .diary-feed-item .photobox {
   margin: 15px 0 0 0;
-
 }
 
 
-.photo-upload {
-  margin-bottom: 15px;
+.img-frame {
+  width: 68px;
+  height: 68px;      /* equals max image height */
+  line-height: 66px;
+  background-color: #cad6aa;
+  margin: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:3px;
 }
 
 
-.photobox img, .photo-upload-box img {
-  height: 34px;
-  width: 34px;
+.photos > .panel-body img, .photo-upload-box img, .photobox img {
+  max-height: 100%;
+  width: auto;
 }
 
-.photobox ul, .photo-upload-box ul {
+.photos > .panel-body ul, .photo-upload-box ul, .photobox ul {
   margin: 0;
   padding: 0;
 }
 
-.photobox li, .photo-upload-box li {
+.photos > .panel-body li, .photo-upload-box li, .photobox li {
   list-style: none;
   float: left;
 }
 
-.photobox li.dropbox {
+.photos > .panel-body li.dropbox {
   position: absolute;
   bottom: 0;
   right: 0;
 }
 
-.photobox .dropbox {
+.photos > .panel-body .dropbox {
   height: 34px;
   width: 34px;
-/**  border: dotted 3px #cccccc; **/
 }
 
 
@@ -344,23 +394,24 @@ input[type="checkbox"] {
   opacity: 0;
 }
 
-.file-button {
+.btn-file {
   position: relative;
-  margin-bottom: 15px;
+  overflow: hidden;
 }
-
-
-
-
-.file-button input {
+.btn-file input[type=file] {
   position: absolute;
   top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
   opacity: 0;
-  cursor: pointer;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
 }
 
 
@@ -384,9 +435,10 @@ input[type="checkbox"] {
 
 
 .dropbox-animate.nv-file-over {
-  width: 553px;
-  height: 66px;
+  width: 100%!important;
+  height: 100%!important;
   border: dotted 3px #b8c39c!important;
+  border-radius: 3px;
   background: url("/images/photobox-plus-green.png") no-repeat right bottom;
 }
 
@@ -663,7 +715,7 @@ span.glyphicon.rate-down{
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-a {
+a, .btn-link, #plant-family-close {
   color: #cad6aa;
 }
 a:hover, a:focus{

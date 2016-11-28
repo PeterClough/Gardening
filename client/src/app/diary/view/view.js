@@ -92,7 +92,6 @@ angular.module( 'diary.view', [
           if (node.id === $stateParams.id){
             selected = node;
             expandNode = entryCount;
-            console.log('expandNode', expandNode);
           }
           node.valid=true;
         });
@@ -105,7 +104,6 @@ angular.module( 'diary.view', [
       if($scope.diaryTreeData.length!==0){
         if (selected === null) {
           selected = $scope.diaryTreeData[$scope.diaryTreeData.length-1];
-          console.log('selected', selected);
         }
         $scope.selected = selected;
         $scope.showSelected(selected);
@@ -144,7 +142,6 @@ angular.module( 'diary.view', [
           $scope.images = diaryEntryImageIds;
           if ($scope.images.length > 0){
             $state.current.data.ogImage = "http://www.gardensyjardines.com/#"+$scope.images[0].url;
-            console.log('$state.current.data.ogImage',$state.current.data.ogImage);
           }
         });
     }
@@ -154,7 +151,6 @@ angular.module( 'diary.view', [
           $scope.images = diaryProgressImageIds;
           if ($scope.images.length > 0){
             $state.current.data.ogImage = "http://www.gardensyjardines.com/#"+$scope.images[0].url;
-            console.log('$state.current.data.ogImage',$state.current.data.ogImage);
           }
         });
     }
@@ -219,10 +215,6 @@ angular.module( 'diary.view', [
     DiaryEntryImageDoc.getIdsByDiaryEntryId({"diaryEntryId": diaryEntryId})
       .$promise.then(function (cb) {
       var diaryEntryImageIds = cb.diaryEntryImageIds;
-      angular.forEach(diaryEntryImageIds, function(image) {
-        image.thumbUrl =  "api/diaryEntryImages/thumbs/download/"+ image.id + image.extension;
-        image.url =  "api/diaryEntryImages/lightbox/download/"+ image.id + image.extension;
-      });
 
       deferred.resolve(diaryEntryImageIds);
 
@@ -241,10 +233,6 @@ angular.module( 'diary.view', [
     DiaryProgressImageDoc.getIdsByDiaryProgressId({"diaryProgressId": diaryProgressId})
       .$promise.then(function (cb) {
       var diaryProgressImageIds = cb.diaryProgressImageIds;
-      angular.forEach(diaryProgressImageIds, function(image) {
-        image.thumbUrl =  "api/diaryProgressImages/thumbs/download/"+ image.id + image.extension;
-        image.url =  "api/diaryProgressImages/lightbox/download/"+ image.id + image.extension;
-      });
 
       deferred.resolve(diaryProgressImageIds);
 

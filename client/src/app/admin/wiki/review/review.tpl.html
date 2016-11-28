@@ -1,0 +1,85 @@
+<h3 id="admin-wiki-review-heading">{{'ADMIN_WIKI_REVIEW_HEADER' | translate}}</h3>
+
+
+<div id="admin-wiki-review-container">
+
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
+
+  <div id="already-reviewed" ng-show="alreadyReviewed" class="view-animate">{{'ADMIN_WIKI_ALREADY_REVIEWED' | translate}}</div>
+  <div id="review-accepted" ng-show="reviewAccepted" class="view-animate">{{'ADMIN_WIKI_REVIEWED_ACCEPTED' | translate}}</div>
+  <div id="review-rejected" ng-show="reviewRejected" class="view-animate">{{'ADMIN_WIKI_REVIEWED_REJECTED' | translate}}</div>
+
+
+
+  <div id="admin-wiki-review-card" class="view-animate" ng-if="showCard && !(alreadyReviewed || reviewRejected)">
+
+    <h3>{{ plantFamilyName }}</h3>
+
+
+    <div class="row">
+
+      <div class="col-sm-6">
+
+
+        <div ng-show="noCurrentVersion">{{'ADMIN_WIKI_REVIEW_NO_CURRENT_VERSION' | translate}}</div>
+
+        <div ng-show="!noCurrentVersion">
+          <p>{{'ADMIN_WIKI_REVIEW_CURRENT_VERSION' | translate}} {{currentPlantFamilyVersion.author.firstName + ' ' + currentPlantFamilyVersion.author.lastName + ' '}}{{currentPlantFamilyVersion.created | date: 'medium'}} </p>
+
+          <h4>{{'WIKI_PLANT_FAMILY_PLANTING_ADVICE' | translate}}</h4>
+          <p>{{currentPlantFamilyVersion.plantingAdvice}}</p>
+
+          <h4>{{'WIKI_PLANT_FAMILY_HELPS' | translate}}</h4>
+          <div ng-repeat="helps in currentPlantFamilyVersion.helps">{{helps.name}}</div>
+
+          <h4>{{'WIKI_PLANT_FAMILY_HELPED_BY' | translate}}</h4>
+          <div ng-repeat="helpedBy in currentPlantFamilyVersion.helpedBy">{{helpedBy.name}}</div>
+
+          <h4>{{'WIKI_PLANT_FAMILY_BAD_FOR' | translate}}</h4>
+          <div ng-repeat="badFor in currentPlantFamilyVersion.badFor">{{badFor.name}}</div>
+        </div>
+
+      </div>
+
+
+      <div class="col-sm-6">
+
+        <p>{{'ADMIN_WIKI_REVIEW_VERSION' | translate}} {{reviewPlantFamilyVersion.author.firstName + ' ' + reviewPlantFamilyVersion.author.lastName + ' '}}{{reviewPlantFamilyVersion.created | date: 'medium'}} </p>
+
+        <h4>{{'WIKI_PLANT_FAMILY_PLANTING_ADVICE' | translate}}</h4>
+        <p>{{reviewPlantFamilyVersion.plantingAdvice}}</p>
+
+        <h4>{{'WIKI_PLANT_FAMILY_HELPS' | translate}}</h4>
+        <div ng-repeat="helps in reviewPlantFamilyVersion.helps">{{helps.name}}</div>
+
+        <h4>{{'WIKI_PLANT_FAMILY_HELPED_BY' | translate}}</h4>
+        <div ng-repeat="helpedBy in reviewPlantFamilyVersion.helpedBy">{{helpedBy.name}}</div>
+
+        <h4>{{'WIKI_PLANT_FAMILY_BAD_FOR' | translate}}</h4>
+        <div ng-repeat="badFor in reviewPlantFamilyVersion.badFor">{{badFor.name}}</div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <textarea class="form-control top-margin-10" rows="6" placeholder="Review Notes" ng-model="reviewPlantFamilyVersion.reviewNotes"></textarea>
+      </div>
+    </div>
+
+    <div class="row bottom-margin-30">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-default top-margin-10" ng-click="acceptReview()">{{ 'ADMIN_WIKI_REVIEW_ACCEPT_BUTTON' | translate }}</button>
+        <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+
+
+        <button type="submit" class="btn btn-default top-margin-10" ng-click="rejectReview()">{{ 'ADMIN_WIKI_REVIEW_REJECT_BUTTON' | translate }}</button>
+        <div class="has-error-feedback" ng-show="saveError">{{saveErrorText}}</div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

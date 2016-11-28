@@ -1,0 +1,74 @@
+{
+  "name": "PlantFamilyVersion",
+  "plural": "plantFamilyVersions",
+  "base": "PersistedModel",
+  "strict": true,
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    },
+    "plantingAdvice": {
+      "type": "string",
+      "required": false
+    },
+    "reviewNotes": {
+      "type": "string",
+      "required": false
+    },
+    "state": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "author": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "authorId"
+    },
+    "plantFamily": {
+      "type": "belongsTo",
+      "model": "PlantFamily",
+      "foreignKey": "plantFamilyId"
+    },
+    "helps": {
+      "type": "hasMany",
+      "model": "PlantFamily",
+      "foreignKey": "plantFamilyVersionId",
+      "through": "PFPFVHelpsJunction"
+    },
+    "helpedBy": {
+      "type": "hasMany",
+      "model": "PlantFamily",
+      "foreignKey": "plantFamilyVersionId",
+      "through": "PFPFVHelpedByJunction"
+    },
+    "badFor": {
+      "type": "hasMany",
+      "model": "PlantFamily",
+      "foreignKey": "plantFamilyVersionId",
+      "through": "PFPFVBadForJunction"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "everyone",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": {}
+}

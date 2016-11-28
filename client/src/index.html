@@ -68,96 +68,107 @@
       A site all about gardening.
     </p>
   </div>
+
   <div class="navbar navbar-default">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
-              ng-click="menuCollapsed = ! menuCollapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" collapse="menuCollapsed">
-      <ul class="nav navbar-nav">
-        <li ui-sref-active="active">
-          <a ui-sref="home">
-            <i class="fa fa-home"></i>
-            {{'MENU_HOME' | translate}}
-          </a>
-        </li>
-<!--        <li ui-sref-active="active">
-          <a href ui-sref="about">
-            <i class="fa fa-info-circle"></i>
-            {{'MENU_ABOUT' | translate}}
-          </a>
-        </li>
+    <ul class="nav navbar-nav">
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="home">
+          <i class="fa fa-home"></i>
+          {{'MENU_HOME' | translate}}
+        </a>
+      </li>
+<!--        <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" href ui-sref="about">
+          <i class="fa fa-info-circle"></i>
+          {{'MENU_ABOUT' | translate}}
+        </a>
+      </li>
 -->
-        <li ui-sref-active="active">
-          <a ui-sref="diary.edit">
-            <i class="fa fa-book"></i>
-            {{'MENU_MY_DIARY' | translate}}
-          </a>
-        </li>
-        <li ui-sref-active="active">
-          <a ui-sref="diary.feed">
-            <i class="fa fa-th-list"></i>
-            {{'MENU_DIARY_FEED' | translate}}
-          </a>
-        </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="diary.edit">
+          <i class="fa fa-book"></i>
+          {{'MENU_MY_DIARY' | translate}}
+        </a>
+      </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="diary.feed">
+          <i class="fa fa-th-list"></i>
+          {{'MENU_DIARY_FEED' | translate}}
+        </a>
+      </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="ask.list({ tagId: '' })">
+          <i class="fa fa-question"></i>
+          {{'MENU_ASK' | translate}}
+        </a>
+      </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="wiki.list">
+          <i class="fa fa-wikipedia-w"></i>
+          {{'MENU_WIKI' | translate}}
+        </a>
+      </li>
 
-        <li ui-sref-active="active">
-          <a ui-sref="ask.list({ tagId: '' })">
-            <i class="fa fa-question"></i>
-            {{'MENU_ASK' | translate}}
-          </a>
-        </li>
-      </ul>
+      <li class="nav-item dropdown" ng-show="isAdmin">
 
-      <ul class="nav navbar-nav navbar-right">
+        <a class="nav-link dropdown-toggle" id="responsiveNavbarDropdown" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-paperclip"></i> {{'MENU_ADMIN' | translate}} <span class="caret"></span></a>
+        <div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
+          <a class="dropdown-item" ui-sref="admin.wiki.list">
+          {{'MENU_ADMIN_WIKI' | translate}}
+          </a>
+        </div>
+      </li>
 
-        <li ui-sref-active="active">
-          <a ui-sref="users.login">
-            {{'MENU_LOGIN' | translate}}
-          </a>
-        </li>
-        <li ui-sref-active="active">
-          <a ui-sref="users.logout">
-            {{'MENU_LOGOUT' | translate}}
-          </a>
-        </li>
-        <li ui-sref-active="active">
-          <a ui-sref="users.register">
-            {{'MENU_REGISTER' | translate}}
-          </a>
-        </li>
+
+    </ul>
+
+
+    <ul class="nav navbar-nav navbar-right">
+
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="users.login">
+          {{'MENU_LOGIN' | translate}}
+        </a>
+      </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="users.logout">
+          {{'MENU_LOGOUT' | translate}}
+        </a>
+      </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link" ui-sref="users.register">
+          {{'MENU_REGISTER' | translate}}
+        </a>
+    </li>
 <!--
-        <li class="divider-vertical"></li>
+      <li class="divider-vertical"></li>
 
-        <li>
-          <ui-select ng-model="language.selected"
-                     theme="bootstrap"
-                     ng-disabled="disabled"
-                     reset-search-input="false"
-                     style="width: 105px;"
-            >
-            <ui-select-match placeholder="Language">{{$select.selected.name}}</ui-select-match>
-            <ui-select-choices repeat="language in languages">
-              <div ng-bind-html="language.name"></div>
-            </ui-select-choices>
-          </ui-select>
-        </li>
+      <li>
+        <ui-select ng-model="language.selected"
+                   theme="bootstrap"
+                   ng-disabled="disabled"
+                   reset-search-input="false"
+                   style="width: 105px;"
+          >
+          <ui-select-match placeholder="Language">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="language in languages">
+            <div ng-bind-html="language.name"></div>
+          </ui-select-choices>
+        </ui-select>
+      </li>
 -->
-      </ul>
-    </div>
+    </ul>
+
+
   </div>
 </div>
 
 <div growl></div>
 
-<div class="container" ui-view="main">
+<div class="container main" ui-view="main">
 
 </div>
+
 
 <footer class="footer">
   <div class="container">

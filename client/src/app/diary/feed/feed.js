@@ -75,42 +75,39 @@ angular.module( 'diary.feed', [
   }) // end controller
 
 
-.service('DiaryFeedService', function DiaryFeedService( $q, Diary ) {
+.service('DiaryFeedService', function DiaryFeedService( $q, Diary, envService ) {
+
+
+
 
   this.getDiaryFeed = function(languageId) {
+    var googlePlusAPI = envService.read('googlePlusAPI');
+
     var deferred = $q.defer();
 
     Diary.getDiaryFeed({languageId: languageId})
       .$promise.then(function (cb) {
-
-        cb.diaryFeed.forEach(function (df) {
-          if (df.diaryEntryImageDocs !== undefined) {
-            df.diaryEntryImageDocs.forEach(function (dEID) {
-              dEID.thumbUrl = "api/diaryEntryImages/thumbs/download/" + dEID.id + dEID.extension;
-              dEID.url = "api/diaryEntryImages/lightbox/download/" + dEID.id + dEID.extension;
-            });
-          }
-          if (df.diaryProgressImageDocs !== undefined) {
-            df.diaryProgressImageDocs.forEach(function (dPID) {
-              dPID.thumbUrl = "api/diaryProgressImages/thumbs/download/" + dPID.id + dPID.extension;
-              dPID.url = "api/diaryProgressImages/lightbox/download/" + dPID.id + dPID.extension;
-            });
-          }
-
-          if (df.extension !== undefined && df.diaryEntryId !== undefined) {
-            df.url = "api/diaryEntryImages/lightbox/download/" + df.id + df.extension;
-          }
-          if (df.extension !== undefined && df.diaryProgressId !== undefined) {
-            df.url = "api/diaryProgressImages/lightbox/download/" + df.id + df.extension;
-          }
-        });
+        addGoogleAPIKeyRecursive(cb.diaryFeed, googlePlusAPI);
         deferred.resolve(cb.diaryFeed);
     });
     return deferred.promise;
   };
 
 
-
+  function addGoogleAPIKeyRecursive(obj, googlePlusAPI)
+  {
+    for (var k in obj)
+    {
+      if (typeof obj[k] == "object" && obj[k] !== null) {
+        addGoogleAPIKeyRecursive(obj[k], googlePlusAPI);
+      }
+      else {
+        if (k==='profilePicture' && obj[k].indexOf('googleusercontent') > 0) {
+        obj[k] += '&key='+ googlePlusAPI;
+        }
+      }
+    }
+  }
 
 
 })

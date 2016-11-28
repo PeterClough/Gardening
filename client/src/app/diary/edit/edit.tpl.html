@@ -1,6 +1,6 @@
 <h3>{{'DIARY_EDIT' | translate}}</h3>
 
-<div class="card" ng-hide="loggedIn">
+<div ng-hide="loggedIn">
   {{'DIARY_EDIT_NOT_LOGGED_IN' | translate}} <a ui-sref="users.login">{{'DIARY_EDIT_LOGIN' | translate}}</a> {{'DIARY_EDIT_OR' |
   translate}} <a ui-sref="users.register"> {{'DIARY_EDIT_REGISTER' | translate}}</a>
 
@@ -9,7 +9,7 @@
 <div ng-show="loggedIn" id="diary-container">
   <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
 
-  <div class="card view-animate" ng-show="showCard" id="diary-card">
+  <div class="view-animate" ng-show="showCard" id="diary-card">
 
 
     <div>
@@ -57,59 +57,68 @@
                  <span class="fa fa-facebook"></span>{{'DIARY_ENTRY_FB_SHARE' | translate}}</button>
             </div>
 
-
-            <div class="photos" ng-show="!!diaryEntry.updated">
-              <div class="photobox">
+            <div class="photos panel panel-default" ng-show="!!diaryEntry.updated">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{'DIARY_EDIT_PHOTOS' | translate}}</h3>
+              </div>
+              <div class="panel-body">
                 <ul>
-                  <li ng-repeat="image in images | limitTo : 31 : 0">
+                  <li class="img-frame" ng-repeat="image in images | limitTo : 14 : 0">
                     <a ng-click="openLightboxModal($index)" context-menu="dEPhotoOptions" model="image.id">
                       <img ng-src="{{ image.thumbUrl }}">
                     </a>
                   </li>
-                  <li class="dropbox dropbox-animate" nv-file-over uploader="uploader">
-
-                  </li>
+                  <li class="dropbox dropbox-animate" nv-file-over uploader="uploader"></li>
                 </ul>
               </div>
 
-              <div class="file-button">
-                <button class="btn btn-default"> {{'DIARY_EDIT_SELECT_MULTIPLE_FILES' | translate}}
-                </button>
-                <input type="file"  nv-file-select="" uploader="uploader" multiple/>
-              </div>
+            </div>
 
-              <div class="photo-upload" ng-show="uploader.queue.length>0">
-                <div class="photo-upload-box">
+            <label class="btn btn-default btn-file bottom-margin-20" ng-show="!!diaryEntry.updated">
+              {{'DIARY_EDIT_SELECT_MULTIPLE_FILES' | translate}}
+              <input type="file" nv-file-select="" uploader="uploader" multiple style="display: none;">
+            </label>
+
+            <div class="photo-upload bottom-margin-30" ng-show="uploader.queue.length>0">
+
+              <div class="panel panel-default" ng-show="uploader.queue.length>0">
+                <div class="panel-heading">
+                  <h3 class="panel-title">{{'DIARY_EDIT_UPLOAD_QUEUE' | translate}}</h3>
+                </div>
+
+                <div class="photo-upload-box panel-body">
                   <ul>
                     <li ng-repeat="item in uploader.queue">
-                      <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 34, width: 34 }"></div>
+                      <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 68, width: 68 }"></div>
                     </li>
                   </ul>
                 </div>
-
-                <div class="progress" style="">
-                  <div class="progress-bar" role="progressbar"
-                       ng-style="{ 'width': uploader.progress + '%' }"></div>
-                </div>
-
-                <button type="button" class="btn btn-success btn-s"
-                        ng-click="uploader.uploadAll()"
-                        ng-disabled="!uploader.getNotUploadedItems().length"
-                        ng-show="images">
-                  <span class="glyphicon glyphicon-upload"></span>{{ 'DIARY_UPLOADER_UPLOAD_ALL' | translate }}
-                </button>
-                <button type="button" class="btn btn-warning btn-s"
-                        ng-click="uploader.cancelAll()"
-                        ng-disabled="!uploader.isUploading">
-                  <span class="glyphicon glyphicon-ban-circle"></span>{{ 'DIARY_UPLOADER_CANCEL_ALL' | translate }}
-                </button>
-                <button type="button" class="btn btn-danger btn-s"
-                        ng-click="uploader.clearQueue()"
-                        ng-disabled="!uploader.queue.length">
-                  <span class="glyphicon glyphicon-trash"></span>{{ 'DIARY_UPLOADER_REMOVE_ALL' | translate }}
-                </button>
               </div>
+
+              <div class="progress" style="">
+                <div class="progress-bar" role="progressbar"
+                     ng-style="{ 'width': uploader.progress + '%' }"></div>
+              </div>
+
+              <button type="button" class="btn btn-success btn-s"
+                      ng-click="uploader.uploadAll()"
+                      ng-disabled="!uploader.getNotUploadedItems().length"
+                      ng-show="images">
+                <span class="glyphicon glyphicon-upload"></span>{{ 'DIARY_UPLOADER_UPLOAD_ALL' | translate }}
+              </button>
+              <button type="button" class="btn btn-warning btn-s"
+                      ng-click="uploader.cancelAll()"
+                      ng-disabled="!uploader.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span>{{ 'DIARY_UPLOADER_CANCEL_ALL' | translate }}
+              </button>
+              <button type="button" class="btn btn-danger btn-s"
+                      ng-click="uploader.clearQueue()"
+                      ng-disabled="!uploader.queue.length">
+                <span class="glyphicon glyphicon-trash"></span>{{ 'DIARY_UPLOADER_REMOVE_ALL' | translate }}
+              </button>
+
             </div>
+
 
             <form class="form-horizontal" role="form" ng-submit="save()" name="$parent.frmDiaryEntry">
 
@@ -118,7 +127,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_ENTRY_DATE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <p class="input-group">
@@ -129,28 +138,68 @@
                            show-button-bar="false"
                            ng-model="diaryEntry.entryDate">
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="openEntryEntryDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                      <button type="button" class="btn btn-default" ng-click="openEntryEntryDate()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
                     </span>
                   </p>
                 </div>
               </fieldset>
 
 
-              <fieldset class="form-group" show-errors>
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_FAMILY_LABEL' | translate }} *</label>
+              <fieldset class="form-group">
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_PLANT_FAMILY_LABEL' | translate }} *</label>
 
-                <div class="col-sm-9">
-                  <input type="text"
-                         class="form-control"
-                         placeholder="Plant Family"
-                         ng-model="diaryEntry.plantFamily"
-                         ng-required="true"
-                         name="plantFamily">
-                </div>
+                <span class="col-sm-9">
+                  <ui-select ng-model="diaryEntry.plantFamilyId"
+                             theme="bootstrap"
+                             ng-disabled="disabled"
+                             reset-search-input="false"
+                             ng-required="true"
+                             on-select="plantFamilyCallback($item, $model)"
+                             style="width: 150px;">
+                    <ui-select-match placeholder="Plant Family">
+                      <span>{{$select.selected.name || $select.search}}</span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="plantFamily.id as plantFamily in plantFamilies | filter: $select.search" refresh="refreshSelect($select)" refresh-delay="0">
+                      <span>{{ plantFamily.name }}</span>
+                    </ui-select-choices>
+                  </ui-select>
+                </span>
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_CULTIVAR_LABEL' | translate }}</label>
+
+                <div class="col-sm-offset-3 col-sm-9" id="wiki-details" uib-collapse="!showWikiDetails">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{{ plantFamily.name +' ' }}{{'DIARY_WIKI_PLANT_FAMILY_PLANTING_ADVICE' | translate}}
+                        <a id="plant-family-close" class="btn btn-xs btn-link pull-right" ng-click="showWikiDetails = false"><i class="fa fa-times" aria-hidden="true"></i></a>
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+
+                      <p>{{plantFamilyWiki.plantingAdvice}}</p>
+                      <ul class="list-group" ng-if="plantFamilyWiki.helps.length !== 0 || plantFamilyWiki.helpedBy.length !== 0 || plantFamilyWiki.badFor.length !== 0 ">
+                        <li class="list-group-item">{{'DIARY_WIKI_PLANT_FAMILY_COMPANION_PLANTS' | translate}}</li>
+                      </ul>
+                      <h5 ng-if="plantFamilyWiki.helps.length !== 0">{{'DIARY_WIKI_PLANT_FAMILY_HELPS' | translate}}</h5>
+                      <div ng-repeat="helps in plantFamilyWiki.helps">{{helps.name}}</div>
+
+                      <h5 ng-if="plantFamilyWiki.helpedBy.length !== 0">{{'DIARY_WIKI_PLANT_FAMILY_HELPED_BY' | translate}}</h5>
+                      <div ng-repeat="helpedBy in plantFamilyWiki.helpedBy">{{helpedBy.name}}</div>
+
+                      <h5 ng-if="plantFamilyWiki.badFor.length !== 0">{{'DIARY_WIKI_PLANT_FAMILY_BAD_FOR' | translate}}</h5>
+                      <div ng-repeat="badFor in plantFamilyWiki.badFor">{{badFor.name}}</div>
+
+                      <p>{{'DIARY_EDIT_PLANT_FAMILY_AUTHOR' | translate}} {{plantFamilyWiki.author.firstName + ' ' + plantFamilyWiki.author.lastName + ' '}}{{plantFamilyWiki.created | date: 'medium'}} </p>
+
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+
+              <fieldset class="form-group">
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_PLANT_CULTIVAR_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input type="text" class="form-control" placeholder="Plant Cultivar" ng-model="diaryEntry.plantCultivar">
@@ -158,7 +207,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_NOTES_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_NOTES_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <textarea class="form-control" rows="6" placeholder="Notes" ng-model="diaryEntry.notes"></textarea>
@@ -166,7 +215,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_COUNTRY_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_COUNTRY_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.countryId"
@@ -184,7 +233,7 @@
 
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_HARDINESS_ZONE_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_HARDINESS_ZONE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.hardinessZoneId"
@@ -201,7 +250,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_SOIL_ACIDITY_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_SOIL_ACIDITY_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.soilAcidityId"
@@ -218,7 +267,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_SOIL_TYPE_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_SOIL_TYPE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.soilTypeId"
@@ -235,7 +284,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_MATURITY_DATE_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_MATURITY_DATE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input date-directive type="text" class="form-control" placeholder="Maturity Date"
@@ -244,7 +293,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_SEED_SOURCE_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_SEED_SOURCE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <input type="text" class="form-control" placeholder="Seed Source" ng-model="diaryEntry.seedSource">
@@ -253,7 +302,7 @@
 
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_RATING_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_PLANT_RATING_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryEntry.plantRatingId"
@@ -270,7 +319,7 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{'DIARY_ENTRY_VIEW_PRIVATE_ENTRY_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{'DIARY_EDIT_PRIVATE_ENTRY_LABEL' | translate }}</label>
                 <div class="col-sm-9">
                   <input type="checkbox" class="form-control" ng-model="diaryEntry.isPrivate">
                 </div>
@@ -290,56 +339,65 @@
                filters="queueLimit, customFilter">
 
 
-            <div class="photos" ng-show="!!diaryProgress.updated">
-              <div class="photobox">
+            <div class="photos panel panel-default" ng-show="!!diaryProgress.updated">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{'DIARY_EDIT_PHOTOS' | translate}}</h3>
+              </div>
+              <div class="panel-body">
                 <ul>
-                  <li ng-repeat="image in images | limitTo : 31 : 0">
-                    <a ng-click="openLightboxModal($index)" context-menu="dPPhotoOptions" model="image.id">
+                  <li class="img-frame" ng-repeat="image in images | limitTo : 14 : 0">
+                    <a ng-click="openLightboxModal($index)" context-menu="dEPhotoOptions" model="image.id">
                       <img ng-src="{{ image.thumbUrl }}">
                     </a>
                   </li>
-                  <li class="dropbox dropbox-animate" nv-file-over uploader="uploader2">
-
-                  </li>
+                  <li class="dropbox dropbox-animate" nv-file-over uploader="uploader2"></li>
                 </ul>
               </div>
+            </div>
 
-              <div class="file-button">
-                <button class="btn btn-default">{{ 'DIARY_EDIT_SELECT_MULTIPLE_FILES' | translate }}</button>
-                <input type="file" nv-file-select="" uploader="uploader2" multiple/>
-              </div>
+            <label class="btn btn-default btn-file bottom-margin-20" ng-show="!!diaryProgress.updated">
+              {{'DIARY_EDIT_SELECT_MULTIPLE_FILES' | translate}}
+              <input type="file" nv-file-select="" uploader="uploader2" multiple style="display: none;">
+            </label>
 
-              <div class="photo-upload" ng-show="uploader2.queue.length>0">
-                <div class="photo-upload-box">
+            <div class="photo-upload bottom-margin-30" ng-show="uploader2.queue.length>0">
+
+              <div class="panel panel-default" ng-show="uploader2.queue.length>0">
+                <div class="panel-heading">
+                  <h3 class="panel-title">{{'DIARY_EDIT_UPLOAD_QUEUE' | translate}}</h3>
+                </div>
+
+                <div class="photo-upload-box panel-body">
                   <ul>
                     <li ng-repeat="item in uploader2.queue">
-                      <div ng-show="uploader2.isHTML5" ng-thumb="{ file: item._file, height: 34, width: 34 }"></div>
+                      <div ng-show="uploader2.isHTML5" ng-thumb="{ file: item._file, height: 68, width: 68 }"></div>
                     </li>
                   </ul>
                 </div>
-
-                <div class="progress" style="">
-                  <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader2.progress + '%' }"></div>
-                </div>
-
-
-                <button type="button" class="btn btn-success btn-s"
-                        ng-click="uploader2.uploadAll()"
-                        ng-disabled="!uploader2.getNotUploadedItems().length"
-                        ng-show="images">
-                  <span class="glyphicon glyphicon-upload"></span>{{ 'DIARY_UPLOADER_UPLOAD_ALL' | translate }}
-                </button>
-                <button type="button" class="btn btn-warning btn-s"
-                        ng-click="uploader2.cancelAll()"
-                        ng-disabled="!uploader2.isUploading">
-                  <span class="glyphicon glyphicon-ban-circle"></span>{{ 'DIARY_UPLOADER_CANCEL_ALL' | translate }}
-                </button>
-                <button type="button" class="btn btn-danger btn-s"
-                        ng-click="uploader2.clearQueue()"
-                        ng-disabled="!uploader2.queue.length">
-                  <span class="glyphicon glyphicon-trash"></span>{{ 'DIARY_UPLOADER_REMOVE_ALL' | translate }}
-                </button>
               </div>
+
+              <div class="progress" style="">
+                <div class="progress-bar" role="progressbar"
+                     ng-style="{ 'width': uploader2.progress + '%' }"></div>
+              </div>
+
+              <button type="button" class="btn btn-success btn-s"
+                      ng-click="uploader2.uploadAll()"
+                      ng-disabled="!uploader2.getNotUploadedItems().length"
+                      ng-show="images">
+                <span class="glyphicon glyphicon-upload"></span>{{ 'DIARY_UPLOADER_UPLOAD_ALL' | translate }}
+              </button>
+              <button type="button" class="btn btn-warning btn-s"
+                      ng-click="uploader2.cancelAll()"
+                      ng-disabled="!uploader2.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span>{{ 'DIARY_UPLOADER_CANCEL_ALL' | translate }}
+              </button>
+              <button type="button" class="btn btn-danger btn-s"
+                      ng-click="uploader2.clearQueue()"
+                      ng-disabled="!uploader2.queue.length">
+                <span class="glyphicon glyphicon-trash"></span>{{ 'DIARY_UPLOADER_REMOVE_ALL' | translate }}
+              </button>
+
             </div>
 
 
@@ -348,7 +406,7 @@
             <form class="form-horizontal" role="form" ng-submit="save()" name="$parent.frmDiaryProgress">
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_ENTRY_DATE_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_ENTRY_DATE_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <p class="input-group">
@@ -360,7 +418,7 @@
                            placeholder="Entry Date"
                            ng-model="diaryProgress.entryDate">
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="openProgressEntryDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                      <button type="button" class="btn btn-default" ng-click="openProgressEntryDate()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
                     </span>
                   </p>
                 </div>
@@ -368,7 +426,7 @@
 
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_NOTES_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_NOTES_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <textarea class="form-control" rows="6" placeholder="Notes" ng-model="diaryProgress.notes"></textarea>
@@ -377,7 +435,7 @@
 
 
               <fieldset class="form-group">
-                <label class="col-sm-3 control-label">{{ 'DIARY_ENTRY_VIEW_PLANT_RATING_LABEL' | translate }}</label>
+                <label class="col-sm-3 control-label">{{ 'DIARY_EDIT_PLANT_RATING_LABEL' | translate }}</label>
 
                 <div class="col-sm-9">
                   <ui-select ng-model="diaryProgress.plantRatingId"

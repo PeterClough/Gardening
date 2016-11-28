@@ -22,10 +22,10 @@ angular.module( 'users.logout', [
 
 })
 
-.controller('LogoutCtrl', function LogoutCtrl($scope, $timeout, User, LoopBackAuth, $translate, growl) {
+.controller('LogoutCtrl', function LogoutCtrl($scope, $rootScope, $timeout, User, LoopBackAuth, $translate, growl) {
 
   $scope.showCard = false;
-
+  $rootScope.isAdmin = false;
 
 
   if (User.isAuthenticated()) {

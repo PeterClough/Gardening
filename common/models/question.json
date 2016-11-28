@@ -2,6 +2,7 @@
   "name": "Question",
   "plural": "questions",
   "base": "PersistedModel",
+  "strict": true,
   "properties": {
     "created": {
       "type": "date",

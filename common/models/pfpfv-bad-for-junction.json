@@ -1,0 +1,29 @@
+{
+  "name": "PFPFVBadForJunction",
+  "plural": "pFPFVBadForJunctions",
+  "base": "PersistedModel",
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "plantFamilyVersion": {
+      "type": "belongsTo",
+      "model": "PlantFamilyVersion",
+      "foreignKey": "plantFamilyVersionId"
+    },
+    "plantFamily": {
+      "type": "belongsTo",
+      "model": "PlantFamily",
+      "foreignKey": "plantFamilyId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ""
+    }
+  ],
+  "methods": {}
+}

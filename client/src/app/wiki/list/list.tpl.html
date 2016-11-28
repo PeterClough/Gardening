@@ -1,0 +1,17 @@
+<h3 id="edit-wiki-heading">{{'WIKI_LIST_HEADER' | translate}}</h3>
+
+<div id="wiki-container">
+
+  <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
+
+  <div id="wiki-list-container" class="view-animate" ng-show="showCard">
+
+      <div class="row">
+        <a class="col-sm-4" ng-repeat="plantFamily in plantFamilies" ui-sref="wiki.view({ name: '{{plantFamily.name  | lowercase}}' })">{{ plantFamily.name }}</a>
+      </div>
+
+    <div class="top-margin-10">
+      <a ui-sref="wiki.edit({ languageId: '' })">{{'WIKI_ADD_PLANT_FAMILY' | translate}}</a>
+    </div>
+  </div>
+</div>

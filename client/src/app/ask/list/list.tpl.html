@@ -13,7 +13,7 @@
 
   <div id="recent-questions-container" class="view-animate" ng-show="showCard">
 
-    <div class="card" id="recent-card">
+    <div id="recent-card">
 
       <div ng-repeat="question in questions">
         <div class="row">
@@ -32,7 +32,7 @@
 
     <div id="ask-container">
 
-      <div class="card slide" id="ask-card" ng-show="gotQuestion">
+      <div class="slide" id="ask-card" ng-show="gotQuestion">
 
         <form class="form-horizontal" role="form" ng-submit="submitQuestion()" name="$parent.frmAskQuestion" id="form-ask-question"  ng-esc="closeBoxes()">
 

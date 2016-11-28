@@ -167,7 +167,7 @@ angular.module('bootstrapLightbox').provider('Lightbox', function () {
     // 400px = arbitrary min width
     // 32px = 2 * (1px border of .modal-content
     //             + 15px padding of .modal-body)
-    var width = Math.max(400, dimensions.imageDisplayWidth + 32);
+    var width = Math.max(600, dimensions.imageDisplayWidth + 32);
 
     // 200px = arbitrary min height
     // 66px = 32px as above

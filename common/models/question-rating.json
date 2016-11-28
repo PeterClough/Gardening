@@ -3,6 +3,7 @@
   "plural": "questionRatings",
   "base": "PersistedModel",
   "idInjection": true,
+  "strict": true,
   "properties": {
     "rating": {
       "type": "number",

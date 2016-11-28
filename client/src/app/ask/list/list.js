@@ -26,14 +26,13 @@ angular.module( 'ask.list', [
   });
 })
 
-.controller( 'AskListCtrl', function AskListCtrl( $scope, $rootScope, $translate, $filter, $timeout, $stateParams, $q, growl,  Question, Tag, QuestionTagJunction, User ) {
+.controller( 'AskListCtrl', function AskListCtrl( $scope, $rootScope, $translate, $filter, $timeout, $stateParams, $q, growl,  Question, Tag, QuestionTagJunction, User, $state ) {
 
     $scope.gotQuestion = false;
     $scope.showCard = false;
     $scope.loggedIn = User.isAuthenticated();
     var userId = User.getCurrentId();
     var languageId = '';
-
 
     $rootScope.$on('$translateChangeSuccess', function () {
       $scope.showCard = false;

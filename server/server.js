@@ -20,14 +20,15 @@ app.start = function() {
 };
 
 
-
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
 boot(app, __dirname, function(err) {
   if (err) throw err;
 
-
   satellizer(app, config);
+
+//HACK needs replacing...
+  app.models.user.settings.acls = require('./user-acls.json');
 
   // start the server if `$ node server.js`
   if (require.main === module)

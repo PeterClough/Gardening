@@ -40,7 +40,7 @@ angular.module( 'diary.edit', [
 })
 
 
-.controller('DiaryEditCtrl', function DiaryEditCtrl( $scope, $rootScope, $filter, $translate, $q, $window, $confirm, $timeout, $location, $state, growl, User, DiaryService, DiaryEntry, DiaryEntryImageDoc, DiaryProgressImageDoc, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox, ezfb) {
+.controller('DiaryEditCtrl', function DiaryEditCtrl( $scope, $rootScope, $filter, $translate, $q, $window, $confirm, $timeout, $location, $state, growl, User, DiaryService, DiaryEntry, DiaryEntryImageDoc, DiaryProgressImageDoc, saveDiaryEntry, saveDiaryProgress, FileUploader, Lightbox, ezfb, envService) {
   'use strict';
 
 
@@ -52,7 +52,11 @@ angular.module( 'diary.edit', [
   $scope.userId = User.getCurrentId();
   $scope.diaryTreeData={};
   $scope.isDirty = false;
+  $scope.showWikiDetails = false;
+  $scope.plantFamilies = [];
   var languageId = '';
+  var amazonS3Url = envService.read('amazonS3Url');
+
 
   $scope.diaryTreeOptions = {
     nodeChildren: "diaryProgression",
@@ -99,11 +103,32 @@ angular.module( 'diary.edit', [
           else {
             $scope.isNewDiary = true;
           }
+          languageId = $rootScope.langageId;
           getDiaryData();
           $scope.showCard = true;
         }
       });
   }
+
+
+  $scope.getPlantFamilies = function(search) {
+    var newPFs = $scope.plantFamilies.slice();
+
+    var elementPos = newPFs.map(function(x) {return x.id; }).indexOf(search);
+    var objectFound = newPFs[elementPos];
+
+
+
+    if (search && objectFound >= 0) {
+      var newNode = {'name': search};
+      newPFs.unshift(newNode);
+    }
+    return newPFs;
+  };
+
+
+
+
 
 
   $scope.datepickerFormat = "dd-MMM-yyyy";
@@ -188,6 +213,16 @@ angular.module( 'diary.edit', [
       $scope.isDiaryEntry = sel.hasOwnProperty('countryId');
       if ($scope.isDiaryEntry) {
         $scope.isDiaryProgress = false;
+
+        $scope.plantFamilies = $scope.plantFamilies.filter(function( obj ) {
+          return obj.id !== -1;
+        });
+
+        if (sel.plantFamilyId === -1) {
+          $scope.plantFamilies.push({id:-1, name: sel.plantFamily});
+        }
+
+
         $scope.diaryEntry = sel;
 
         $scope.frmDiaryEntry.$setPristine();
@@ -203,6 +238,75 @@ angular.module( 'diary.edit', [
     }
   };
 
+
+
+
+
+
+
+  $scope.refreshSelect = function ($select){
+
+    var search = $select.search,
+      list = angular.copy($select.items),
+      FLAG = -1;
+/*    if (search.length === 1 && search !== search.toUpperCase){
+      $select.search = $filter('uppercase')(search);
+    }
+*/
+    //remove last user input
+    list = list.filter(function(item) {
+      return item.id !== FLAG;
+    });
+
+
+    var inList = list.filter(function(item) {
+      return item.name === search;
+    });
+
+    if (!search || inList.length !== 0) {
+      //use the predefined list
+      $select.items = list;
+    }
+    else {
+      $scope.showWikiDetails = false;
+
+      //manually add user input and set selection
+      var userInputItem = {
+        id: FLAG,
+        name: search
+      };
+      $scope.diaryEntry.plantFamily = search;
+
+      $select.items = [userInputItem].concat(list);
+      $select.selected = userInputItem;
+    }
+  };
+
+  $scope.clearSelect = function ($event, $select){
+    $event.stopPropagation();
+    //to allow empty field, in order to force a selection remove the following line
+    $select.selected = undefined;
+    //reset search query
+    $select.search = undefined;
+    //focus and open dropdown
+    $select.activate();
+  };
+
+
+  $scope.plantFamilyCallback = function($item, $model) {
+    if ($model !== -1){
+      var index = $scope.plantFamilies.map(function(x) {return x.id; }).indexOf($model);
+      $scope.diaryEntry.plantFamily = $scope.plantFamilies[index].name;
+
+        DiaryService.getPlantFamilyVersion($model)
+          .then(function(pFVersion){
+            $scope.plantFamilyWiki = pFVersion;
+            $scope.showWikiDetails = true;
+
+          });
+
+        }
+  };
 
 
 
@@ -273,6 +377,7 @@ angular.module( 'diary.edit', [
     var dPNode = {};
     dPNode.entryDate = new Date();
     dPNode.valid = true;
+    dPNode.isDirty = true;
 
     if (node.hasOwnProperty('countryId')) {
       dPNode.diaryEntryId=node.id;
@@ -463,21 +568,28 @@ angular.module( 'diary.edit', [
       });
 
     };
+
+
+
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
+
+
       var ddEIDate = moment.utc();
       var dEIDId = fileItem.file.name.substr(0, fileItem.file.name.lastIndexOf('.'));
       var diaryEntryImageDoc = {
         "id": dEIDId,
         "uploaded": ddEIDate,
         "updated": ddEIDate,
+        "url": amazonS3Url + 'diary_entry/lightbox/' + dEIDId + '.png',
+        "thumbUrl": amazonS3Url + 'diary_entry/thumbs/' + dEIDId + '.png',
         "comments": "",
-        "extension": "."+fileItem.file.name.split('.').pop(),
+        "extension": ".png",
         "diaryEntryId": $scope.diaryEntry.id
       };
       DiaryEntryImageDoc.upsert(diaryEntryImageDoc);
       var image = {};
-      image.thumbUrl =  "api/diaryEntryImages/thumbs/download/"+ fileItem.file.name;
-      image.url =  "api/diaryEntryImages/lightbox/download/"+ fileItem.file.name;
+      image.thumbUrl = diaryEntryImageDoc.thumbUrl;
+      image.url =  diaryEntryImageDoc.url;
       image.id = dEIDId;
       $scope.images.unshift(image);
 
@@ -524,6 +636,8 @@ angular.module( 'diary.edit', [
       });
 
     };
+
+
     uploader2.onCompleteItem = function(fileItem, response, status, headers) {
       var ddPIDate = moment.utc();
       var dPIDId = fileItem.file.name.substr(0, fileItem.file.name.lastIndexOf('.'));
@@ -531,14 +645,16 @@ angular.module( 'diary.edit', [
         "id": dPIDId,
         "uploaded": ddPIDate,
         "updated": ddPIDate,
+        "url": amazonS3Url + 'diary_progress/lightbox/' + dPIDId + '.png',
+        "thumbUrl": amazonS3Url + 'diary_progress/thumbs/' + dPIDId + '.png',
         "comments": "",
-        "extension": "."+fileItem.file.name.split('.').pop(),
+        "extension": ".png",
         "diaryProgressId": $scope.diaryProgress.id
       };
       DiaryProgressImageDoc.upsert(diaryProgressImageDoc);
       var image = {};
-      image.thumbUrl =  "api/diaryProgressImages/thumbs/download/"+ fileItem.file.name;
-      image.url =  "api/diaryProgressImages/lightbox/download/"+ fileItem.file.name;
+      image.thumbUrl =  diaryProgressImageDoc.thumbUrl;
+      image.url =  diaryProgressImageDoc.url;
       image.id = dPIDId;
       $scope.images.unshift(image);
 
@@ -554,21 +670,12 @@ angular.module( 'diary.edit', [
       DiaryEntryImageDoc.getIdsByDiaryEntryId({"diaryEntryId": $scope.diaryEntry.id})
         .$promise.then(function (cb) {
           $scope.images = cb.diaryEntryImageIds;
-          angular.forEach($scope.images, function(image) {
-            image.thumbUrl =  "api/diaryEntryImages/thumbs/download/"+ image.id + image.extension;
-            image.url =  "api/diaryEntryImages/lightbox/download/"+ image.id + image.extension;
-          });
-        });
+      });
     }
     if ($scope.isDiaryProgress &&  typeof $scope.diaryProgress.id!='undefined') {
       DiaryProgressImageDoc.getIdsByDiaryProgressId({"diaryProgressId": $scope.diaryProgress.id})
         .$promise.then(function (cb) {
           $scope.images = cb.diaryProgressImageIds;
-          angular.forEach($scope.images, function(image) {
-            image.thumbUrl =  "api/diaryProgressImages/thumbs/download/"+ image.id + image.extension;
-            image.url =  "api/diaryProgressImages/lightbox/download/"+ image.id + image.extension;
-          });
-
         });
     }
   };
@@ -621,10 +728,15 @@ angular.module( 'diary.edit', [
 
 
 
+
+
+
+
+
   function getDiaryData() {
 
 
-    DiaryService.getDiaryData()
+    DiaryService.getDiaryData(languageId)
       .then(function(cb){
 
         cb[0].promise.then(function(cb2) {
@@ -649,11 +761,23 @@ angular.module( 'diary.edit', [
 
         cb[4].promise.then(function(cb2) {
           $scope.plantRatings = cb2;
+
           $scope.plantRating = {};
+        });
+
+        cb[5].promise.then(function(cb2) {
+          $scope.plantFamilies = cb2;
+
+          $scope.plantFamily = {};
         });
 
       });
   }
+
+
+
+
+
 
 }) // end controller
 
@@ -697,6 +821,7 @@ angular.module( 'diary.edit', [
       var saveNode = angular.copy(node);
       delete saveNode.isDirty;
       delete saveNode.valid;
+
 
       DiaryEntry.upsert(saveNode)
         .$promise.then(function(res) {

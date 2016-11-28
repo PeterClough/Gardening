@@ -5,7 +5,7 @@
 
   <div class="view-animate" ng-show="!showCard" id="loading-message"><div class="loader"></div></div>
 
-  <div class="card view-animate" ng-show="showCard" id="view-question-card">
+  <div class="view-animate" ng-show="showCard" id="view-question-card">
 
     <div id="question-card">
       <div class="row">
@@ -78,7 +78,7 @@
 
 
       <div class="comment-container slide" ng-show="gotQuestionComment" ng-esc="closeBoxes()">
-        <div class="card" class="comment-card">
+        <div id="comment-card">
 
           <form class="form-horizontal"
                 role="form" ng-submit="submitQuestionComment()"
@@ -116,7 +116,7 @@
 
 
       <div id="answer-container" class="slide" ng-show="gotAnswer" ng-esc="closeBoxes()">
-        <div class="card" id="answer-card">
+        <div id="answer-card">
 
           <form class="form-horizontal"
                 role="form" ng-submit="submitAnswer()"
@@ -213,7 +213,7 @@
 
 
         <div class="comment-container slide" ng-show="gotAnswerComment[$index]" ng-esc="closeBoxes()">
-          <div class="card" class="comment-card">
+          <div id="comment-card">
 
             <form class="form-horizontal"
                   role="form" ng-submit="submitAnswerComment($index, answer.id)"

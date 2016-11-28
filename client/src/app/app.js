@@ -10,14 +10,17 @@ angular.module( 'myApp', [
   'ui.select',
   'satellizer',
   'ezfb',
+  'environment',
   'myApp.home',
   'myApp.about',
   'myApp.diary',
   'myApp.users',
-  'myApp.ask'
+  'myApp.ask',
+  'myApp.wiki',
+  'myApp.admin'
 ])
 
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, $authProvider, growlProvider, ezfbProvider ) {
+.config( function myAppConfig ( $stateProvider, $urlRouterProvider, $translateProvider, $authProvider, growlProvider, ezfbProvider, envServiceProvider ) {
   $translateProvider.translations('en', translationsEN);
   $translateProvider.translations('es', translationsES);
   $translateProvider.preferredLanguage('en');
@@ -51,17 +54,57 @@ angular.module( 'myApp', [
 
 
 
+    // set the domains and variables for each environment
+    envServiceProvider.config({
+      domains: {
+        development: ['localhost', 'dev.local'],
+        production: ['gardening-jardines.rhcloud.com','gardensyjardines.com']
+      },
+      vars: {
+        development: {
+          amazonS3Url: 'https://s3.amazonaws.com/gardensyjardinestest/',
+          googlePlusAPI: 'AIzaSyBU8T_9Zy5nF0jTpTjFity8kF0OsKpg4Ic',
+          staticUrl: '//localhost/static'
+          // antoherCustomVar: 'lorem',
+          // antoherCustomVar: 'ipsum'
+        },
+        production: {
+          amazonS3Url: 'https://s3.amazonaws.com/gardensyjardines/',
+          googlePlusAPI: 'AIzaSyBU8T_9Zy5nF0jTpTjFity8kF0OsKpg4Ic',
+          staticUrl: '//static.acme.com'
+          // antoherCustomVar: 'lorem',
+          // antoherCustomVar: 'ipsum'
+        }
+        // anotherStage: {
+        //  customVar: 'lorem',
+        //  customVar: 'ipsum'
+        // }
+      }
+    });
+
+    // run the environment check, so the comprobation is made
+    // before controllers and services are built
+    envServiceProvider.check();
+
+
+
+
 })
 
 
 
-  .run( function run () {
+.run(function () {
 })
 
-.controller( 'AppCtrl', function( $rootScope, $scope, $translate, $location, $state, User, changeLanguage, Language) {
-
+.controller( 'AppCtrl', function( $rootScope, $scope, $translate, $location, $state, User, UserService, changeLanguage, Language ) {
 
   $scope.loggedIn = User.isAuthenticated();
+  $scope.userId = User.getCurrentId();
+
+  UserService.checkRoles($scope.userId, ['admin'])
+    .then(function(cb) {
+      $rootScope.isAdmin = cb.length > 0 ? true : false;
+    });
 
 
 
@@ -82,55 +125,47 @@ angular.module( 'myApp', [
     $scope.ogDescription = toState.data.ogDescription ||  'A website all about gardening.';
     $scope.ogImage = toState.data.ogImage || 'http://www.gardensyjardines.com/images/gardensyjardines.png';
 
-
-
     $scope.loggedIn = User.isAuthenticated();
-
 
   });
 
   Language.getList()
-    .$promise.then(function(cb) {
-      $scope.languages = cb.languages;
-      $scope.language={};
+  .$promise.then(function(cb) {
+    $scope.languages = cb.languages;
+    $scope.language={};
 
-      function langId(langKey) {
-        var lanIdx = -1;
-        for (var i = 0, len = $scope.languages.length; i < len; i++) {
-          if ($scope.languages[i].code === langKey) {
-            lanIdx = i;
-            return lanIdx;
-          }
+    function langId(langKey) {
+      var lanIdx = -1;
+      for (var i = 0, len = $scope.languages.length; i < len; i++) {
+        if ($scope.languages[i].code === langKey) {
+          lanIdx = i;
+          return lanIdx;
         }
       }
+    }
 
 
+    var lanCode = $translate.proposedLanguage() || $translate.use();
 
+    var languageIndex = langId(lanCode);
 
-      var lanCode = $translate.proposedLanguage() || $translate.use();
+    $scope.language.selected =  $scope.languages[languageIndex];
+    $rootScope.languageId = $scope.language.selected.id;
 
-      var languageIndex = langId(lanCode);
+    $scope.$watch('language.selected', function(newVal) {
+    if (newVal && newVal.name) {
+      var langKey = newVal.code;
+      var lanId = langId(langKey);
+      $rootScope.languageId = $scope.languages[lanId].id;
+      changeLanguage(langKey);
+    }
+  }, true);
 
-      $scope.language.selected =  $scope.languages[languageIndex];
-      $rootScope.languageId = $scope.language.selected.id;
-
-
-      $scope.$watch('language.selected', function(newVal) {
-      if (newVal && newVal.name) {
-        var langKey = newVal.code;
-        var lanId = langId(langKey);
-        $rootScope.languageId = $scope.languages[lanId].id;
-        changeLanguage(langKey);
-      }
-    }, true);
-
-
-
-  });
-
-
+});
 
 })
+
+
 
 
 
@@ -139,5 +174,41 @@ angular.module( 'myApp', [
     $translate.use(langKey);
   };
 })
+
+
+
+.service('UserService', function UserService( $q, User) {
+
+  this.checkRoles = function(userId, inRoles) {
+
+    var deferred = $q.defer();
+
+    User.getRoles({"userId": userId})
+      .$promise.then(function (cb) {
+      var roles = [];
+      angular.forEach(cb.roles[0].role, function (value) {
+        this.push(value.name);
+      }, roles);
+
+      deferred.resolve(inRoles.filter(function (n) {
+        return roles.indexOf(n) != -1;
+      }));
+
+
+
+    });
+
+    return deferred.promise;
+  };
+
+
+
+  return {
+    checkRoles: this.checkRoles
+  };
+
+
+})
+
 
 ;

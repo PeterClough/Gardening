@@ -5,7 +5,7 @@ module.exports = function(DiaryProgressImageDoc){
 
   DiaryProgressImageDoc.getIdsByDiaryProgressId = function(diaryProgressId, cb) {
     DiaryProgressImageDoc.find({
-        "fields": {"id": true, "extension": true},
+        "fields": {"id": true, "extension": true, "url": true, "thumbUrl": true},
         "where": {"diaryProgressId": diaryProgressId},
         "order": "uploaded DESC"
       },

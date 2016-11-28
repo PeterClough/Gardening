@@ -66,6 +66,7 @@ module.exports = {
       'vendor/jquery/dist/jquery.min.js',
       'vendor/angular/angular.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      'vendor/bootstrap/dist/js/bootstrap.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
@@ -73,7 +74,7 @@ module.exports = {
       'vendor/angular-translate/angular-translate.js',
       'vendor/angular-translate-storage-local/angular-translate-storage-local.min.js',
       'vendor/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
-      'vendor/angular-cookies/angular-cookies.min.js',
+      'vendor/angular-cookies/angular-cookies.js',
       'vendor/angular-tree-control/angular-tree-control.js',
       'vendor/angular-ui-select/dist/select.js',
       'vendor/angular-sanitize/angular-sanitize.js',
@@ -86,11 +87,12 @@ module.exports = {
       'vendor/angular-easyfb/build/angular-easyfb.min.js',
       'vendor/ng-tags-input/ng-tags-input.js',
       'vendor/ng-context-menu/dist/ng-context-menu.js',
-      'vendor/moment/min/moment.min.js',
-      'vendor/angular-moment/angular-moment.min.js',
+      'vendor/moment/moment.js',
+      'vendor/angular-moment/angular-moment.js',
       'vendor/angular-growl-v2/build/angular-growl.min.js',
       'vendor/angular-confirm-modal/angular-confirm.min.js',
-      'vendor/satellizer/satellizer.min.js'
+      'vendor/satellizer/satellizer.min.js',
+      'vendor/checklist-model/checklist-model.js'
     ],
     css: [
       'vendor/angular-tree-control/css/tree-control.css',
@@ -100,11 +102,7 @@ module.exports = {
       'vendor/ng-tags-input/ng-tags-input.css',
       'vendor/ng-tags-input/ng-tags-input.bootstrap.css',
       'vendor/angular-growl-v2/build/angular-growl.min.css',
-      'vendor/bootstrap-social/bootstrap-social.css',
-      'vendor/angular-file-upload/dist/angular-file-upload.js.map',
-      'vendor/jquery/dist/jquery.min.map',
-      'vendor/angular-cookies/angular-cookies.min.js.map',
-      'vendor/angular-moment/angular-moment.min.js.map'
+      'vendor/bootstrap-social/bootstrap-social.css'
     ],
     assets: [
     ],
