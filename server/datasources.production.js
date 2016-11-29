@@ -4,8 +4,8 @@ module.exports = {
     "host": process.env.OPENSHIFT_MONGODB_DB_HOST,
     "port":process.env.OPENSHIFT_MONGODB_DB_PORT,
     "database": "gardening",
-    "username": "admin",
-    "password": "leDxL_MY3Jyt",
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
     "name": "gardening",
     "connector": "mongodb",
     "debug":true,
@@ -25,7 +25,7 @@ module.exports = {
         },
         "auth": {
           "user": "noreply@gardensyjardines.com",
-          "pass": "Idunno123"
+          "pass": process.env.EMAILDS_AUTH_PASSWORD
         }
       }
     ]

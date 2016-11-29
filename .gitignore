@@ -1,5 +1,6 @@
 *.sw*
 *~
+private/
 client/build/
 client/bin/
 client/node_modules/
